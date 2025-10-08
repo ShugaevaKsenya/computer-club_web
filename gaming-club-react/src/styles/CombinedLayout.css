@@ -1,0 +1,778 @@
+.combined-booking-section {
+  position: relative;
+  min-height: 100vh;
+  padding: 0; /* Убрал все отступы */
+  display: flex;
+  align-items: flex-start; /* Изменил на flex-start вместо center */
+  justify-content: center;
+}
+
+.combined-booking-section .background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.combined-booking-section .bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.7;
+}
+
+.combined-booking-section .bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.combined-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 60px 40px 0; /* Минимальный отступ 10px сверху */
+  align-items: start;
+  margin-top: 0;
+}
+
+.layout-side,
+.booking-side {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px 40px 40px; /* Уменьшил верхний паддинг до 20px */
+  width: 884.8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 0; /* Убрал возможные отступы */
+}
+
+.section-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-top: 0; /* Убрал отступ сверху */
+  text-align: center;
+  margin-bottom: 20px; /* Уменьшил отступ снизу */
+  color: var(--color-white);
+}
+
+/* Остальные стили остаются без изменений */
+/* Стили для схемы мест */
+.layout-content-box {
+  position: relative;
+  width: 100%;
+  height: 600px;
+  margin-left: 100px;
+  background-color: var(--color-black);
+  box-shadow: 0px 4px 50px 20px var(--color-primary-light);
+  transform: scale(0.8);
+  transform-origin: top left;
+}
+
+/* Стили для кликабельных мест */
+.pc-setup,
+.console-setup,
+.headphones-setup {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.pc-setup:hover,
+.console-setup:hover,
+.headphones-setup:hover {
+  background: rgba(202, 0, 128, 0.3);
+  transform: scale(1.05);
+}
+
+.pc-setup.selected,
+.console-setup.selected,
+.headphones-setup.selected {
+  background: rgba(202, 0, 128, 0.6);
+  box-shadow: 0 0 20px rgba(202, 0, 128, 0.8);
+}
+
+/* Позиции мест (адаптированные для меньшего размера) */
+.setup-1 { top: 200px; left: 250px; }
+.setup-2 { top: 200px; left: 350px; }
+.setup-3 { top: 300px; left: 250px; }
+.setup-4 { top: 300px; left: 350px; }
+.setup-5 { top: 400px; left: 250px; }
+.setup-6 { top: 400px; left: 350px; }
+.setup-8 { top: 80px; left: 120px; }
+.setup-9 { top: 80px; left: 480px; }
+.setup-10 { top: 300px; left: 100px; }
+.setup-11 { top: 300px; left: 500px; }
+.setup-12 { top: 500px; left: 120px; }
+.setup-13 { top: 520px; left: 420px; }
+.setup-14 { top: 470px; left: 520px; }
+
+.pc-setup img { width: 80px; height: 72px; }
+.console-setup img { width: 86px; height: 86px; }
+.headphones-setup img { width: 104px; height: 104px; }
+
+.layout-number {
+  position: absolute;
+  color: var(--color-accent);
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 24px;
+  -webkit-text-stroke: 1px var(--color-black);
+  z-index: 2;
+}
+
+/* Стили для формы бронирования */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group label {
+    margin-top: 10px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  background: rgba(255, 255, 255, 0.1);
+  width: 600px;
+  border: 1px solid var(--color-white);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-size: 18px;
+  padding: 12px 15px;
+  font-family: var(--font-main);
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 10px rgba(202, 0, 128, 0.5);
+}
+
+.form-group input.selected-place {
+  background: rgba(202, 0, 128, 0.2);
+  border-color: var(--color-accent);
+}
+/* Оверлей пикера даты */
+.date-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.date-picker {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box; /* Важно: учитываем паддинги в ширине */
+}
+
+.date-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.date-picker-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  padding: 0 10px;
+}
+
+.date-picker-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.date-picker-close:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+/* Футер пикера даты */
+.date-picker-footer {
+  border-top: 2px solid #e9ecef;
+  padding-top: 20px;
+  margin-top: 20px;
+}
+
+.selected-date-preview {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+  padding: 15px;
+  background: #e7f3ff;
+  border: 2px solid #b3d9ff;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  word-break: break-word;
+}
+
+.date-picker-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Стили для кнопок внутри пикеров */
+.date-picker-actions .btn,
+.time-picker-actions .btn {
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  min-width: 120px;
+  flex: 1;
+  max-width: 200px;
+}
+
+.date-picker-actions .btn.secondary,
+.time-picker-actions .btn.secondary {
+  background: #6c757d;
+  color: white;
+  border: 1px solid #6c757d;
+}
+
+.date-picker-actions .btn.secondary:hover,
+.time-picker-actions .btn.secondary:hover {
+  background: #5a6268;
+  border-color: #545b62;
+}
+
+.date-picker-actions .btn.primary,
+.time-picker-actions .btn.primary {
+  background: #007bff;
+  color: white;
+  border: 1px solid #007bff;
+}
+
+.date-picker-actions .btn.primary:hover:not(:disabled),
+.time-picker-actions .btn.primary:hover:not(:disabled) {
+  background: #0056b3;
+  border-color: #004085;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.date-picker-actions .btn:disabled,
+.time-picker-actions .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Оверлей пикера времени */
+.time-picker-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.time-picker {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
+
+.time-picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.time-picker-header h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+  padding: 0 10px;
+}
+
+.time-picker-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.time-picker-close:hover {
+  color: #333;
+  background: #f5f5f5;
+}
+
+/* Выбор времени */
+.time-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 25px;
+  padding: 0 10px;
+}
+
+.time-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.time-selector label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.time-select {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.time-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.time-select:hover {
+  border-color: #adb5bd;
+}
+
+/* Футер пикера времени */
+.time-picker-footer {
+  border-top: 2px solid #e9ecef;
+  padding-top: 20px;
+  margin-top: 15px;
+}
+
+.selected-time-preview {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
+  padding: 15px;
+  background: #e7f3ff;
+  border: 2px solid #b3d9ff;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+.time-picker-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Адаптивность для пикеров */
+@media (max-width: 768px) {
+  .date-picker,
+  .time-picker {
+    width: 95%;
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .date-picker-header h3,
+  .time-picker-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .time-selectors {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 5px;
+  }
+  
+  .date-picker-actions,
+  .time-picker-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .date-picker-actions .btn,
+  .time-picker-actions .btn {
+    min-width: 140px;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .date-picker,
+  .time-picker {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .date-picker-header,
+  .time-picker-header {
+    margin-bottom: 15px;
+  }
+  
+  .selected-date-preview,
+  .selected-time-preview {
+    padding: 12px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .time-select {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .date-picker-actions .btn,
+  .time-picker-actions .btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Календарь (исправления для лучшего отображения) */
+.calendar-section {
+  margin-bottom: 20px;
+  padding: 0 5px;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 0 10px;
+}
+
+.calendar-nav {
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+  color: #495057;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.calendar-nav:hover {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.calendar-month {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+  text-align: center;
+  flex: 1;
+  padding: 0 10px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 20px;
+}
+
+.calendar-day-header {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #666;
+  padding: 8px 2px;
+  text-transform: uppercase;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  border: 2px solid transparent;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 35px;
+}
+
+.calendar-day:hover:not(.empty):not(.past) {
+  border-color: #007bff;
+  background: #f0f8ff;
+}
+
+.calendar-day.selected {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.calendar-day.today {
+  border-color: #28a745;
+  background: #f8fff9;
+}
+
+.calendar-day.today:not(.selected):hover {
+  border-color: #28a745;
+  background: #e8f5e8;
+}
+
+.calendar-day.past {
+  background: #f8f9fa;
+  color: #adb5bd;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.today-dot {
+  position: absolute;
+  bottom: 3px;
+  width: 4px;
+  height: 4px;
+  background: #28a745;
+  border-radius: 50%;
+}
+.date-input-wrapper{
+    margin-bottom: 10px;
+}
+/* Стили для корзины в форме бронирования */
+.cart-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cart-info h3 {
+  margin: 0 0 15px 0;
+  color: var(--color-white);
+  font-size: 20px;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.cart-item:last-child {
+  border-bottom: none;
+}
+
+.cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.cart-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.cart-item-price {
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-left: 10px;
+}
+
+.cart-total {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: right;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* Стили для кнопки добавления в кафе */
+.add-to-cart-btn {
+  background: var(--color-accent);
+  color: var(--color-white);
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 15px;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+  background: #ff66a3;
+  transform: translateY(-1px);
+}
+
+.add-to-cart-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* Стили для сообщений об ошибках и информации */
+.time-error-message {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #721c24;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.time-range-info {
+  background: #d1edff;
+  border: 1px solid #b3d9ff;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: #004085;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Адаптивность для сообщений */
+@media (max-width: 768px) {
+  .time-error-message,
+  .time-range-info {
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+}

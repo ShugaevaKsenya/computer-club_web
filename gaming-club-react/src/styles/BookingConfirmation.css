@@ -1,0 +1,289 @@
+.booking-confirmation {
+  min-height: 100vh;
+  padding: 40px 0;
+  position: relative;
+  color: #333; /* Добавляем основной цвет текста */
+}
+
+.confirmation-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: white; /* Заголовки остаются белыми на темном фоне */
+}
+
+.confirmation-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: #667eea; /* Fallback для браузеров без поддержки gradient text */
+}
+
+.confirmation-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  color: white; /* Подзаголовок белый на темном фоне */
+}
+
+.confirmation-content {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.booking-info {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  color: #333; /* Темный текст на светлом фоне */
+}
+
+.info-section {
+  margin-bottom: 30px;
+}
+
+.info-section h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  color: #333; /* Темный текст */
+}
+
+.info-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.info-value {
+  font-weight: 500;
+  color: #333;
+}
+
+.cart-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart-item-confirm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  color: #333; /* Темный текст */
+}
+
+.item-name {
+  flex: 1;
+  color: #ffffff;
+}
+
+.item-quantity {
+  margin: 0 10px;
+  color: #ffffff;
+}
+
+.item-price {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.payment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.payment-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 30px;
+  backdrop-filter: blur(10px);
+  color: #333; /* Темный текст на светлом фоне */
+}
+
+.payment-card h3 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.3rem;
+}
+
+.cost-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+  color: #333; /* Темный текст */
+}
+
+.cost-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.cost-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 0;
+  border-top: 2px solid #333;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.total-amount {
+  color: #667eea;
+  font-size: 1.4rem;
+}
+
+.payment-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.payment-btn {
+  font-size: 1.1rem;
+  padding: 15px;
+  font-weight: 600;
+}
+
+.payment-security {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  color: #333; /* Темный текст */
+}
+
+.security-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  color: #28a745;
+  font-weight: 500;
+}
+
+.security-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.support-info {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+  color: #333; /* Темный текст на светлом фоне */
+}
+
+.support-info h4 {
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.support-info p {
+  margin: 5px 0;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.no-booking-data {
+  text-align: center;
+  color: white;
+  padding: 60px 20px;
+}
+
+.no-booking-data h2 {
+  margin-bottom: 20px;
+  color: white;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .confirmation-content {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .confirmation-header h1 {
+    font-size: 2rem;
+  }
+  
+  .booking-info,
+  .payment-card {
+    padding: 20px;
+  }
+  
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .cart-item-confirm {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .confirmation-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .confirmation-subtitle {
+    font-size: 1rem;
+  }
+  
+  .payment-actions {
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Дополнительные исправления для темного текста */
+.booking-info *,
+.payment-card *,
+.support-info * {
+  color: #333; /* Наследование темного цвета для всех элементов внутри карточек */
+}
+
+/* Убедимся, что все текстовые элементы имеют правильный цвет */
+.info-section,
+.cost-breakdown,
+.payment-security,
+.support-info {
+  color: #333;
+}

@@ -15,6 +15,18 @@
   padding: 100px 0;
   overflow: hidden;
 }
+/* src/styles/Hero.css */
+.auth-corner {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.auth-corner .btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
 
 .background-container {
   position: absolute;

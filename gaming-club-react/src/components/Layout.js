@@ -16,7 +16,6 @@ const Layout = () => {
           <img src="/images/30_45.svg" alt="decorative shape" className="decorative-shape shape-4" />
         </div>
         
-        {/* PC Setups */}
         {[1, 2, 3, 4, 5, 6].map((num, index) => (
           <div key={`pc-${num}`} className={`pc-setup setup-${num}`}>
             <img src="/images/6356f02b474a41d638cf709af15fe1f7c6dd92c0.png" alt={`PC setup ${num}`} />
@@ -24,7 +23,6 @@ const Layout = () => {
           </div>
         ))}
         
-        {/* Console Setups */}
         {[8, 9, 12, 13].map((num) => (
           <div key={`console-${num}`} className={`console-setup setup-${num}`}>
             <img src="/images/1b9fb18a794f8543e1b7ff770153e91c8879c831.png" alt={`Console setup ${num}`} />
@@ -32,7 +30,6 @@ const Layout = () => {
           </div>
         ))}
         
-        {/* Headphones */}
         {[10, 11, 14].map((num) => (
           <div key={`headphones-${num}`} className={`headphones-setup setup-${num}`}>
             <img src="/images/2fc05fccb4c07d9e1bb638c4487609fd22b2f1ec.png" alt={`Headphones ${num}`} />

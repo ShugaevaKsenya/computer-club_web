@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect} from 'react';
+import { apiService } from '../services/Api';
 
 const CartContext = createContext();
 
@@ -12,6 +13,30 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [foods, setFoods] = useState([]);
+  const [computers, setComputers] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadInitialData();
+  }, []);
+
+  const loadInitialData = async () => {
+    try {
+      setLoading(true);
+      const [foodsData, computersData] = await Promise.all([
+        apiService.getFoods(),
+        apiService.getComputers()
+      ]);
+      
+      setFoods(foodsData);
+      setComputers(computersData);
+    } catch (error) {
+      console.error('Error loading initial data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const addToCart = (item) => {
     setCartItems(prev => {
@@ -59,12 +84,16 @@ export const CartProvider = ({ children }) => {
   return (
     <CartContext.Provider value={{
       cartItems,
+      foods,
+      computers,
+      loading,
       addToCart,
       updateCartItemQuantity,
       clearCart,
       getTotalPrice,
       getTotalItems,
-      getCartSummary
+      getCartSummary,
+      refreshData: loadInitialData
     }}>
       {children}
     </CartContext.Provider>

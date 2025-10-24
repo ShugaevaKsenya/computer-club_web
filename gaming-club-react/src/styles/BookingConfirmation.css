@@ -2,13 +2,147 @@
   min-height: 100vh;
   padding: 40px 0;
   position: relative;
-  color: #333; /* Добавляем основной цвет текста */
+  color: #333;
 }
 
 .confirmation-header {
   text-align: center;
   margin-bottom: 40px;
-  color: white; /* Заголовки остаются белыми на темном фоне */
+  color: white;
+}
+
+.mock-payment-form {
+  background: rgba(30, 30, 46, 0.8);
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  border: 1px solid rgba(106, 90, 205, 0.4);
+}
+
+.mock-payment-form h4 {
+  margin-top: 0;
+  color: #e0e0ff;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.bank-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  background: rgba(20, 20, 30, 0.7);
+  color: white;
+  font-size: 1rem;
+}
+
+.card-input,
+.expiry-input,
+.cvv-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  background: rgba(20, 20, 30, 0.7);
+  color: white;
+  font-size: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.payment-error {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.payment-success {
+  color: #6aff9e;
+  background: rgba(106, 255, 158, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+/* ИСПРАВЛЕНИЕ: Меняем layout кнопок на вертикальный */
+.payment-actions-row {
+  display: flex;
+  flex-direction: column; /* Вертикальное расположение */
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.payment-actions-row .btn {
+  width: 150px !important; /* Занимают всю ширину */
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  min-height: auto !important;
+}
+
+/* ИСПРАВЛЕНИЕ: Уменьшаем размер основных кнопок на странице */
+.booking-confirmation .payment-actions .btn {
+  padding: 12px 20px !important;
+  font-size: 0.95rem !important;
+  min-height: auto !important;
+  width:  150px; /* Занимают всю ширину */
+}
+
+/* ИСПРАВЛЕНИЕ: Кнопка Применить промокод - такой же размер как остальные */
+.booking-confirmation .promo-code-section .btn {
+  padding: 12px 20px !important;
+  font-size: 0.95rem !important;
+  min-height: auto !important;
+  white-space: nowrap;
+  height: auto !important;
+  line-height: normal !important;
+}
+
+/* Контейнер для промокода */
+.promo-code-section {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+
+.promo-code-input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+  background: white;
+  color: #333;
+  height: auto;
+}
+/* ИСПРАВЛЕНИЕ: Уменьшаем размер кнопки оплаты */
+.booking-confirmation .payment-btn {
+  font-size: 1rem !important;
+  padding: 14px 20px !important;
+  font-weight: 600;
+  min-height: auto !important;
+  width: 100%; /* Занимает всю ширину */
 }
 
 .confirmation-header h1 {
@@ -18,13 +152,13 @@
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: #667eea; /* Fallback для браузеров без поддержки gradient text */
+  color: #667eea;
 }
 
 .confirmation-subtitle {
   font-size: 1.2rem;
   opacity: 0.8;
-  color: white; /* Подзаголовок белый на темном фоне */
+  color: white;
 }
 
 .confirmation-content {
@@ -40,7 +174,7 @@
   border-radius: 15px;
   padding: 30px;
   backdrop-filter: blur(10px);
-  color: #333; /* Темный текст на светлом фоне */
+  color: #333;
 }
 
 .info-section {
@@ -65,7 +199,7 @@
   align-items: center;
   padding: 10px 0;
   border-bottom: 1px solid #eee;
-  color: #333; /* Темный текст */
+  color: #333;
 }
 
 .info-label {
@@ -89,22 +223,22 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 0;
-  color: #333; /* Темный текст */
+  color: #333;
 }
 
 .item-name {
   flex: 1;
-  color: #ffffff;
+  color: #333;
 }
 
 .item-quantity {
   margin: 0 10px;
-  color: #ffffff;
+  color: #333;
 }
 
 .item-price {
   font-weight: 600;
-  color: #ffffff;
+  color: #333;
 }
 
 .payment-section {
@@ -118,7 +252,7 @@
   border-radius: 15px;
   padding: 30px;
   backdrop-filter: blur(10px);
-  color: #333; /* Темный текст на светлом фоне */
+  color: #333;
 }
 
 .payment-card h3 {
@@ -132,7 +266,7 @@
   flex-direction: column;
   gap: 15px;
   margin-bottom: 30px;
-  color: #333; /* Темный текст */
+  color: #333;
 }
 
 .cost-item {
@@ -164,20 +298,14 @@
 .payment-actions {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-}
-
-.payment-btn {
-  font-size: 1.1rem;
-  padding: 15px;
-  font-weight: 600;
+  gap: 12px;
 }
 
 .payment-security {
   margin-top: 20px;
   padding-top: 20px;
   border-top: 1px solid #eee;
-  color: #333; /* Темный текст */
+  color: #333;
 }
 
 .security-info {
@@ -200,7 +328,7 @@
   border-radius: 15px;
   padding: 20px;
   backdrop-filter: blur(10px);
-  color: #333; /* Темный текст на светлом фоне */
+  color: #333;
 }
 
 .support-info h4 {
@@ -252,6 +380,22 @@
     align-items: flex-start;
     gap: 5px;
   }
+
+  /* Адаптивные стили для кнопок на мобильных */
+  .booking-confirmation .payment-actions .btn {
+    padding: 10px 16px !important;
+    font-size: 0.9rem !important;
+  }
+
+  .booking-confirmation .payment-btn {
+    font-size: 0.95rem !important;
+    padding: 12px 18px !important;
+  }
+
+  .payment-actions-row .btn {
+    padding: 10px 12px !important;
+    font-size: 0.9rem !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -264,12 +408,23 @@
   }
   
   .payment-actions {
-    gap: 10px;
+    gap: 8px;
   }
-  
-  .btn {
-    padding: 10px 20px;
-    font-size: 0.9rem;
+
+  /* Еще меньшие кнопки на очень маленьких экранах */
+  .booking-confirmation .payment-actions .btn {
+    padding: 8px 14px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .booking-confirmation .payment-btn {
+    font-size: 0.9rem !important;
+    padding: 10px 16px !important;
+  }
+
+  .payment-actions-row .btn {
+    padding: 8px 10px !important;
+    font-size: 0.85rem !important;
   }
 }
 
@@ -277,10 +432,9 @@
 .booking-info *,
 .payment-card *,
 .support-info * {
-  color: #333; /* Наследование темного цвета для всех элементов внутри карточек */
+  color: #333;
 }
 
-/* Убедимся, что все текстовые элементы имеют правильный цвет */
 .info-section,
 .cost-breakdown,
 .payment-security,

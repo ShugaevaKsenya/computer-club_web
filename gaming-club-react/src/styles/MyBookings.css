@@ -1,0 +1,561 @@
+/* Компактный список бронирований */
+.bookings-list.compact {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.booking-item {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.booking-item:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.booking-item.expanded {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(74, 144, 226, 0.4);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.booking-header-compact {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 60px;
+}
+
+.booking-main-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.booking-id {
+  font-weight: 600;
+  font-size: 1rem;
+  color: white;
+  letter-spacing: -0.2px;
+}
+
+.booking-club {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: 400;
+}
+
+.booking-computer {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 300;
+}
+
+.booking-time-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  text-align: center;
+}
+
+.booking-date {
+  font-weight: 500;
+  color: white;
+  font-size: 0.85rem;
+  letter-spacing: -0.1px;
+}
+
+.booking-duration {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 6px;
+  border-radius: 8px;
+  display: inline-block;
+  font-weight: 400;
+}
+
+.booking-price-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+}
+
+.booking-total-price {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #4a90e2;
+  letter-spacing: -0.1px;
+}
+
+.booking-status-compact {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  min-width: 100px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+}
+
+.booking-expand-icon {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+  padding: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.booking-item.expanded .booking-expand-icon {
+  transform: rotate(180deg);
+  background: rgba(74, 144, 226, 0.2);
+  color: #4a90e2;
+}
+
+/* Развернутая информация */
+.booking-details-expanded {
+  padding: 0 16px 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 8px;
+  animation: slideDown 0.25s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detail-section {
+  margin-bottom: 16px;
+}
+
+.detail-section h4 {
+  color: white;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 4px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-label {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+.detail-value {
+  color: white;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-align: right;
+}
+
+/* Список еды в компактном виде */
+.foods-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  border-left: 2px solid #28a745;
+  transition: background 0.2s ease;
+}
+
+.food-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.food-item .local-indicator {
+  margin-left: 4px;
+  color: #ffc107;
+  font-size: 0.75rem;
+}
+
+.food-name {
+  color: white;
+  font-size: 0.85rem;
+  flex: 1;
+  font-weight: 400;
+}
+
+.food-quantity {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.8rem;
+  margin: 0 8px;
+  font-weight: 300;
+}
+
+.food-price {
+  color: #4a90e2;
+  font-weight: 500;
+  font-size: 0.85rem;
+  min-width: 70px;
+  text-align: right;
+}
+
+/* Действия в компактном виде */
+.booking-actions-compact {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.booking-actions-compact .btn {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.booking-actions-compact .btn.primary {
+  background: rgba(74, 144, 226, 0.2);
+  border: 1px solid rgba(74, 144, 226, 0.4);
+  color: #4a90e2;
+}
+
+.booking-actions-compact .btn.primary:hover {
+  background: rgba(74, 144, 226, 0.3);
+  transform: translateY(-1px);
+}
+
+.booking-actions-compact .btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.booking-actions-compact .btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.booking-actions-compact .btn.danger {
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #dc3545;
+}
+
+.booking-actions-compact .btn.danger:hover {
+  background: rgba(220, 53, 69, 0.2);
+  transform: translateY(-1px);
+}
+
+/* Бейдж локальных данных */
+.local-food-badge {
+  background: rgba(255, 193, 7, 0.2);
+  color: #ffc107;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  margin-left: 8px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.no-food-message {
+  color: rgba(255, 255, 255, 0.5);
+  font-style: italic;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 8px;
+}
+
+/* Улучшенные фильтры */
+.bookings-filters {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.filters-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.filters-header h3 {
+  margin: 0;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.2px;
+}
+
+.filters-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.filters-controls .btn {
+  padding: 6px 12px;
+  font-size: 0.8rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+  min-height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.filters-controls .btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.filters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 8px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  min-height: 36px;
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.filter-btn.active {
+  background: rgba(74, 144, 226, 0.2);
+  border-color: rgba(74, 144, 226, 0.5);
+  color: #4a90e2;
+}
+
+.filter-label {
+  font-weight: 500;
+  font-size: 0.85rem;
+}
+
+.filter-count {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 1px 6px;
+  font-size: 0.75rem;
+  min-width: 22px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.filter-btn.active .filter-count {
+  background: rgba(74, 144, 226, 0.3);
+  color: #4a90e2;
+}
+
+/* Улучшенная шапка */
+.my-bookings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  padding: 0 4px;
+}
+
+.my-bookings-header h1 {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.bookings-count {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  margin: 0;
+  font-weight: 300;
+}
+
+.header-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.header-actions .btn {
+  padding: 8px 14px;
+  font-size: 0.85rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  transition: all 0.2s ease;
+  min-height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  letter-spacing: -0.1px;
+}
+
+.header-actions .btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.header-actions .btn.secondary {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.header-actions .btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .booking-header-compact {
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+    padding: 10px 12px;
+    min-height: 54px;
+  }
+  
+  .booking-time-info,
+  .booking-price-info {
+    display: none;
+  }
+  
+  .booking-main-info {
+    grid-column: 1;
+  }
+  
+  .booking-expand-icon {
+    grid-column: 2;
+  }
+  
+  .booking-actions-compact {
+    flex-direction: column;
+  }
+  
+  .booking-actions-compact .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filters-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .my-bookings-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .header-actions {
+    justify-content: stretch;
+  }
+  
+  .header-actions .btn {
+    flex: 1;
+    justify-content: center;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .booking-header-compact {
+    padding: 8px 10px;
+  }
+  
+  .booking-details-expanded {
+    padding: 0 10px 12px 10px;
+  }
+  
+  .booking-id {
+    font-size: 0.95rem;
+  }
+  
+  .booking-club,
+  .booking-computer {
+    font-size: 0.78rem;
+  }
+  
+  .filters-controls {
+    flex-direction: column;
+  }
+  
+  .filters-controls .btn {
+    justify-content: center;
+  }
+}

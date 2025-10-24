@@ -1,26 +1,22 @@
+
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Hero.css';
 
 const Hero = () => {
-  const handleBookingClick = () => {
-    // Переход на отдельную страницу бронирования
-    window.location.href = '/booking';
-  };
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
-  const handleCafeClick = () => {
-    // Прокрутка к секции кафе на главной странице
-    const cafeSection = document.getElementById('cafe');
-    if (cafeSection) {
-      cafeSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const handleBookingClick = () => navigate('/clubs');
+  const handleCafeClick = () => navigate('/cafe');
+  const handleClubsClick = () => navigate('/clubs');
+  const handleMyBookingClick = () => navigate('/my-bookings');
+  const handleLoginClick = () => navigate('/login');
 
-  const handleClubsClick = () => {
-    // Прокрутка к секции клубов на главной странице
-    const clubsSection = document.getElementById('clubs');
-    if (clubsSection) {
-      clubsSection.scrollIntoView({ behavior: 'smooth' });
-    }
+  const handleLogout = () => {
+    logout();
+    navigate('/');
   };
 
   return (
@@ -29,13 +25,31 @@ const Hero = () => {
         <img src="/images/67f504fdfc00ad2f7d384258d27391b08ef7aabd.png" alt="Keyboard background" className="bg-image" />
         <div className="bg-overlay"></div>
       </div>
+
+      <div className="auth-corner">
+        {user ? (
+          <button onClick={handleLogout} className="btn logout-btn">
+            Выйти ({user.email})
+          </button>
+        ) : (
+          <button onClick={handleLoginClick} className="btn login-btn">
+            Войти
+          </button>
+        )}
+      </div>
+
       <div className="container hero-content-wrapper">
         <div className="hero-left">
           <h1 className="hero-title">Сеть компьютерных клубов г. Саратов</h1>
           <p className="hero-subtitle">ИГРОВЫЕ ПК, PS-4, PS-5К</p>
           <div className="hero-buttons">
             <button onClick={handleBookingClick} className="btn">Забронировать</button>
-            <button onClick={handleCafeClick} className="btn">Перейти в кафе</button>
+            <button onClick={handleCafeClick} className="btn secondary">Перейти в кафе</button>
+            {user && (
+              <button onClick={handleMyBookingClick} className="btn secondary">
+                📋 Мои брони
+              </button>
+            )}
           </div>
         </div>
         <div className="hero-right">

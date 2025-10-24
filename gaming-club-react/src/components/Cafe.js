@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import '../styles/Cafe.css';
 
 const Cafe = () => {
-  const { addToCart, getTotalItems } = useCart();
-  const [menuItems, setMenuItems] = useState([
-    { id: 1, name: 'Попкорн классический', price: 200, quantity: 0 },
-    { id: 2, name: 'Попкорн карамельный', price: 250, quantity: 0 },
-    { id: 3, name: 'Чипсы', price: 150, quantity: 0 },
-    { id: 4, name: 'Кола', price: 180, quantity: 0 },
-    { id: 5, name: 'Кофе', price: 220, quantity: 0 },
-    { id: 6, name: 'Шоколад', price: 120, quantity: 0 }
-  ]);
+  const navigate = useNavigate();
+  const { addToCart, getTotalItems, foods, loading } = useCart();
+  const [menuItems, setMenuItems] = useState([]);
+  const bookingStarted = localStorage.getItem('bookingStarted') === 'true';
+  useEffect(() => {
+    if (foods && foods.length > 0) {
+      const initializedMenu = foods.map(food => ({
+        ...food,
+        quantity: 0
+      }));
+      setMenuItems(initializedMenu);
+    }
+  }, [foods]);
 
   const updateQuantity = (id, change) => {
-    setMenuItems(prev => {
-      return prev.map(item => 
-        item.id === id 
+    setMenuItems(prev =>
+      prev.map(item =>
+        item.id === id
           ? { ...item, quantity: Math.max(0, item.quantity + change) }
           : item
-      );
-    });
+      )
+    );
   };
 
   const addItemToCart = (item) => {
@@ -42,35 +48,62 @@ const Cafe = () => {
         addToCart(item);
       }
     });
-    setMenuItems(prev =>
-      prev.map(item => ({ ...item, quantity: 0 }))
-    );
+    setMenuItems(prev => prev.map(item => ({ ...item, quantity: 0 })));
   };
+
+  const handleBackToBooking = () => navigate('/booking');
+  const handleBackToClubs = () => navigate('/clubs');
 
   const hasItemsInCart = menuItems.some(item => item.quantity > 0);
 
+  if (loading) {
+    return (
+      <section className="cafe-section">
+        <div className="background-container">
+          <img src="/images/67f504fdfc00ad2f7d384258d27391b08ef7aabd.png" alt="Abstract background" className="bg-image" />
+          <div className="bg-overlay"></div>
+        </div>
+        <div className="container">
+          <div className="section-title-container">
+            <h2 className="cafe-title">Загрузка меню...</h2>
+            <button className="btn secondary" onClick={() => navigate(-1)}>← Назад</button>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section id="cafe" className="cafe-section">
+    <section className="cafe-section">
+      <div className="background-container">
+        <img src="/images/67f504fdfc00ad2f7d384258d27391b08ef7aabd.png" alt="Abstract background" className="bg-image" />
+        <div className="bg-overlay"></div>
+      </div>
+
       <div className="container">
-        <h2 className="cafe-title">Кафе</h2>
-        
+        <div className="section-title-container">
+          <h2 className="cafe-title">Кафе</h2>
+          <button className="btn secondary" onClick={() => navigate(-1)}>← Назад</button>
+        </div>
+
         <div className="cart-summary">
-          <p>Товаров в корзине: {getTotalItems()}</p>
+          <p>Товаров в корзине: <strong>{getTotalItems()}</strong></p>
         </div>
 
         <div className="menu-list">
           {menuItems.map(item => (
             <div key={item.id} className="menu-item">
-              <span className="item-name">{item.name}</span>
-              <div className="item-divider"></div>
-              <span className="item-price">{item.price} ₽</span>
+              <div className="item-header">
+                <span className="item-name">{item.name}</span>
+                <span className="item-price">{item.price} ₽</span>
+              </div>
               
               <div className="quantity-stepper">
                 <button 
                   className="stepper-btn"
                   onClick={() => updateQuantity(item.id, -1)}
                   disabled={item.quantity === 0}
-                >-</button>
+                >−</button>
                 <span className="quantity">{item.quantity}</span>
                 <button 
                   className="stepper-btn"
@@ -97,17 +130,21 @@ const Cafe = () => {
 
         <div className="cafe-actions">
           {hasItemsInCart && (
-            <button 
-              className="btn secondary"
-              onClick={addAllToCart}
-            >
-              Добавить все в корзину
+            <button className="btn secondary" onClick={addAllToCart}>
+              Добавить всё в корзину
             </button>
           )}
-          <a href="#pricing" className="btn">Назад</a>
-          <a href="#combined-booking" className="btn">
-            Перейти к брони {getTotalItems() > 0 && `(${getTotalItems()})`}
-          </a>
+          
+          <button className="btn" onClick={handleBackToClubs}>
+            К выбору клуба
+          </button>
+          
+          {/* Показываем кнопку "Вернуться к брони" ТОЛЬКО если бронь начата */}
+        {bookingStarted && (
+          <button className="btn primary" onClick={handleBackToBooking}>
+            Вернуться к брони {getTotalItems() > 0 && `(${getTotalItems()})`}
+          </button>
+        )}
         </div>
       </div>
     </section>

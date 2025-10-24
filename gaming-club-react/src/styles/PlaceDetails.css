@@ -1,34 +1,47 @@
+/* PlaceDetails.css - УЛУЧШЕННЫЕ СТИЛИ С ЗЕЛЕНЫМИ КНОПКАМИ */
+
 .place-details-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.8);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
+  padding: 20px;
   backdrop-filter: blur(5px);
 }
 
 .place-details {
-  background: rgba(255, 255, 255, 0.95);
+  background: white;
   border-radius: 20px;
-  padding: 30px;
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
   overflow-y: auto;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .place-details-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  padding-bottom: 20px;
+  padding: 25px 30px;
   border-bottom: 2px solid #e9ecef;
 }
 
@@ -60,63 +73,197 @@
 }
 
 .place-info {
-  margin-bottom: 30px;
+  padding: 0 30px;
 }
 
-.place-type {
+.info-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  border-left: 4px solid #28a745;
+}
+
+.info-section h3 {
+  margin: 0 0 15px 0;
+  color: #2c3e50;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.info-section h4 {
+  margin: 0 0 10px 0;
+  color: #5d6d7e;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.info-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
+  padding: 10px 0;
+  border-bottom: 1px solid #eaeaea;
 }
 
-.place-type h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.5rem;
+.info-item:last-child {
+  border-bottom: none;
+}
+
+.info-item.highlight {
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #28a745;
+}
+
+.label {
+  font-weight: 600;
+  color: #5d6d7e;
+  font-size: 14px;
+}
+
+.value {
+  font-weight: 500;
+  color: #2c3e50;
+  text-align: right;
+}
+
+.value.price {
+  font-size: 18px;
+  font-weight: 700;
+  color: #28a745;
+}
+
+.value.status.active {
+  color: #28a745;
   font-weight: 600;
 }
 
-.place-price {
-  background: var(--color-accent);
-  color: white;
-  padding: 8px 16px;
-  border-radius: 20px;
+.value.status.inactive {
+  color: #e74c3c;
   font-weight: 600;
-  font-size: 1.1rem;
 }
 
+/* Стили для технических характеристик */
 .specs-grid {
   display: grid;
-  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.spec-category {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #eaeaea;
+}
+
+.specs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .spec-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  gap: 12px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.spec-item:hover {
+  background: #e8f4fd;
+  transform: translateX(5px);
+}
+
+.spec-icon {
+  font-size: 18px;
+  width: 30px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.spec-content {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .spec-label {
-  font-weight: 600;
-  color: #555;
-  font-size: 1rem;
+  font-size: 12px;
+  color: #7f8c8d;
+  font-weight: 500;
+  margin-bottom: 2px;
 }
 
 .spec-value {
-  color: #333;
-  font-weight: 500;
-  text-align: right;
-  font-size: 0.95rem;
+  font-size: 14px;
+  color: #2c3e50;
+  font-weight: 600;
 }
 
+/* Стили для секции доступности */
+.availability {
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+  border-left-color: #28a745;
+}
+
+.availability-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.availability-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.availability-dot {
+  width: 10px;
+  height: 10px;
+  background: #28a745;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.availability-text {
+  font-weight: 500;
+  color: #155724;
+}
+
+.availability-info-text {
+  font-size: 14px;
+  color: #5d6d7e;
+}
+
+/* СТИЛИ КНОПОК КАК В BOOKING-ACTIONS */
 .place-actions {
   display: flex;
   gap: 15px;
   justify-content: flex-end;
   flex-wrap: wrap;
+  padding: 25px 30px;
+  border-top: 2px solid #e9ecef;
 }
 
 .place-actions .btn {
@@ -128,16 +275,21 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .place-actions .btn.primary {
-  background: var(--color-accent);
+  background: #28a745;
   color: white;
 }
 
 .place-actions .btn.primary:hover {
   background: #00a87a;
   transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(40, 167, 69, 0.4);
 }
 
 .place-actions .btn.secondary {
@@ -150,37 +302,163 @@
   transform: translateY(-2px);
 }
 
+.select-btn {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.price-badge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 14px;
+  margin-left: auto;
+}
+
+.btn-icon {
+  font-size: 16px;
+}
+
+/* Дополнительная информация */
+.additional-info {
+  padding: 0 30px 25px;
+}
+
+.info-note {
+  font-size: 13px;
+  color: #7f8c8d;
+  line-height: 1.5;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 3px solid #3498db;
+  margin: 0;
+}
+
+/* Состояние загрузки */
+.place-details.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 30px;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #28a745;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Состояние ошибки */
+.place-details.error {
+  text-align: center;
+  padding: 50px 30px;
+}
+
+.place-details.error h2 {
+  color: #dc3545;
+  margin-bottom: 16px;
+}
+
+.place-details.error p {
+  color: #6c757d;
+  margin-bottom: 24px;
+}
+
+/* Адаптивность */
 @media (max-width: 768px) {
+  .place-details-overlay {
+    padding: 10px;
+  }
+  
   .place-details {
+    max-height: 95vh;
+    padding: 0;
+  }
+  
+  .place-details-header {
     padding: 20px;
-    margin: 20px;
   }
   
   .place-details-header h2 {
     font-size: 1.5rem;
   }
   
-  .place-type {
-    flex-direction: column;
-    gap: 10px;
-    align-items: flex-start;
+  .place-info {
+    padding: 0 20px;
   }
   
-  .spec-item {
+  .info-section {
+    padding: 15px;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .specs-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .place-actions {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .place-actions .btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .select-btn {
+    order: -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .place-details-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .info-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
   }
   
-  .spec-value {
+  .value {
     text-align: left;
   }
   
-  .place-actions {
+  .spec-item {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    text-align: left;
+  }
+  
+  .spec-content {
+    width: 100%;
   }
   
   .place-actions .btn {
-    width: 100%;
+    padding: 10px 20px;
   }
 }

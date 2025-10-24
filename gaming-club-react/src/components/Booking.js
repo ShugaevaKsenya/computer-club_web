@@ -20,7 +20,6 @@ const Booking = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Booking data:', formData);
-    // Здесь будет логика отправки формы
   };
 
   return (

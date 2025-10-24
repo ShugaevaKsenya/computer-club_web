@@ -1,93 +1,139 @@
+/* src/styles/Clubs.css */
 .clubs-section {
-    padding:  0;
-    background: var(--gradient-bg);
+  position: relative;
+  padding: 60px 0;
+  color: #fff;
 }
 
-.clubs-section .section-title {
-    margin-bottom: 46px;
-    padding-bottom: 20px;
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(10, 10, 20, 0.85), rgba(20, 10, 30, 0.9));
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.section-title-container {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #e0e0ff;
+  text-shadow: 0 0 10px rgba(66, 131, 124, 0.6);
+  margin-bottom: 10px;
 }
 
 .clubs-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 89px;
-    justify-content: center;
-    max-width: 1600px;
-    margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
 }
 
 .club-card {
-    background: var(--gradient-card);
-    border-radius: 30px;
-    backdrop-filter: blur(5px);
-    box-shadow: inset 0px 4px 50px 10px rgba(66, 131, 124, 0.6);
-    width: 100%;
-    height: 752px;
-    padding: 111px 40px 85px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    text-align: center;
+  background: rgba(30, 30, 46, 0.7);
+  border: 1px solid rgba(66, 131, 124, 0.6);
+  border-radius: 16px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
 }
 
-.club-card-title {
-    font-weight: 700;
-    font-size: 50px;
-    line-height: 1.2;
+.club-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(66, 131, 124, 0.6);
+  border-color: rgba(66, 131, 124, 0.6);
 }
 
-.club-card-info {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    font-weight: 400;
-    font-size: 55px;
-    line-height: 1.2;
+.club-header h3 {
+  font-size: 1.5rem;
+  margin: 0 0 8px;
+  color: #fff;
 }
+
+.club-address {
+  display: block;
+  font-size: 0.95rem;
+  color: #aaa;
+  margin-bottom: 16px;
+}
+
+.club-info-list {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.club-info-item {
+  padding: 6px 0;
+  color: #d0d0ff;
+  font-size: 1rem;
+}
+
+.club-card-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
 .btn {
-    
-    margin-bottom: 20px;
-
-}
-.club-card h3{
-    font-size: 45px;
-}
-@media (max-width: 1600px) {
-    .clubs-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 40px;
-        padding: 0 20px;
-    }
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  border: none;
+  font-size: 1rem;
 }
 
-@media (max-width: 1200px) {
-    .clubs-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.btn.primary {
+  background: linear-gradient(135deg, #837fa9, #3f745c);
+  color: white;
 }
 
-@media (max-width: 768px) {
-    .clubs-section {
-        padding: 80px 0;
-    }
-    .clubs-section .section-title {
-        margin-bottom: 60px;
-    }
-    .clubs-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    .club-card {
-        height: auto;
-        padding: 60px 30px;
-        gap: 40px;
-    }
-    .club-card-title {
-        font-size: 32px;
-    }
-    .club-card-info {
-        font-size: 22px;
-    }
+.btn.primary:hover {
+  background: linear-gradient(135deg, #408a51, #1f6146);
+  transform: scale(1.03);
+}
+
+.btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0ff;
+  border: 1px solid rgba(66, 131, 124, 0.6);
+}
+
+.btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(66, 131, 124, 0.6);
+}
+.clubs-actions {
+  margin-top: 32px;
+  text-align: center;
 }

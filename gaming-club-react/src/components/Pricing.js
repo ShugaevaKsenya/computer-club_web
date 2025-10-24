@@ -51,7 +51,6 @@ c 08:00 до 14:00
   ];
 
   const handleClubSelect = () => {
-    // Прокрутка к секции с клубами
     const clubsSection = document.getElementById('clubs');
     if (clubsSection) {
       clubsSection.scrollIntoView({ behavior: 'smooth' });

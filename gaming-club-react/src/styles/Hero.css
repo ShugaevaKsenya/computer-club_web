@@ -1,33 +1,50 @@
-:root {
-  --font-family-inter: 'Inter', sans-serif;
-  --text-black: rgba(0, 0, 0, 1);
-  --text-white: rgba(255, 255, 255, 1);
-  --text-rgb-202-0-128: rgba(202, 0, 128, 1);
-  --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+/* Hero.css - с зеленой карточкой */
+
+.hero-section {
+  /* Локальные переменные для Hero */
+  --hero-gradient-btn: linear-gradient(90deg, #42837c 0%, #f1fffd 100%);
+  --hero-color-black: #000000;
+  --hero-color-white: #ffffff;
+  --hero-font-main: 'Inter', sans-serif;
+  --hero-gradient-card: linear-gradient(163deg, rgba(11, 52, 47, 0.86) 0%, rgba(41, 91, 85, 0.86) 57.3%);
 }
 
 .hero-section {
   position: relative;
-  min-height: 1042px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 100px 0;
+  padding: 80px 0;
   overflow: hidden;
 }
-/* src/styles/Hero.css */
+
+/* Аутентификация в углу */
 .auth-corner {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 30px;
+  right: 30px;
   z-index: 100;
 }
 
-.auth-corner .btn {
-  padding: 8px 16px;
+.auth-corner .hero-auth-btn {
+  padding: 10px 20px;
   font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  transition: all 0.3s ease;
+  color: #e0e0ff;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
+.auth-corner .hero-auth-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Фон */
 .background-container {
   position: absolute;
   top: 0;
@@ -41,6 +58,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: brightness(0.7);
 }
 
 .bg-overlay {
@@ -49,10 +67,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.63);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
   z-index: -1;
 }
 
+/* Контейнер */
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -61,71 +80,110 @@
 }
 
 .hero-content-wrapper {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
   align-items: center;
-  gap: 100px;
 }
 
+/* Левая часть - контент */
 .hero-left {
-  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 53px;
+  gap: 40px;
 }
 
 .hero-title {
-  font-family: var(--font-family-inter);
-  font-weight: 700;
-  font-size: 50px;
-  line-height: 1.2;
-  color: var(--text-white);
-  max-width: 700px;
+  font-family: var(--hero-font-main);
+  font-weight: 800;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  color: var(--hero-color-white);
+  margin: 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
-  font-family: var(--font-family-inter);
-  font-weight: 200;
-  font-size: 50px;
-  line-height: 1.2;
-  color: var(--text-white);
-  max-width: 700px;
+  font-family: var(--hero-font-main);
+  font-weight: 300;
+  font-size: 1.8rem;
+  line-height: 1.3;
+  color: var(--hero-color-white);
+  margin: 0;
+  opacity: 0.9;
 }
 
+/* Кнопки */
 .hero-buttons {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
 }
 
-.btn {
+/* Основная кнопка Hero - ЗЕЛЕНАЯ */
+.hero-btn {
   display: inline-block;
-  padding: 15px 30px;
-  background: var(--text-rgb-202-0-128);
-  color: var(--text-white);
-  text-decoration: none;
+  background: var(--hero-gradient-btn);
   border-radius: 30px;
-  font-family: var(--font-family-inter);
+  padding: 16px 32px;
+  color: var(--hero-color-black);
+  font-family: var(--hero-font-main);
   font-weight: 700;
-  font-size: 18px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  font-size: 35px;
   text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  min-width: 328px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(202, 0, 128, 0.4);
+.hero-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
 }
 
+.hero-btn:hover::before {
+  left: 100%;
+}
+
+.hero-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(66, 131, 124, 0.4);
+}
+
+/* Вторичная кнопка Hero - ПРОЗРАЧНАЯ */
+.hero-btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0ff;
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  backdrop-filter: blur(10px);
+  font-size: 35px;
+  min-width: 328px;
+}
+
+.hero-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(106, 90, 205, 0.6);
+  transform: translateY(-3px);
+}
+
+/* Правая часть - карточка с ЗЕЛЕНЫМ фоном */
 .hero-right {
-  flex: 0 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 .info-card {
-  background: var(--gradient-card);
+  background: var(--hero-gradient-card);
   border-radius: 30px;
   backdrop-filter: blur(5px);
   box-shadow: inset 0px 4px 50px 10px rgba(66, 131, 124, 0.6), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
@@ -142,32 +200,81 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    inset 0px 4px 50px 10px rgba(66, 131, 124, 0.8),
+    0px 8px 25px rgba(0, 0, 0, 0.4);
+}
+
 .info-card-title {
-  font-family: var(--font-family-inter);
+  font-family: var(--hero-font-main);
   font-weight: 700;
   font-size: 50px;
   line-height: 1.2;
-  color: var(--text-white);
+  color: var(--hero-color-white);
+  margin: 0;
 }
 
 .info-card-address {
-  font-family: var(--font-family-inter);
+  font-family: var(--hero-font-main);
   font-weight: 400;
   font-size: 35px;
   line-height: 1.4;
-  color: var(--text-white);
+  color: var(--hero-color-white);
+  margin: 0;
+}
+
+/* Анимации */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-left > * {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.hero-left .hero-title {
+  animation-delay: 0.1s;
+}
+
+.hero-left .hero-subtitle {
+  animation-delay: 0.2s;
+}
+
+.hero-left .hero-buttons {
+  animation-delay: 0.3s;
+}
+
+.info-card {
+  animation: fadeInUp 0.8s ease-out 0.4s both;
 }
 
 /* Адаптивность */
-@media (max-width: 1280px) {
+@media (max-width: 1024px) {
   .hero-content-wrapper {
-    flex-direction: column;
-    text-align: center;
+    grid-template-columns: 1fr;
     gap: 60px;
+    text-align: center;
   }
   
   .hero-left {
     align-items: center;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.5rem;
   }
   
   .info-card {
@@ -178,22 +285,20 @@
 
 @media (max-width: 768px) {
   .hero-section {
-    min-height: auto;
     padding: 60px 0;
+    min-height: auto;
   }
   
   .hero-content-wrapper {
     gap: 40px;
   }
   
-  .hero-title,
-  .hero-subtitle,
-  .info-card-title {
-    font-size: 32px;
+  .hero-title {
+    font-size: 2.5rem;
   }
   
-  .info-card-address {
-    font-size: 22px;
+  .hero-subtitle {
+    font-size: 1.3rem;
   }
   
   .info-card {
@@ -202,19 +307,61 @@
     min-height: 350px;
   }
   
+  .info-card-title {
+    font-size: 32px;
+  }
+  
+  .info-card-address {
+    font-size: 22px;
+  }
+  
   .hero-buttons {
     justify-content: center;
   }
   
-  .btn {
+  .hero-btn {
     padding: 12px 24px;
     font-size: 16px;
+    min-width: 280px;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-title,
-  .hero-subtitle,
+  .hero-section {
+    padding: 40px 0;
+  }
+  
+  .auth-corner {
+    top: 20px;
+    right: 20px;
+  }
+  
+  .hero-title {
+    font-size: 2rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+  }
+  
+  .hero-btn {
+    width: 100%;
+    max-width: 280px;
+    font-size: 16px;
+  }
+  
+  .info-card {
+    padding: 20px;
+    min-height: 300px;
+    gap: 24px;
+  }
+  
   .info-card-title {
     font-size: 24px;
   }
@@ -222,18 +369,20 @@
   .info-card-address {
     font-size: 18px;
   }
-  
-  .info-card {
-    padding: 20px;
-    min-height: 300px;
-  }
-  
-  .hero-buttons {
-    flex-direction: column;
-    width: 100%;
-  }
-  
-  .btn {
-    width: 100%;
-  }
+}
+
+/* Дополнительные улучшения для кнопок */
+.hero-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Плавный скролл для всей страницы */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Улучшение читаемости текста */
+.hero-title, .hero-subtitle, .info-card-title, .info-card-address {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }

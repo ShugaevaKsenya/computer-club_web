@@ -1,3 +1,4 @@
+
 :root {
     --font-main: 'Inter', sans-serif;
     --color-white: #ffffff;
@@ -6,8 +7,21 @@
     --gradient-card: linear-gradient(163deg, rgba(11, 52, 47, 0.86) 0%, rgba(41, 91, 85, 0.86) 57.3%);
     --gradient-price-card: linear-gradient(163deg, rgba(9, 40, 37, 0.9) 7.99%, rgba(41, 91, 85, 0.9) 57.3%);
     --gradient-bg: linear-gradient(180deg, #000000 64.31%, #295b55 100%);
-}
+    
+    /* Добавь специфичные переменные для компонентов */
+  
 
+    --clubs-shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
+    --clubs-font-family-inter: 'Inter', sans-serif;
+    --clubs-text-black: rgba(0, 0, 0, 1);
+    --clubs-text-white: rgba(255, 255, 255, 1);
+    --clubs-primary-color: rgba(202, 0, 128, 1);
+    --clubs-secondary-color: rgba(66, 131, 124, 0.6);
+    --clubs-gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+    --clubs-shadow-glow: 0 0 20px rgba(202, 0, 128, 0.3);
+
+
+}
 * {
     margin: 0;
     padding: 0;

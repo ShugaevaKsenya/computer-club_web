@@ -17,6 +17,8 @@ const Hero = () => {
   const handleLogout = () => {
     logout();
     navigate('/');
+
+    
   };
 
   return (
@@ -25,32 +27,31 @@ const Hero = () => {
         <img src="/images/67f504fdfc00ad2f7d384258d27391b08ef7aabd.png" alt="Keyboard background" className="bg-image" />
         <div className="bg-overlay"></div>
       </div>
-
       <div className="auth-corner">
-        {user ? (
-          <button onClick={handleLogout} className="btn logout-btn">
-            Выйти ({user.email})
-          </button>
-        ) : (
-          <button onClick={handleLoginClick} className="btn login-btn">
-            Войти
-          </button>
-        )}
-      </div>
+  {user ? (
+    <button onClick={handleLogout} className="hero-auth-btn">
+      Выйти ({user.email})
+    </button>
+  ) : (
+    <button onClick={handleLoginClick} className="hero-auth-btn">
+      Войти
+    </button>
+  )}
+</div>
 
       <div className="container hero-content-wrapper">
         <div className="hero-left">
           <h1 className="hero-title">Сеть компьютерных клубов г. Саратов</h1>
           <p className="hero-subtitle">ИГРОВЫЕ ПК, PS-4, PS-5К</p>
           <div className="hero-buttons">
-            <button onClick={handleBookingClick} className="btn">Забронировать</button>
-            <button onClick={handleCafeClick} className="btn secondary">Перейти в кафе</button>
-            {user && (
-              <button onClick={handleMyBookingClick} className="btn secondary">
-                📋 Мои брони
-              </button>
-            )}
-          </div>
+  <button onClick={handleBookingClick} className="hero-btn">Забронировать</button>
+  <button onClick={handleCafeClick} className="hero-btn hero-btn-secondary">Перейти в кафе</button>
+  {user && (
+    <button onClick={handleMyBookingClick} className="hero-btn hero-btn-secondary">
+      📋 Мои брони
+    </button>
+  )}
+</div>
         </div>
         <div className="hero-right">
           <div className="info-card">
@@ -60,7 +61,8 @@ const Hero = () => {
               ул. Рабочая, 53<br />
               ул. Шелковичная, 29/35
             </p>
-            <button onClick={handleClubsClick} className="btn">Выбрать клуб</button>
+            <button onClick={handleClubsClick} className="hero-btn">Выбрать клуб</button>
+           
           </div>
         </div>
       </div>

@@ -1,4 +1,5 @@
 
+// export default Cafe;
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -9,6 +10,7 @@ const Cafe = () => {
   const { addToCart, getTotalItems, foods, loading } = useCart();
   const [menuItems, setMenuItems] = useState([]);
   const bookingStarted = localStorage.getItem('bookingStarted') === 'true';
+  
   useEffect(() => {
     if (foods && foods.length > 0) {
       const initializedMenu = foods.map(food => ({
@@ -66,7 +68,7 @@ const Cafe = () => {
         <div className="container">
           <div className="section-title-container">
             <h2 className="cafe-title">Загрузка меню...</h2>
-            <button className="btn secondary" onClick={() => navigate(-1)}>← Назад</button>
+            <button className="cafe-btn cafe-btn-secondary" onClick={() => navigate(-1)}>← Назад</button>
           </div>
         </div>
       </section>
@@ -83,7 +85,7 @@ const Cafe = () => {
       <div className="container">
         <div className="section-title-container">
           <h2 className="cafe-title">Кафе</h2>
-          <button className="btn secondary" onClick={() => navigate(-1)}>← Назад</button>
+          <button className="cafe-btn cafe-btn-secondary" onClick={() => navigate(-1)}>← Назад</button>
         </div>
 
         <div className="cart-summary">
@@ -130,21 +132,21 @@ const Cafe = () => {
 
         <div className="cafe-actions">
           {hasItemsInCart && (
-            <button className="btn secondary" onClick={addAllToCart}>
+            <button className="cafe-btn cafe-btn-secondary" onClick={addAllToCart}>
               Добавить всё в корзину
             </button>
           )}
           
-          <button className="btn" onClick={handleBackToClubs}>
+          <button className="cafe-btn" onClick={handleBackToClubs}>
             К выбору клуба
           </button>
           
           {/* Показываем кнопку "Вернуться к брони" ТОЛЬКО если бронь начата */}
-        {bookingStarted && (
-          <button className="btn primary" onClick={handleBackToBooking}>
-            Вернуться к брони {getTotalItems() > 0 && `(${getTotalItems()})`}
-          </button>
-        )}
+          {bookingStarted && (
+            <button className="cafe-btn cafe-btn-primary" onClick={handleBackToBooking}>
+              Вернуться к брони {getTotalItems() > 0 && `(${getTotalItems()})`}
+            </button>
+          )}
         </div>
       </div>
     </section>

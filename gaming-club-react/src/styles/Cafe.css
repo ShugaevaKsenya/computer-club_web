@@ -7,6 +7,15 @@
   min-height: 100vh;
 }
 
+.cafe-section {
+  /* Локальные переменные для Cafe */
+  --cafe-primary-color: #6a5af9;
+  --cafe-secondary-color: #9d89ff;
+  --cafe-text-color: #e0e0ff;
+  --cafe-bg-dark: rgba(40, 40, 60, 0.8);
+  --cafe-border-color: rgba(106, 90, 205, 0.3);
+}
+
 .background-container {
   position: absolute;
   top: 0;
@@ -50,7 +59,7 @@
 .cafe-title {
   font-size: 2.4rem;
   font-weight: 700;
-  color: #e0e0ff;
+  color: var(--cafe-text-color);
   text-shadow: 0 0 10px rgba(106, 90, 205, 0.6);
   margin: 0;
 }
@@ -59,7 +68,7 @@
   text-align: center;
   margin: 20px 0 30px;
   font-size: 1.1rem;
-  color: #e0e0ff;
+  color: var(--cafe-text-color);
   background: rgba(30, 30, 46, 0.6);
   padding: 12px 24px;
   border-radius: 12px;
@@ -69,18 +78,18 @@
 
 .menu-list {
   display: grid;
-  gap: 12px; /* Уменьшил gap между элементами */
+  gap: 12px;
   margin-bottom: 40px;
 }
 
 .menu-item {
-  background: rgba(40, 40, 60, 0.8); /* Оставляем темный фон */
-  border: 1px solid rgba(106, 90, 205, 0.3);
+  background: var(--cafe-bg-dark);
+  border: 1px solid var(--cafe-border-color);
   border-radius: 12px;
-  padding: 14px 18px; /* Уменьшил padding для компактности */
+  padding: 14px 18px;
   display: flex;
   flex-direction: column;
-  gap: 10px; /* Уменьшил gap */
+  gap: 10px;
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   min-height: auto;
@@ -102,15 +111,15 @@
 
 .item-name {
   font-size: 1.2rem;
-  color: #ffffff; /* Белый текст для лучшей видимости */
+  color: #ffffff;
   font-weight: 600;
-  line-height: 1.2; /* Уменьшил межстрочный интервал */
+  line-height: 1.2;
 }
 
 .item-price {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #9d89ff; /* Яркий цвет для цены */
+  color: var(--cafe-secondary-color);
 }
 
 .quantity-stepper {
@@ -118,15 +127,15 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin: 2px 0; /* Уменьшил отступы */
+  margin: 2px 0;
 }
 
 .stepper-btn {
-  width: 34px; /* Уменьшил размер кнопок */
+  width: 34px;
   height: 34px;
   border-radius: 50%;
   background: rgba(106, 90, 205, 0.2);
-  color: #e0e0ff; /* Светлый цвет иконок */
+  color: var(--cafe-text-color);
   border: 1px solid rgba(106, 90, 205, 0.4);
   font-size: 1.1rem;
   cursor: pointer;
@@ -151,12 +160,12 @@
   min-width: 30px;
   text-align: center;
   font-size: 1.1rem;
-  color: #ffffff; /* Белый текст */
+  color: #ffffff;
   font-weight: 600;
 }
 
 .add-to-cart-btn {
-  background: linear-gradient(135deg, #6a5af9, #9d89ff);
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
   color: white;
   border: none;
   padding: 8px 16px;
@@ -166,7 +175,7 @@
   font-size: 0.9rem;
   transition: all 0.2s ease;
   width: 100%;
-  max-width: 160px; /* Уменьшил ширину */
+  max-width: 160px;
   margin: 0 auto;
   height: auto;
   line-height: 1.2;
@@ -186,7 +195,7 @@
 .item-total {
   align-self: center;
   font-weight: bold;
-  color: #9d89ff;
+  color: var(--cafe-secondary-color);
   font-size: 1.1rem;
   background: rgba(106, 90, 205, 0.15);
   padding: 4px 10px;
@@ -201,7 +210,8 @@
   margin-top: 30px;
 }
 
-.btn {
+/* Изолированные стили кнопок для Cafe */
+.cafe-section .cafe-btn {
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -215,34 +225,25 @@
   line-height: 1.2;
 }
 
-.btn.primary {
-  background: linear-gradient(135deg, #6a5af9, #9d89ff);
+.cafe-section .cafe-btn-primary {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
   color: white;
 }
 
-.btn.primary:hover {
+.cafe-section .cafe-btn-primary:hover {
   background: linear-gradient(135deg, #7b6bff, #a99bff);
   transform: scale(1.03);
 }
 
-.btn.secondary {
+.cafe-section .cafe-btn-secondary {
   background: rgba(255, 255, 255, 0.1);
-  color: #e0e0ff;
+  color: var(--cafe-text-color);
   border: 1px solid rgba(106, 90, 205, 0.4);
 }
 
-.btn.secondary:hover {
+.cafe-section .cafe-btn-secondary:hover {
   background: rgba(255, 255, 255, 0.15);
   border-color: rgba(106, 90, 205, 0.7);
-}
-
-.btn.danger {
-  background: linear-gradient(135deg, #ff416c, #ff4b2b);
-  color: white;
-}
-
-.btn.danger:hover {
-  background: linear-gradient(135deg, #ff5276, #ff5a3b);
 }
 
 /* Адаптивность */
@@ -267,7 +268,7 @@
     align-items: center;
   }
 
-  .btn {
+  .cafe-section .cafe-btn {
     width: 100%;
     max-width: 300px;
   }
@@ -312,7 +313,7 @@
 
 /* Улучшаем видимость текста */
 .menu-item .item-name {
-  color: #ffffff !important; /* Белый текст */
+  color: #ffffff !important;
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -321,5 +322,5 @@
 }
 
 .menu-item .item-total {
-  color: #9d89ff !important;
+  color: var(--cafe-secondary-color) !important;
 }

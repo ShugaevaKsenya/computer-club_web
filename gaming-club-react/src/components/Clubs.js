@@ -50,10 +50,10 @@ const Clubs = () => {
                 ))}
               </ul>
               <div className="club-card-buttons">
-                <button onClick={() => handleBookingClick(club.id)} className="btn primary">
+                <button onClick={() => handleBookingClick(club.id)} className="club-btn club-btn-primary">
                   Перейти к брони
                 </button>
-                <button onClick={handleCafeClick} className="btn secondary">
+                <button onClick={handleCafeClick} className="club-btn club-btn-secondary">
                   Перейти в кафе
                 </button>
               </div>
@@ -61,7 +61,7 @@ const Clubs = () => {
           ))}
         </div>
         <div className="clubs-actions">
-          <button onClick={handleBackToHome} className="btn secondary">
+          <button onClick={handleBackToHome} className="club-btn club-btn-secondary">
             ← Вернуться на главную
           </button>
         </div>

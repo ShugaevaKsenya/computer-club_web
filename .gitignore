@@ -15,6 +15,7 @@ node_modules/
 
 # Webpack/bundler caches
 gaming-club-react/node_modules/.cache/
+gaming-club-react/node_modules/
 # Production builds
 build/
 dist/

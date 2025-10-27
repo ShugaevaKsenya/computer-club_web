@@ -1,9 +1,10 @@
+/* src/styles/CombinedLayout.css */
 .combined-booking-section {
   position: relative;
   min-height: 100vh;
-  padding: 0; /* Убрал все отступы */
+  padding: 0; 
   display: flex;
-  align-items: flex-start; /* Изменил на flex-start вместо center */
+  align-items: flex-start; 
   justify-content: center;
 }
 
@@ -22,93 +23,7 @@
   object-fit: cover;
   opacity: 0.7;
 }
-/* Стили для вкладок комнат */
-.room-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  justify-content: center;
-}
 
-.room-tab {
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-  background: #f0f0f0;
-  cursor: pointer;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.room-tab:hover:not(:disabled) {
-  background: #e0e0e0;
-}
-
-.room-tab.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.room-tab:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-/* Стили для вкладок комнат */
-.room-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  justify-content: center;
-}
-
-.room-tab {
-  padding: 8px 16px;
-  border: 1px solid #ccc;
-  background: #f0f0f0;
-  cursor: pointer;
-  border-radius: 6px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.room-tab:hover {
-  background: #e0e0e0;
-}
-
-.room-tab.active {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.no-positions-message {
-  text-align: center;
-  color: #666;
-  padding: 20px;
-}
-
-/* Стиль для отображения адреса (только чтение) */
-.club-address-display {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 12px 15px;
-  border-radius: 10px;
-  color: var(--color-white);
-  font-size: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.no-positions-message {
-  text-align: center;
-  color: #666;
-  padding: 20px;
-}
-/* Дополнительные места для зала C (15–20) */
-.setup-15 { top: 100px; right: 50px; }
-.setup-16 { top: 100px; left: 0px; }
-.setup-17 { top: 180px; right: 50px; }
-.setup-18 { top: 180px; left: 0px; }
-.setup-19 { top: 260px; right: 50px; }
-.setup-20 { top: 260px; left: 0px; }
 .combined-booking-section .bg-overlay {
   position: absolute;
   top: 0;
@@ -118,54 +33,76 @@
   background-color: rgba(0, 0, 0, 0.4);
 }
 
-.combined-container {
+.combined-booking-section .combined-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 30px;
   max-width: 1800px;
   margin: 0 auto;
-  padding: 60px 40px 0; /* Минимальный отступ 10px сверху */
+  padding: 60px 40px 0; 
   align-items: start;
   margin-top: 0;
 }
 
-.layout-side,
-.booking-side {
+
+/* ===== ЛЕВАЯ ЧАСТЬ - СХЕМА МЕСТ ===== */
+.combined-booking-section .layout-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 20px;
-  padding: 20px 40px 40px; /* Уменьшил верхний паддинг до 20px */
-  width: 884.8px;
+  padding: 20px ;
+  width: 100%;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 0; /* Убрал возможные отступы */
+  margin-top: 0; 
 }
 
-.section-title {
-  font-size: 48px;
-  font-weight: 700;
-  margin-top: 0; /* Убрал отступ сверху */
-  text-align: center;
-  margin-bottom: 20px; /* Уменьшил отступ снизу */
-  color: var(--color-white);
+.combined-booking-section .room-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  justify-content: center;
 }
 
-/* Остальные стили остаются без изменений */
-/* Стили для схемы мест */
-.layout-content-box {
-  position: relative;
+.combined-booking-section .room-tab {
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.combined-booking-section .room-tab:hover:not(:disabled) {
+  background: #e0e0e0;
+}
+
+.combined-booking-section .room-tab.active {
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.combined-booking-section .room-tab:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.combined-booking-section .layout-content-box {
   width: 100%;
   height: 600px;
-  margin-left: 100px;
   background-color: var(--color-black);
   box-shadow: 0px 4px 50px 20px var(--color-primary-light);
   transform: scale(0.8);
-  transform-origin: top left;
+  transform-origin: top center;
 }
 
-/* Стили для кликабельных мест */
-.pc-setup,
-.console-setup,
-.headphones-setup {
+.combined-booking-section .pc-setup,
+.combined-booking-section .console-setup,
+.combined-booking-section .headphones-setup {
   position: absolute;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -173,40 +110,46 @@
   padding: 5px;
 }
 
-.pc-setup:hover,
-.console-setup:hover,
-.headphones-setup:hover {
-  background: rgba(202, 0, 128, 0.3);
+.combined-booking-section .pc-setup:hover,
+.combined-booking-section .console-setup:hover,
+.combined-booking-section .headphones-setup:hover {
+  background: rgba(32, 201, 151, 0.15);
   transform: scale(1.05);
 }
 
-.pc-setup.selected,
-.console-setup.selected,
-.headphones-setup.selected {
-  background: rgba(202, 0, 128, 0.6);
-  box-shadow: 0 0 20px rgba(202, 0, 128, 0.8);
+.combined-booking-section .pc-setup.selected,
+.combined-booking-section .console-setup.selected,
+.combined-booking-section .headphones-setup.selected {
+  background:  rgba(32, 201, 151, 0.15);
+  box-shadow: 0 0 30px rgba(32, 201, 150, 0.793);
 }
 
-/* Позиции мест (адаптированные для меньшего размера) */
-.setup-1 { top: 200px; left: 250px; }
-.setup-2 { top: 200px; left: 350px; }
-.setup-3 { top: 300px; left: 250px; }
-.setup-4 { top: 300px; left: 350px; }
-.setup-5 { top: 400px; left: 250px; }
-.setup-6 { top: 400px; left: 350px; }
-.setup-8 { top: 80px; left: 120px; }
-.setup-9 { top: 80px; left: 480px; }
-.setup-10 { top: 300px; left: 100px; }
-.setup-11 { top: 300px; left: 500px; }
-.setup-12 { top: 500px; left: 120px; }
-.setup-13 { top: 520px; left: 420px; }
-.setup-14 { top: 470px; left: 520px; }
+/* Позиции мест */
+.combined-booking-section .setup-1 { top: 200px; left: 250px; }
+.combined-booking-section .setup-2 { top: 200px; left: 350px; }
+.combined-booking-section .setup-3 { top: 300px; left: 250px; }
+.combined-booking-section .setup-4 { top: 300px; left: 350px; }
+.combined-booking-section .setup-5 { top: 400px; left: 250px; }
+.combined-booking-section .setup-6 { top: 400px; left: 350px; }
+.combined-booking-section .setup-8 { top: 80px; left: 120px; }
+.combined-booking-section .setup-9 { top: 80px; left: 480px; }
+.combined-booking-section .setup-10 { top: 300px; left: 100px; }
+.combined-booking-section .setup-11 { top: 300px; left: 500px; }
+.combined-booking-section .setup-12 { top: 500px; left: 120px; }
+.combined-booking-section .setup-13 { top: 520px; left: 420px; }
+.combined-booking-section .setup-14 { top: 470px; left: 520px; }
+.combined-booking-section .setup-15 { top: 100px; right: 50px; }
+.combined-booking-section .setup-16 { top: 100px; left: 0px; }
+.combined-booking-section .setup-17 { top: 180px; right: 50px; }
+.combined-booking-section .setup-18 { top: 180px; left: 0px; }
+.combined-booking-section .setup-19 { top: 260px; right: 50px; }
+.combined-booking-section .setup-20 { top: 260px; left: 0px; }
 
-.pc-setup img { width: 80px; height: 72px; }
-.console-setup img { width: 86px; height: 86px; }
-.headphones-setup img { width: 104px; height: 104px; }
+.combined-booking-section .pc-setup img { width: 80px; height: 72px; }
+.combined-booking-section .console-setup img { width: 86px; height: 86px; }
+.combined-booking-section .headphones-setup img { width: 104px; height: 104px; }
 
-.layout-number {
+.combined-booking-section .layout-number {
   position: absolute;
   color: var(--color-accent);
   font-family: var(--font-main);
@@ -216,31 +159,67 @@
   z-index: 2;
 }
 
-/* Стили для формы бронирования */
-.booking-form {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
+.combined-booking-section .no-positions-message {
+  text-align: center;
+  color: #666;
+  padding: 20px;
 }
 
-.form-group {
+/* ===== ПРАВАЯ ЧАСТЬ - ФОРМА БРОНИРОВАНИЯ ===== */
+.combined-booking-section .booking-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px 40px 40px;
+  width:100% ;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 0; 
+}
+
+.combined-booking-section .section-title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-top: 0; 
+  text-align: center;
+  margin-bottom: 20px; 
+  color: var(--color-white);
+}
+
+.combined-booking-section .booking-form {
+  display: flex;
+  flex-direction: column;
+
+}
+
+
+.combined-booking-section .form-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.form-group label {
+.combined-booking-section .form-group label {
     margin-top: 10px;
   font-size: 20px;
   font-weight: 600;
   color: var(--color-white);
 }
-
-.form-group input,
-.form-group textarea,
-.form-group select {
+.place-row{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+.place-selected-info{
+  width: 100%;
+}
+.combined-booking-section .form-group input,
+.combined-booking-section .form-group textarea,
+.combined-booking-section .form-group select {
   background: rgba(255, 255, 255, 0.1);
-  width: 200px;
+  width: 100%;
   border: 1px solid var(--color-white);
   border-radius: 10px;
   color: var(--color-white);
@@ -249,70 +228,309 @@
   font-family: var(--font-main);
   transition: all 0.3s ease;
 }
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
+.time-range-info
+.combined-booking-section .form-group input:focus,
+.combined-booking-section .form-group textarea:focus,
+.combined-booking-section .form-group select:focus {
   outline: none;
   border-color: var(--color-accent);
-  box-shadow: 0 0 10px rgba(202, 0, 128, 0.5);
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.4);
 }
 
-.form-group input.selected-place {
-  background: rgba(202, 0, 128, 0.2);
+.combined-booking-section .form-group input.selected-place {
+  background: rgba(32, 201, 151, 0.15);
   border-color: var(--color-accent);
+  margin-top: 5px;
 }
-/* Оверлей пикера даты */
-.date-picker-overlay {
+
+.combined-booking-section .place-selected-info {
+  color: var(--color-white);
+  font-size: 14px;
+
+}
+
+.combined-booking-section .view-details-btn {
+  margin-top: 5px;
+  color: var(--color-white);
+  cursor: pointer;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  width: 100%;
+  border: 1px solid var(--color-white);
+  border-radius: 10px;
+  font-size: 18px;
+  padding: 12px 15px;
+  font-family: var(--font-main);
+  transition: all 0.3s 
+ease;
+}
+
+.combined-booking-section .datetime-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.combined-booking-section .datetime-inputs-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.combined-booking-section .date-input-wrapper,
+.combined-booking-section .time-input-wrapper {
+  flex: 1;
+}
+
+.combined-booking-section .date-input,
+.combined-booking-section .time-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--color-white);
+  border-radius: 10px;
+  color: var(--color-white);
+  font-size: 16px;
+  padding: 12px 15px;
+  width: 100%;
+  cursor: pointer;
+  text-align: center;
+}
+
+.combined-booking-section .club-address-display {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px 15px;
+  border-radius: 10px;
+  color: var(--color-white);
+  font-size: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  max-width: 600px;
+}
+
+/* Корзина */
+.combined-booking-section .cart-info {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.combined-booking-section .cart-info h3 {
+  margin: 0 0 15px 0;
+  color: var(--color-white);
+  font-size: 20px;
+}
+
+.combined-booking-section .cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.combined-booking-section .cart-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.combined-booking-section .cart-item:last-child {
+  border-bottom: none;
+}
+
+.combined-booking-section .cart-item-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.combined-booking-section .cart-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--color-white);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+}
+
+.combined-booking-section .cart-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.combined-booking-section .cart-item-price {
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-left: 10px;
+}
+
+.combined-booking-section .cart-total {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-white);
+  text-align: right;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Кнопки действий */
+.combined-booking-section .booking-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.combined-booking-section .btn {
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  max-width: 600px;
+}
+
+.combined-booking-section .btn.primary {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.combined-booking-section .btn.primary:hover:not(:disabled) {
+  background: rgba(32, 201, 150, 0.793);
+  transform: translateY(-2px);
+}
+
+.combined-booking-section .btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.combined-booking-section .btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.combined-booking-section .btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Сообщения о времени */
+.combined-booking-section .time-error-message {
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 12px 15px;
+  color: rgba(32, 201, 150, 0.793);
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.combined-booking-section .time-range-info {
+  border-radius: 8px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  color: var(--color-white);
+  font-size: 18px;
+  padding: 12px 15px;
+  font-family: var(--font-main);
+  transition: all 0.3s ease;
+}
+
+
+/* ===== ОБЩИЕ СТИЛИ (относятся к обеим частям) ===== */
+
+.combined-booking-section .time-picker-overlay,
+.combined-booking-section .date-picker-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
-  align-items: center;
+  align-items: center; 
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
+  padding: 0; 
+  overflow: hidden; 
+}
+.date-picker,
+.time-picker {
+  position: absolute;
+  top: 50%; 
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.date-picker {
-  background: white;
+
+.combined-booking-section .date-picker,
+.combined-booking-section .time-picker {
+  background: linear-gradient(135deg, rgba(20, 30, 35, 0.95) 0%, rgba(30, 45, 50, 0.95) 100%);
   border-radius: 20px;
   padding: 25px;
   width: 90%;
   max-width: 500px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  max-height: 90vh;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(32, 201, 151, 0.4);
+  max-height: calc(100vh - 40px);
   overflow-y: auto;
-  box-sizing: border-box; /* Важно: учитываем паддинги в ширине */
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  margin-top: 0; /* Убираем отступ сверху */
 }
 
-.date-picker-header {
+
+.combined-booking-section .date-picker {
+  max-height: calc(100vh - 40px);
+  margin-top: 0; 
+}
+
+.combined-booking-section .date-picker-header,
+.combined-booking-section .time-picker-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
   padding-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.date-picker-header h3 {
+.combined-booking-section .date-picker-header h3,
+.combined-booking-section .time-picker-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--color-white);
   font-size: 1.3rem;
   font-weight: 600;
   text-align: center;
   flex: 1;
   padding: 0 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.date-picker-close {
-  background: none;
-  border: none;
-  font-size: 28px;
+.combined-booking-section .date-picker-close,
+.combined-booking-section .time-picker-close {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 24px;
   cursor: pointer;
-  color: #666;
+  color: var(--color-white);
   padding: 0;
   width: 36px;
   height: 36px;
@@ -324,41 +542,45 @@
   flex-shrink: 0;
 }
 
-.date-picker-close:hover {
-  color: #333;
-  background: #f5f5f5;
+.combined-booking-section .date-picker-close:hover,
+.combined-booking-section .time-picker-close:hover {
+  background: #20c997;
+  border-color: #20c997;
+  transform: scale(1.1);
 }
 
-/* Футер пикера даты */
-.date-picker-footer {
-  border-top: 2px solid #e9ecef;
+.combined-booking-section .date-picker-footer,
+.combined-booking-section .time-picker-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 20px;
   margin-top: 20px;
 }
 
-.selected-date-preview {
+.combined-booking-section .selected-date-preview,
+.combined-booking-section .selected-time-preview {
   text-align: center;
   margin-bottom: 20px;
   font-weight: 600;
-  color: #333;
+  color: var(--color-white);
   padding: 15px;
-  background: #e7f3ff;
-  border: 2px solid #b3d9ff;
+  background: rgba(32, 201, 151, 0.2);
+  border: 1px solid rgba(32, 201, 151, 0.4);
   border-radius: 10px;
   font-size: 1.1rem;
   word-break: break-word;
+  backdrop-filter: blur(5px);
 }
 
-.date-picker-actions {
+.combined-booking-section .date-picker-actions,
+.combined-booking-section .time-picker-actions {
   display: flex;
   gap: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-/* Стили для кнопок внутри пикеров */
-.date-picker-actions .btn,
-.time-picker-actions .btn {
+.combined-booking-section .date-picker-actions .btn,
+.combined-booking-section .time-picker-actions .btn {
   padding: 12px 24px;
   border-radius: 25px;
   font-family: var(--font-main);
@@ -373,253 +595,53 @@
   min-width: 120px;
   flex: 1;
   max-width: 200px;
+  backdrop-filter: blur(5px);
 }
 
-.date-picker-actions .btn.secondary,
-.time-picker-actions .btn.secondary {
-  background: #6c757d;
-  color: white;
-  border: 1px solid #6c757d;
+.combined-booking-section .date-picker-actions .btn.secondary,
+.combined-booking-section .time-picker-actions .btn.secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--color-white);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.date-picker-actions .btn.secondary:hover,
-.time-picker-actions .btn.secondary:hover {
-  background: #5a6268;
-  border-color: #545b62;
-}
-
-.date-picker-actions .btn.primary,
-.time-picker-actions .btn.primary {
-  background: #007bff;
-  color: white;
-  border: 1px solid #007bff;
-}
-
-.date-picker-actions .btn.primary:hover:not(:disabled),
-.time-picker-actions .btn.primary:hover:not(:disabled) {
-  background: #0056b3;
-  border-color: #004085;
+.combined-booking-section .date-picker-actions .btn.secondary:hover,
+.combined-booking-section .time-picker-actions .btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
-.date-picker-actions .btn:disabled,
-.time-picker-actions .btn:disabled {
+.combined-booking-section .date-picker-actions .btn.primary,
+.combined-booking-section .time-picker-actions .btn.primary {
+  background: #20c997;
+  color: var(--color-white);
+  border: 1px solid #20c997;
+  box-shadow: 0 4px 15px rgba(32, 201, 151, 0.4);
+}
+
+.combined-booking-section .date-picker-actions .btn.primary:hover:not(:disabled),
+.combined-booking-section .time-picker-actions .btn.primary:hover:not(:disabled) {
+  background: #2de0ab;
+  border-color: #2de0ab;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(32, 201, 151, 0.6);
+}
+
+.combined-booking-section .date-picker-actions .btn:disabled,
+.combined-booking-section .time-picker-actions .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none !important;
 }
 
-/* Оверлей пикера времени */
-.time-picker-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-.time-picker {
-  background: white;
-  border-radius: 20px;
-  padding: 25px;
-  width: 90%;
-  max-width: 400px;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  max-height: 90vh;
-  overflow-y: auto;
-  box-sizing: border-box;
-}
-
-.time-picker-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding-bottom: 15px;
-  border-bottom: 2px solid #e9ecef;
-}
-
-.time-picker-header h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.3rem;
-  font-weight: 600;
-  text-align: center;
-  flex: 1;
-  padding: 0 10px;
-}
-
-.time-picker-close {
-  background: none;
-  border: none;
-  font-size: 28px;
-  cursor: pointer;
-  color: #666;
-  padding: 0;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.time-picker-close:hover {
-  color: #333;
-  background: #f5f5f5;
-}
-
-/* Выбор времени */
-.time-selectors {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  margin-bottom: 25px;
-  padding: 0 10px;
-}
-
-.time-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.time-selector label {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: #333;
-  text-align: center;
-  margin-bottom: 5px;
-}
-
-.time-select {
-  width: 100%;
-  padding: 12px 15px;
-  border: 2px solid #e9ecef;
-  border-radius: 10px;
-  font-size: 1rem;
-  background: white;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-align: center;
-}
-
-.time-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-.time-select:hover {
-  border-color: #adb5bd;
-}
-
-/* Футер пикера времени */
-.time-picker-footer {
-  border-top: 2px solid #e9ecef;
-  padding-top: 20px;
-  margin-top: 15px;
-}
-
-.selected-time-preview {
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 600;
-  color: #333;
-  padding: 15px;
-  background: #e7f3ff;
-  border: 2px solid #b3d9ff;
-  border-radius: 10px;
-  font-size: 1.1rem;
-}
-
-.time-picker-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* Адаптивность для пикеров */
-@media (max-width: 768px) {
-  .date-picker,
-  .time-picker {
-    width: 95%;
-    margin: 20px;
-    padding: 20px;
-  }
-  
-  .date-picker-header h3,
-  .time-picker-header h3 {
-    font-size: 1.1rem;
-  }
-  
-  .time-selectors {
-    grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 0 5px;
-  }
-  
-  .date-picker-actions,
-  .time-picker-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .date-picker-actions .btn,
-  .time-picker-actions .btn {
-    min-width: 140px;
-    max-width: 100%;
-    width: 100%;
-  }
-}
-
-@media (max-width: 480px) {
-  .date-picker,
-  .time-picker {
-    padding: 15px;
-    border-radius: 15px;
-  }
-  
-  .date-picker-header,
-  .time-picker-header {
-    margin-bottom: 15px;
-  }
-  
-  .selected-date-preview,
-  .selected-time-preview {
-    padding: 12px;
-    font-size: 1rem;
-    margin-bottom: 15px;
-  }
-  
-  .time-select {
-    padding: 10px 12px;
-    font-size: 0.9rem;
-  }
-  
-  .date-picker-actions .btn,
-  .time-picker-actions .btn {
-    padding: 10px 20px;
-    font-size: 13px;
-  }
-}
-
-/* Календарь (исправления для лучшего отображения) */
-.calendar-section {
+/* Календарь */
+.combined-booking-section .calendar-section {
   margin-bottom: 20px;
   padding: 0 5px;
 }
 
-.calendar-header {
+.combined-booking-section .calendar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -627,9 +649,9 @@
   padding: 0 10px;
 }
 
-.calendar-nav {
-  background: white;
-  border: 2px solid #e9ecef;
+.combined-booking-section .calendar-nav {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   width: 36px;
   height: 36px;
@@ -639,45 +661,47 @@
   cursor: pointer;
   font-size: 18px;
   font-weight: bold;
-  color: #495057;
+  color: var(--color-white);
   transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
-.calendar-nav:hover {
-  border-color: #007bff;
-  color: #007bff;
+.combined-booking-section .calendar-nav:hover {
+  background: #20c997;
+  border-color: #20c997;
+  transform: scale(1.1);
 }
 
-.calendar-month {
+.combined-booking-section .calendar-month {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #333;
+  color: var(--color-white);
   text-align: center;
   flex: 1;
   padding: 0 10px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.calendar-grid {
+.combined-booking-section .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 4px;
   margin-bottom: 20px;
 }
 
-.calendar-day-header {
+.combined-booking-section .calendar-day-header {
   text-align: center;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #666;
+  color: rgba(255, 255, 255, 0.7);
   padding: 8px 2px;
   text-transform: uppercase;
 }
 
-.calendar-day {
+.combined-booking-section .calendar-day {
   aspect-ratio: 1;
-  border: 2px solid transparent;
-  background: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
@@ -688,177 +712,273 @@
   align-items: center;
   justify-content: center;
   min-height: 35px;
+  color: var(--color-white);
 }
 
-.calendar-day:hover:not(.empty):not(.past) {
-  border-color: #007bff;
-  background: #f0f8ff;
+.combined-booking-section .calendar-day:hover:not(.empty):not(.past) {
+  border-color: #20c997;
+  background: rgba(32, 201, 151, 0.2);
+  transform: scale(1.05);
 }
 
-.calendar-day.selected {
-  background: #007bff;
-  color: white;
-  border-color: #007bff;
+.combined-booking-section .calendar-day.selected {
+  background: #20c997;
+  color: var(--color-white);
+  border-color: #20c997;
+  box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
 }
 
-.calendar-day.today {
-  border-color: #28a745;
-  background: #f8fff9;
+.combined-booking-section .calendar-day.today {
+  border-color: #20c997;
+  background: rgba(32, 201, 151, 0.3);
+  color: var(--color-white);
 }
 
-.calendar-day.today:not(.selected):hover {
-  border-color: #28a745;
-  background: #e8f5e8;
+.combined-booking-section .calendar-day.today:not(.selected):hover {
+  border-color: #20c997;
+  background: rgba(32, 201, 151, 0.4);
 }
 
-.calendar-day.past {
-  background: #f8f9fa;
-  color: #adb5bd;
+.combined-booking-section .calendar-day.past {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.3);
   cursor: not-allowed;
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
-.calendar-day.empty {
+.combined-booking-section .calendar-day.empty {
   background: transparent;
+  border: none;
   cursor: default;
 }
 
-.today-dot {
+.combined-booking-section .today-dot {
   position: absolute;
   bottom: 3px;
   width: 4px;
   height: 4px;
-  background: #28a745;
+  background: #20c997;
   border-radius: 50%;
 }
-.date-input-wrapper{
-    margin-bottom: 10px;
-}
-/* Стили для корзины в форме бронирования */
-.cart-info {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 20px;
+
+/* Стили для выпадающих списков времени */
+.combined-booking-section .time-select {
+  width: 100%;
+  padding: 12px 15px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.cart-info h3 {
-  margin: 0 0 15px 0;
+  border-radius: 10px;
+  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.1);
   color: var(--color-white);
-  font-size: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  padding-right: 45px;
 }
 
-.cart-items {
+.combined-booking-section .time-select:focus {
+  outline: none;
+  border-color: #20c997;
+  box-shadow: 0 0 0 2px rgba(32, 201, 151, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.combined-booking-section .time-select:hover {
+  border-color: #20c997;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Стили для выпадающего списка (options) */
+.combined-booking-section .time-select option {
+  background: rgba(30, 45, 50, 0.95);
+  color: var(--color-white);
+  padding: 10px;
+  border: none;
+}
+
+/* Селекторы времени */
+.combined-booking-section .time-selectors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 25px;
+  padding: 0 10px;
+}
+
+.combined-booking-section .time-selector {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-bottom: 15px;
 }
 
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.cart-item:last-child {
-  border-bottom: none;
-}
-
-.cart-item-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cart-btn {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  color: var(--color-white);
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-}
-
-.cart-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-.cart-item-price {
+.combined-booking-section .time-selector label {
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--color-accent);
-  margin-left: 10px;
-}
-
-.cart-total {
-  font-size: 18px;
-  font-weight: 700;
   color: var(--color-white);
-  text-align: right;
-  padding-top: 10px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-}
-/* Стили для кнопки добавления в кафе */
-.add-to-cart-btn {
-  background: var(--color-accent);
-  color: var(--color-white);
-  border: none;
-  border-radius: 20px;
-  padding: 8px 15px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-left: 15px;
-  transition: all 0.3s ease;
-}
-
-.add-to-cart-btn:hover:not(:disabled) {
-  background: #ff66a3;
-  transform: translateY(-1px);
-}
-
-.add-to-cart-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-/* Стили для сообщений об ошибках и информации */
-.time-error-message {
-  background: #f8d7da;
-  border: 1px solid #f5c6cb;
-  border-radius: 8px;
-  padding: 12px 15px;
-  color: #721c24;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 10px;
   text-align: center;
+  margin-bottom: 5px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
-.time-range-info {
-  background: #d1edff;
-  border: 1px solid #b3d9ff;
-  border-radius: 8px;
-  padding: 12px 15px;
-  color: #004085;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 10px;
-  text-align: center;
-}
-
-/* Адаптивность для сообщений */
+/* Адаптивность */
 @media (max-width: 768px) {
-  .time-error-message,
-  .time-range-info {
+  .combined-booking-section .date-picker-overlay,
+  .combined-booking-section .time-picker-overlay {
+    padding: 10px;
+    align-items: flex-start;
+  }
+  
+  .combined-booking-section .date-picker,
+  .combined-booking-section .time-picker {
+    width: 95%;
+    margin: 0 auto;
+    padding: 20px;
+    max-height: calc(100vh - 20px);
+  }
+  
+  .combined-booking-section .date-picker-header h3,
+  .combined-booking-section .time-picker-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .combined-booking-section .time-selectors {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 5px;
+  }
+  
+  .combined-booking-section .date-picker-actions,
+  .combined-booking-section .time-picker-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .combined-booking-section .date-picker-actions .btn,
+  .combined-booking-section .time-picker-actions .btn {
+    min-width: 140px;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .combined-booking-section .date-picker,
+  .combined-booking-section .time-picker {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .combined-booking-section .date-picker-header,
+  .combined-booking-section .time-picker-header {
+    margin-bottom: 15px;
+  }
+  
+  .combined-booking-section .selected-date-preview,
+  .combined-booking-section .selected-time-preview {
+    padding: 12px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .combined-booking-section .time-select {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    padding-right: 40px;
+    background-position: right 12px center;
+  }
+  
+  .combined-booking-section .date-picker-actions .btn,
+  .combined-booking-section .time-picker-actions .btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+/* Адаптивность */
+@media (max-width: 768px) {
+  .combined-booking-section .date-picker,
+  .combined-booking-section .time-picker {
+    width: 95%;
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .combined-booking-section .date-picker-header h3,
+  .combined-booking-section .time-picker-header h3 {
+    font-size: 1.1rem;
+  }
+  
+  .combined-booking-section .time-selectors {
+    grid-template-columns: 1fr;
+    gap: 15px;
+    padding: 0 5px;
+  }
+  
+  .combined-booking-section .date-picker-actions,
+  .combined-booking-section .time-picker-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .combined-booking-section .date-picker-actions .btn,
+  .combined-booking-section .time-picker-actions .btn {
+    min-width: 140px;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .combined-booking-section .time-error-message,
+  .combined-booking-section .time-range-info {
     font-size: 13px;
     padding: 10px 12px;
   }
 }
+
+@media (max-width: 480px) {
+  .combined-booking-section .date-picker,
+  .combined-booking-section .time-picker {
+    padding: 15px;
+    border-radius: 15px;
+  }
+  
+  .combined-booking-section .date-picker-header,
+  .combined-booking-section .time-picker-header {
+    margin-bottom: 15px;
+  }
+  
+  .combined-booking-section .selected-date-preview,
+  .combined-booking-section .selected-time-preview {
+    padding: 12px;
+    font-size: 1rem;
+    margin-bottom: 15px;
+  }
+  
+  .combined-booking-section .time-select {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .combined-booking-section .date-picker-actions .btn,
+  .combined-booking-section .time-picker-actions .btn {
+    padding: 10px 20px;
+    font-size: 13px;
+  }
+}
+
+/* Стили для загрузки */
+.combined-booking-section .admin-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: var(--color-white);
+}
+

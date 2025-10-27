@@ -517,30 +517,16 @@ const CombinedLayoutBooking = () => {
         {/* Правая часть — форма бронирования */}
         <div className="booking-side">
           <h2 className="section-title">Бронь места {selectedPlace || ''}</h2>
-
-          {getTotalItems() > 0 && (
-            <div className="cart-info">
-              <h3>Корзина ({getTotalItems()} товаров)</h3>
-              <div className="cart-items">
-                {cartItems.map(item => (
-                  <div key={item.id} className="cart-item">
-                    <span>{item.name} x{item.quantity}</span>
-                    <div className="cart-item-controls">
-                      <button onClick={() => updateCartItemQuantity(item.id, -1)} className="cart-btn">-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateCartItemQuantity(item.id, 1)} className="cart-btn">+</button>
-                      <span className="cart-item-price">{item.price * item.quantity} ₽</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className="cart-total">Итого: {getTotalPrice()} ₽</div>
-            </div>
-          )}
-
           <form className="booking-form" onSubmit={handleSubmit}>
+          <div className="form-group">
+              <label>Адрес клуба</label>
+              <div className="club-address-display">
+                {formData.address}
+              </div>
+            </div>
             <div className="form-group">
               <label htmlFor="place">Выбранное место</label>
+              <div className='place-row'>
               <input
                 type="text"
                 id="place"
@@ -552,19 +538,24 @@ const CombinedLayoutBooking = () => {
               />
               {selectedPlace && (
                 <div className="place-selected-info">
+                  <button type="button" className="view-details-btn" onClick={() => setShowPlaceDetails(true)}>
+                    Посмотреть детали
+                  </button>
+                </div>
+              )}
+              </div>
+              {selectedPlace && (
+                <div className="place-selected-info">
                   ✓ Место {selectedPlace} выбрано.
                   <br />
                   <small style={{ color: 'blue', fontWeight: 'bold' }}>
                     Computer ID: {formData.computer_id || 'не установлен'}
                     {!formData.computer_id && <span style={{ color: 'red' }}> - ТРЕБУЕТСЯ ВЫБРАТЬ МЕСТО!</span>}
                   </small>
-                  <button type="button" className="view-details-btn" onClick={() => setShowPlaceDetails(true)}>
-                    Посмотреть детали
-                  </button>
+                  
                 </div>
               )}
             </div>
-
             <div className="datetime-fields">
               <div className="form-group">
                 <label>Дата и время начала</label>
@@ -617,7 +608,7 @@ const CombinedLayoutBooking = () => {
               {timeError && <div className="time-error-message">⚠️ {timeError}</div>}
               {formData.dateFrom && formData.timeFrom && formData.dateTo && formData.timeTo && !timeError && (
                 <div className="time-range-info">
-                  ✅ Выбран промежуток: {formatDateDisplay(formData.dateFrom)} {formData.timeFrom} - {formatDateDisplay(formData.dateTo)} {formData.timeTo}
+                  Дата и время выбраны: {formatDateDisplay(formData.dateFrom)} {formData.timeFrom} - {formatDateDisplay(formData.dateTo)} {formData.timeTo}
                 </div>
               )}
             </div>
@@ -703,18 +694,33 @@ const CombinedLayoutBooking = () => {
               </div>
             )}
 
-            <div className="form-group">
-              <label>Адрес клуба</label>
-              <div className="club-address-display">
-                {formData.address}
+            
+            {getTotalItems() > 0 && (
+            <div className="cart-info">
+              <h3>Корзина ({getTotalItems()} товаров)</h3>
+              <div className="cart-items">
+                {cartItems.map(item => (
+                  <div key={item.id} className="cart-item">
+                    <span>{item.name} x{item.quantity}</span>
+                    <div className="cart-item-controls">
+                      <button onClick={() => updateCartItemQuantity(item.id, -1)} className="cart-btn">-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => updateCartItemQuantity(item.id, 1)} className="cart-btn">+</button>
+                      <span className="cart-item-price">{item.price * item.quantity} ₽</span>
+                    </div>
+                  </div>
+                ))}
               </div>
+              <div className="cart-total">Итого: {getTotalPrice()} ₽</div>
             </div>
+          )}
+
 
             <div className="booking-actions">
               <button type="submit" className="btn primary" disabled={isBookingDisabled}>
                 Перейти к подтверждению
                 {isBookingDisabled && (
-                  <span style={{ fontSize: '12px', display: 'block', marginTop: '5px', color: '#ff6b6b' }}>
+                  <span style={{ fontSize: '12px', display: 'block', marginTop: '5px', color: 'rgb(36, 214, 160)' }}>
                     ({getDisabledReason()})
                   </span>
                 )}

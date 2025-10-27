@@ -121,13 +121,13 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
 
           {error && (
             <div className="error-section">
-              <span className="error-icon">⚠️</span>
+              <span className="error-icon"></span>
               <p>{error}</p>
             </div>
           )}
 
           <div className="info-section">
-            <h3>📍 Информация о позиции</h3>
+            <h3>Информация о позиции</h3>
             <div className="info-grid">
               <div className="info-item">
                 <span className="label">Комната:</span>
@@ -147,7 +147,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
           {computerDetails && (
             <>
               <div className="info-section">
-                <h3>💻 Основная информация</h3>
+                <h3>Основная информация</h3>
                 <div className="info-grid">
                   <div className="info-item highlight">
                     <span className="label">Стоимость:</span>
@@ -164,7 +164,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                   <div className="info-item">
                     <span className="label">Статус:</span>
                     <span className={`value status ${computerDetails.status || 'active'}`}>
-                      {computerDetails.status === 'active' ? '✅ Активен' : '⚠️ Неактивен'}
+                      {computerDetails.status === 'active' ? 'Активен' : 'Неактивен'}
                     </span>
                   </div>
                 </div>
@@ -172,12 +172,12 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
 
               {computerDetails.specs && !loading && (
                 <div className="info-section">
-                  <h3>⚙️ Технические характеристики</h3>
+                  <h3>Технические характеристики</h3>
                   <div className="specs-source-info">
                     {computerSpecs ? (
-                      <span className="source-api">✅ Данные загружены из API</span>
+                      <span className="source-api">Данные загружены из API</span>
                     ) : (
-                      <span className="source-fallback">⚠️ Используются базовые данные</span>
+                      <span className="source-fallback">Используются базовые данные</span>
                     )}
                   </div>
 
@@ -194,7 +194,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Материнская плата': computerDetails.specs.motherboard,
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
-                            <span className="spec-icon">⚡</span>
+                        
                             <div className="spec-content">
                               <span className="spec-label">{label}</span>
                               <span className="spec-value">{value}</span>
@@ -216,7 +216,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Охлаждение CPU': computerDetails.specs.cpuCooler,
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
-                            <span className="spec-icon">🎧</span>
+                        
                             <div className="spec-content">
                               <span className="spec-label">{label}</span>
                               <span className="spec-value">{value}</span>
@@ -238,7 +238,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Операционная система': computerDetails.specs.operatingSystem,
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
-                            <span className="spec-icon">🔌</span>
+                
                             <div className="spec-content">
                               <span className="spec-label">{label}</span>
                               <span className="spec-value">{value}</span>
@@ -254,20 +254,20 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
           )}
 
           <div className="info-section availability">
-            <h3>📊 Статус доступности</h3>
+            <h3>Статус доступности</h3>
             <div className="availability-info">
               <div className="availability-item available">
                 <span className="availability-dot"></span>
                 <span className="availability-text">Место доступно для бронирования</span>
               </div>
               <div className="availability-item">
-                <span className="availability-info-text">⏱️ Минимальное время брони: 30 минут</span>
+                <span className="availability-info-text">Минимальное время брони: 30 минут</span>
               </div>
               <div className="availability-item">
-                <span className="availability-info-text">⏰ Максимальное время брони: 24 часа</span>
+                <span className="availability-info-text">Максимальное время брони: 24 часа</span>
               </div>
               <div className="availability-item">
-                <span className="availability-info-text">💰 Стоимость: {calculatedRate} ₽/час</span>
+                <span className="availability-info-text">Стоимость: {calculatedRate} ₽/час</span>
               </div>
             </div>
           </div>
@@ -279,12 +279,12 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
             className="btn primary select-btn"
             disabled={loading}
           >
-            <span className="btn-icon">✅</span>
+            <span className="btn-icon"></span>
             {loading ? 'Загрузка...' : 'Выбрать это место'}
             <span className="price-badge">{calculatedRate} ₽/час</span>
           </button>
           <button onClick={onBack} className="btn secondary" disabled={loading}>
-            <span className="btn-icon">↩️</span>
+            <span className="btn-icon">↩</span>
             Назад к выбору
           </button>
         </div>
@@ -292,7 +292,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
         {computerSpecs && (
           <div className="additional-info">
             <p className="info-note">
-              📊 <strong>Технические данные:</strong> Актуальные характеристики загружены из системы.
+              <strong>Технические данные:</strong> Актуальные характеристики загружены из системы.
               Последнее обновление: {new Date().toLocaleDateString('ru-RU')}
             </p>
           </div>

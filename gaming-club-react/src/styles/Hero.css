@@ -1,5 +1,5 @@
-/* Hero.css - с зеленой карточкой */
 
+/**/
 .hero-section {
   /* Локальные переменные для Hero */
   --hero-gradient-btn: linear-gradient(90deg, #42837c 0%, #f1fffd 100%);

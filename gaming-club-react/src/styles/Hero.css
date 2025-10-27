@@ -189,14 +189,14 @@
   box-shadow: inset 0px 4px 50px 10px rgba(66, 131, 124, 0.6), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   width: 100%;
   max-width: 705px;
-  min-height: 526px;
+  min-height: 326px;
   padding: 52px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   text-align: center;
-  gap: 60px;
+  gap: 50px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -210,7 +210,7 @@
 .info-card-title {
   font-family: var(--hero-font-main);
   font-weight: 700;
-  font-size: 50px;
+  font-size: 40px;
   line-height: 1.2;
   color: var(--hero-color-white);
   margin: 0;
@@ -219,7 +219,7 @@
 .info-card-address {
   font-family: var(--hero-font-main);
   font-weight: 400;
-  font-size: 35px;
+  font-size: 25px;
   line-height: 1.4;
   color: var(--hero-color-white);
   margin: 0;

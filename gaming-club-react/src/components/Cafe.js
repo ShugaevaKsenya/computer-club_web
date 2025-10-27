@@ -94,11 +94,16 @@ const Cafe = () => {
 
         <div className="menu-list">
           {menuItems.map(item => (
-            <div key={item.id} className="menu-item">
-              <div className="item-header">
-                <span className="item-name">{item.name}</span>
-                <span className="item-price">{item.price} ₽</span>
-              </div>
+          <div key={item.id} className="menu-item">
+            <div className='items-in-row'>
+            {/* Левая часть - изображение */}
+            <div className="item-image">
+              <img src={item.image} alt={item.name} />
+            </div>
+            
+            {/* Центральная часть - ВСЕ В СТОЛБИК */}
+            <div className="item-center">
+              <span className="item-name">{item.name}</span>
               
               <div className="quantity-stepper">
                 <button 
@@ -120,14 +125,25 @@ const Cafe = () => {
               >
                 Добавить
               </button>
-
+            </div>
+            <div className='price-column'>
+              {/* Цена в правом верхнем углу */}
+              <span className="item-price">
+                Цена:<br />
+                {item.price} ₽
+              </span>
+              
+              {/* Общая стоимость */}
               {item.quantity > 0 && (
                 <span className="item-total">
-                  {item.price * item.quantity} ₽
+                  Общая цена:<br />
+                  {item.price * item.quantity}₽
                 </span>
               )}
-            </div>
-          ))}
+    </div>
+  </div>
+  </div>
+))}
         </div>
 
         <div className="cafe-actions">
@@ -137,7 +153,7 @@ const Cafe = () => {
             </button>
           )}
           
-          <button className="cafe-btn" onClick={handleBackToClubs}>
+          <button className="cafe-btn cafe-btn-secondary" onClick={handleBackToClubs}>
             К выбору клуба
           </button>
           

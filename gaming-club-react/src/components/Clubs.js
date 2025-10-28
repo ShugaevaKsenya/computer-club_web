@@ -2,9 +2,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Clubs.css';
-
+import { useCart } from '../context/CartContext';
 const Clubs = () => {
   const navigate = useNavigate();
+  const { 
+      cartItems, 
+      updateCartItemQuantity, 
+      clearCart, 
+      getTotalPrice, 
+      getTotalItems,
+      getCartSummary,
+      addToCart,
+     
+    } = useCart();
 
   const clubsData = [
     { id: 1, title: "Рахова 53", address: "ул. Рахова, 53", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] },
@@ -12,18 +22,46 @@ const Clubs = () => {
     { id: 3, title: "Московская 11", address: "ул. Московская, 11", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] }
   ];
 
-  const handleBookingClick = (clubId) => {
-    localStorage.setItem('selectedClubId', clubId);
-    navigate('/booking');
-  };
-
-  const handleCafeClick = () => {
-    navigate('/cafe');
-  };
-
   const handleBackToHome = () => {
     navigate('/');
   };
+  
+  const handleBookingClick = (clubId) => {
+    const previousClubId = localStorage.getItem('cartClubId');
+  
+    if (previousClubId && previousClubId !== clubId.toString()) {
+    localStorage.removeItem('bookingStarted');
+      localStorage.removeItem('selectedClubId');
+      localStorage.removeItem('bookingFormData');
+      localStorage.removeItem('savedBooking');
+      localStorage.removeItem('cartClubId'); 
+      clearCart(); // очищаем корзину, если сменился клуб
+    }
+  
+    localStorage.setItem('selectedClubId', clubId);
+    localStorage.setItem('bookingStarted', 'true');
+    localStorage.setItem('cartClubId', clubId); // привязываем корзину к клубу
+    navigate('/booking');
+  };
+  
+  const handleCafeClick = (clubId) => {
+    const previousClubId = localStorage.getItem('cartClubId');
+  
+    if (previousClubId && previousClubId !== clubId.toString()) {
+      localStorage.removeItem('bookingStarted');
+      localStorage.removeItem('selectedClubId');
+      localStorage.removeItem('bookingFormData');
+      localStorage.removeItem('savedBooking');
+      localStorage.removeItem('cartClubId'); 
+      clearCart(); // очищаем корзину при смене клуба
+    }
+  
+    localStorage.setItem('selectedClubId', clubId);
+    localStorage.setItem('cartClubId', clubId);
+    navigate(`/cafe/${clubId}`);
+  };
+  
+
 
   return (
     <section id="clubs" className="clubs-section">
@@ -53,7 +91,8 @@ const Clubs = () => {
                 <button onClick={() => handleBookingClick(club.id)} className="club-btn club-btn-primary">
                   Перейти к брони
                 </button>
-                <button onClick={handleCafeClick} className="club-btn club-btn-secondary">
+                
+                <button onClick={() => handleCafeClick(club.id)} className="club-btn club-btn-secondary">
                   Перейти в кафе
                 </button>
               </div>
@@ -61,7 +100,7 @@ const Clubs = () => {
           ))}
         </div>
         <div className="clubs-actions">
-          <button onClick={handleBackToHome} className="club-btn club-btn-secondary">
+          <button onClick={() => handleBackToHome} className="club-btn club-btn-secondary">
             ← Вернуться на главную
           </button>
         </div>

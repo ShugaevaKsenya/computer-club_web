@@ -5,17 +5,25 @@ import { apiService } from '../services/Api';
 import PlaceDetails from './PlaceDetails';
 import '../styles/CombinedLayout.css';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../context/AuthContext'; 
 const CombinedLayoutBooking = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+ 
   const { 
     cartItems, 
     updateCartItemQuantity, 
     clearCart, 
     getTotalPrice, 
     getTotalItems,
-    getCartSummary  
+    getCartSummary,
+    addToCart
+ 
+    
   } = useCart();
+
+
+
 
   const [formData, setFormData] = useState({
     place: '',
@@ -72,6 +80,11 @@ const CombinedLayoutBooking = () => {
         navigate('/clubs');
         return;
       }
+      const previousClubId = localStorage.getItem('cartClubId');
+        if (previousClubId && previousClubId !== savedClubId) {
+          clearCart(); // очищаем еду из прошлого клуба
+        }
+        localStorage.setItem('cartClubId', savedClubId);
 
       const club = clubsData.find(c => c.id == savedClubId);
       if (!club) {
@@ -218,6 +231,15 @@ const CombinedLayoutBooking = () => {
     setTimeError('');
     return true;
   };
+  const handleGoToCafe = () => {
+    const currentBookingState = {
+      formData,
+      selectedPlace,
+      selectedPlaceRate
+    };
+    localStorage.setItem('savedBooking', JSON.stringify(currentBookingState));
+    navigate(`/cafe/${formData.club_id}`);
+  };
 
   useEffect(() => {
     if (formData.dateFrom && formData.timeFrom && formData.dateTo && formData.timeTo) {
@@ -231,6 +253,7 @@ const CombinedLayoutBooking = () => {
     setFormData(prev => ({ ...prev, cart: getCartSummary() }));
   }, [cartItems, getCartSummary]);
 
+ 
   const generateRoomLayout = () => {
     const room = formData.room;
     if (!room) return [];
@@ -290,8 +313,54 @@ const CombinedLayoutBooking = () => {
     debugBookingStatus();
   }, [selectedPlace, formData, timeError]);
 
+
+  useEffect(() => {
+    const savedBooking = localStorage.getItem('savedBooking');
+    if (savedBooking) {
+      try {
+        const { formData: savedForm, selectedPlace, selectedPlaceRate, cartItems: savedCart } = JSON.parse(savedBooking);
+  
+        if (savedForm) setFormData(savedForm);
+        if (selectedPlace) setSelectedPlace(selectedPlace);
+        if (selectedPlaceRate) setSelectedPlaceRate(selectedPlaceRate);
+  
+        if (savedCart && savedCart.length > 0) {
+          clearCart(); // очищаем текущую корзину
+          savedCart.forEach(item => addToCart(item)); // добавляем сохранённые элементы
+        }
+      } catch (err) {
+        console.error('Ошибка восстановления savedBooking:', err);
+      }
+    }
+  }, [addToCart, clearCart]);
+  
+
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+     // Проверяем авторизацию пользователя
+     if (!user) {
+      // Сохраняем данные бронирования в localStorage перед редиректом
+      const bookingData = {
+        formData,
+        selectedPlace,
+        selectedPlaceRate,
+        cartItems: [...cartItems],
+        timestamp: Date.now()
+      };
+      localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+      
+      // Редирект на страницу авторизации с возвратом на эту страницу
+      navigate('/login', { 
+        state: { 
+          from: '/booking',
+          message: 'Для завершения бронирования необходимо авторизоваться'
+        } 
+      });
+      return;
+    }
+    
     if (!validateTimeRange(formData.dateFrom, formData.timeFrom, formData.dateTo, formData.timeTo)) return;
     if (!formData.computer_id && selectedPlace) {
       const positionInfo = getPositionInfo(selectedPlace);
@@ -337,6 +406,19 @@ const CombinedLayoutBooking = () => {
   const handleBackToHome = () => {
     localStorage.removeItem('bookingStarted');
     localStorage.removeItem('selectedClubId');
+    localStorage.removeItem('bookingFormData');
+    localStorage.removeItem('savedBooking');
+    localStorage.removeItem('cartClubId'); // сбрасываем привязку корзины к клубу
+    clearCart(); //  очищаем корзину полностью
+    navigate('/');
+  };
+  const handleBackToClub = () => {
+    localStorage.removeItem('bookingStarted');
+    localStorage.removeItem('selectedClubId');
+    localStorage.removeItem('bookingFormData');
+    localStorage.removeItem('savedBooking');
+    localStorage.removeItem('cartClubId'); // сбрасываем привязку корзины к клубу
+    clearCart(); // очищаем корзину полностью
     navigate('/clubs');
   };
 
@@ -448,6 +530,7 @@ const CombinedLayoutBooking = () => {
       </div>
     );
   }
+ 
 
   return (
     <section id="combined-booking" className="combined-booking-section">
@@ -703,9 +786,23 @@ const CombinedLayoutBooking = () => {
                   <div key={item.id} className="cart-item">
                     <span>{item.name} x{item.quantity}</span>
                     <div className="cart-item-controls">
-                      <button onClick={() => updateCartItemQuantity(item.id, -1)} className="cart-btn">-</button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => updateCartItemQuantity(item.id, 1)} className="cart-btn">+</button>
+                    <button
+                      type="button"
+                      onClick={() => updateCartItemQuantity(item.id, -1)}
+                      className="cart-btn"
+                    >
+                      -
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => updateCartItemQuantity(item.id, 1)}
+                      className="cart-btn"
+                    >
+                      +
+                    </button>
+
+                     
                       <span className="cart-item-price">{item.price * item.quantity} ₽</span>
                     </div>
                   </div>
@@ -725,13 +822,17 @@ const CombinedLayoutBooking = () => {
                   </span>
                 )}
               </button>
-              <button type="button" className="btn secondary" onClick={() => navigate('/cafe')}>
-                Перейти в кафе {getTotalItems() > 0 && `(${getTotalItems()})`}
-              </button>
-              <button type="button" className="btn secondary" onClick={handleBackToHome}>
+             
+             
+                <button type="button" className="booking-btn cafe-btn-secondary" onClick={handleGoToCafe}>
+                  Перейти в кафе
+                </button>
+              
+
+              <button type="button" className="btn secondary" onClick={handleBackToClub}>
                 Выбрать другой клуб
               </button>
-              <button type="button" className="btn secondary" onClick={() => navigate('/')}>
+              <button type="button" className="btn secondary" onClick={handleBackToHome}>
                 Вернуться на главную
               </button>
               {getTotalItems() > 0 && (

@@ -18,7 +18,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/';
+  const from = location.state?.from || '/';
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -33,10 +34,22 @@ const Login = () => {
         role = await register(name, email, password);
       }
 
+      // Восстанавливаем бронирование, если оно есть
+      const pendingBooking = localStorage.getItem('pendingBooking');
+      if (pendingBooking) {
+        const bookingData = JSON.parse(pendingBooking);
+        localStorage.setItem('savedBooking', JSON.stringify(bookingData));
+        localStorage.removeItem('pendingBooking');
+        navigate('/confirmation', { replace: true }); // возвращаем на страницу бронирования
+        return;
+      }
+
+     
+
       if (role === 'admin') {
         navigate('/admin');
       } else {
-        navigate(from, { replace: true });
+        navigate('/', { replace: true });
       }
     } catch (err) {
       setError(err.message || 'Ошибка авторизации');
@@ -119,3 +132,4 @@ const Login = () => {
 };
 
 export default Login;
+

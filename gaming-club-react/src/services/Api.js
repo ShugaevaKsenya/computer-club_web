@@ -148,6 +148,10 @@ async login(email, password) {
     async getFoods() {
         return this.request('/foods');
     }
+    async getFoodsByClub(clubId) {
+        return this.request(`/foods?club_id=${clubId}`);
+      }
+      
 
     async getFood(id) {
         return this.request(`/foods/${id}`);

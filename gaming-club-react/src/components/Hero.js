@@ -45,7 +45,7 @@ const Hero = () => {
           <p className="hero-subtitle">ИГРОВЫЕ ПК, PS-4, PS-5К</p>
           <div className="hero-buttons">
   <button onClick={handleBookingClick} className="hero-btn">Забронировать</button>
-  <button onClick={handleCafeClick} className="hero-btn hero-btn-secondary">Перейти в кафе</button>
+  {/* <button onClick={handleCafeClick} className="hero-btn hero-btn-secondary">Перейти в кафе</button> */}
   {user && (
     <button onClick={handleMyBookingClick} className="hero-btn hero-btn-secondary">
       📋 Мои брони

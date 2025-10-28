@@ -42,7 +42,7 @@ const HomePage = () => {
     <>
       <Hero />
       <Clubs />
-      <Cafe />
+      {/* <Cafe /> */}
       {/* Убрано: <CombinedLayoutBooking /> — он на отдельной странице */}
     </>
   );
@@ -71,11 +71,12 @@ function AppContent() {
       {/* Публичные маршруты — доступны всем */}
       <Route path="/" element={<HomePage />} />
       <Route path="/clubs" element={<Clubs />} />
-      <Route path="/cafe" element={<Cafe />} />
+      {/* <Route path="/cafe" element={<Cafe />} /> */}
       <Route path="/rooms/:clubId" element={<Rooms />} />
       <Route path="/booking" element={<CombinedLayoutBooking />} />
       <Route path="/confirmation" element={<BookingConfirmation />} />
-
+      <Route path="/cafe/:clubId" element={<Cafe />} />
+      
       {/* Защищённые маршруты */}
       <Route
         path="/my-bookings"

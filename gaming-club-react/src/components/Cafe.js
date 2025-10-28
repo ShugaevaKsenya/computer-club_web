@@ -1,26 +1,60 @@
 
 // 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart, CartProvider} from '../context/CartContext';
 import '../styles/Cafe.css';
+import { useNavigate, useParams } from 'react-router-dom';
+import { apiService } from '../services/Api';
 
 const Cafe = () => {
   const navigate = useNavigate();
-  const { addToCart, getTotalItems, foods, loading } = useCart();
-  const [menuItems, setMenuItems] = useState([]);
-  const bookingStarted = localStorage.getItem('bookingStarted') === 'true';
-  
-  useEffect(() => {
-    if (foods && foods.length > 0) {
-      const initializedMenu = foods.map(food => ({
-        ...food,
-        quantity: 0
-      }));
-      setMenuItems(initializedMenu);
-    }
-  }, [foods]);
+  const { clubId } = useParams();
 
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const bookingStarted = localStorage.getItem('bookingStarted') === 'true';
+  const { 
+      addToCart,
+      cartItems, 
+      updateCartItemQuantity, 
+      clearCart, 
+      getTotalPrice, 
+      getTotalItems,
+      getCartSummary  
+    } = useCart();
+
+    
+  useEffect(() => {
+    const lastClubId = localStorage.getItem('cartClubId');
+    if (lastClubId && lastClubId !== clubId) {
+      clearCart(); // очищаем корзину при смене клуба
+    }
+    localStorage.setItem('cartClubId', clubId);
+  }, [clubId]);
+
+
+  useEffect(() => {
+    const loadFoods = async () => {
+      try {
+        setLoading(true);
+        const foodsData = await apiService.getFoodsByClub(clubId);
+        const initializedMenu = foodsData.map(food => ({
+          ...food,
+          quantity: 0
+        }));
+        setMenuItems(initializedMenu);
+      } catch (error) {
+        console.error('Ошибка при загрузке меню кафе:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (clubId) {
+      loadFoods();
+    }
+  }, [clubId]);
+ 
   const updateQuantity = (id, change) => {
     setMenuItems(prev =>
       prev.map(item =>
@@ -84,8 +118,8 @@ const Cafe = () => {
 
       <div className="container">
         <div className="section-title-container">
-          <h2 className="cafe-title">Кафе</h2>
-          <button className="cafe-btn cafe-btn-secondary" onClick={() => navigate(-1)}>← Назад</button>
+          <h2 className="cafe-title">Кафе {clubId}</h2>
+        
         </div>
 
         <div className="cart-summary">
@@ -103,7 +137,7 @@ const Cafe = () => {
             
             {/* Центральная часть - ВСЕ В СТОЛБИК */}
             <div className="item-center">
-              <span className="item-name">{item.name}</span>
+              <span className="item-name">{item.name} {item.club_id}</span>
               
               <div className="quantity-stepper">
                 <button 
@@ -145,24 +179,31 @@ const Cafe = () => {
   </div>
 ))}
         </div>
-
         <div className="cafe-actions">
           {hasItemsInCart && (
             <button className="cafe-btn cafe-btn-secondary" onClick={addAllToCart}>
               Добавить всё в корзину
             </button>
           )}
-          
-          <button className="cafe-btn cafe-btn-secondary" onClick={handleBackToClubs}>
-            К выбору клуба
+
+          <button
+            className="cafe-btn cafe-btn-secondary"
+            onClick={() => {
+              clearCart();
+              localStorage.removeItem('bookingStarted');
+              localStorage.removeItem('selectedClubId');
+              navigate('/');
+            }}
+          >
+            Вернуться к клубам
           </button>
-          
-          {/* Показываем кнопку "Вернуться к брони" ТОЛЬКО если бронь начата */}
-          {bookingStarted && (
-            <button className="cafe-btn cafe-btn-primary" onClick={handleBackToBooking}>
-              Вернуться к брони {getTotalItems() > 0 && `(${getTotalItems()})`}
+            <button
+              className="cafe-btn cafe-btn-primary"
+              onClick={() => navigate('/booking')}
+            >
+              Продолжить бронирование
             </button>
-          )}
+          
         </div>
       </div>
     </section>

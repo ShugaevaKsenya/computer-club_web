@@ -61,7 +61,7 @@ const Hero = () => {
               ул. Рабочая, 53<br />
               ул. Шелковичная, 29/35
             </p>
-            <button onClick={handleClubsClick} className="hero-btn">Выбрать клуб</button>
+            {/* <button onClick={handleClubsClick} className="hero-btn">Выбрать клуб</button> */}
            
           </div>
         </div>

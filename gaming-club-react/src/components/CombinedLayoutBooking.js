@@ -521,6 +521,18 @@ const CombinedLayoutBooking = () => {
     if (date.toDateString() === tomorrow.toDateString()) return 'Завтра';
     return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', weekday: 'short' });
   };
+  const getProductWord = (count) => {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+    
+    if (lastDigit === 1 && lastTwoDigits !== 11) {
+      return 'товар';
+    } else if (lastDigit >= 2 && lastDigit <= 4 && (lastTwoDigits < 12 || lastTwoDigits > 14)) {
+      return 'товара';
+    } else {
+      return 'товаров';
+    }
+  };
 
   if (loading) {
     return (
@@ -733,8 +745,8 @@ const CombinedLayoutBooking = () => {
                       {selectedDate ? `Выбрано: ${formatDateDisplay(`${selectedDate.getFullYear()}-${(selectedDate.getMonth() + 1).toString().padStart(2, '0')}-${selectedDate.getDate().toString().padStart(2, '0')}`)}` : 'Выберите дату'}
                     </div>
                     <div className="date-picker-actions">
-                      <button type="button" className="btn secondary" onClick={handleDateCancel}>Отмена</button>
-                      <button type="button" className="btn primary" onClick={handleDateConfirm} disabled={!selectedDate}>Выбрать дату</button>
+                      <button type="button" className="booking-btn secondary" onClick={handleDateCancel}>Отмена</button>
+                      <button type="button" className="booking-btn primary" onClick={handleDateConfirm} disabled={!selectedDate}>Выбрать дату</button>
                     </div>
                   </div>
                 </div>
@@ -769,23 +781,23 @@ const CombinedLayoutBooking = () => {
                       {selectedHour && selectedMinute ? `Выбрано: ${selectedHour}:${selectedMinute}` : 'Выберите время'}
                     </div>
                     <div className="time-picker-actions">
-                      <button type="button" className="btn secondary" onClick={handleTimeCancel}>Отмена</button>
-                      <button type="button" className="btn primary" onClick={handleTimeConfirm} disabled={!selectedHour || !selectedMinute}>Выбрать время</button>
+                      <button type="button" className="booking-btn secondary" onClick={handleTimeCancel}>Отмена</button>
+                      <button type="button" className="booking-btn primary" onClick={handleTimeConfirm} disabled={!selectedHour || !selectedMinute}>Выбрать время</button>
                     </div>
                   </div>
                 </div>
               </div>
             )}
 
-            
-            {getTotalItems() > 0 && (
-            <div className="cart-info">
-              <h3>Корзина ({getTotalItems()} товаров)</h3>
-              <div className="cart-items">
-                {cartItems.map(item => (
-                  <div key={item.id} className="cart-item">
-                    <span>{item.name} x{item.quantity}</span>
-                    <div className="cart-item-controls">
+         
+          {getTotalItems() > 0 && (
+          <div className="cart-info">
+            <h3>Корзина ({getTotalItems()} {getProductWord(getTotalItems())})</h3>
+            <div className="cart-items">
+              {cartItems.map(item => (
+                <div key={item.id} className="cart-item">
+                  <span>{item.name} x{item.quantity}</span>
+                  <div className="cart-item-controls">
                     <button
                       type="button"
                       onClick={() => updateCartItemQuantity(item.id, -1)}
@@ -801,20 +813,18 @@ const CombinedLayoutBooking = () => {
                     >
                       +
                     </button>
-
-                     
-                      <span className="cart-item-price">{item.price * item.quantity} ₽</span>
-                    </div>
+                    <span className="cart-item-price">{item.price * item.quantity} ₽</span>
                   </div>
-                ))}
-              </div>
-              <div className="cart-total">Итого: {getTotalPrice()} ₽</div>
+                </div>
+              ))}
             </div>
-          )}
+            <div className="cart-total">Итого: {getTotalPrice()} ₽</div>
+          </div>
+        )}
 
 
             <div className="booking-actions">
-              <button type="submit" className="btn primary" disabled={isBookingDisabled}>
+              <button type="submit" className="booking-btn primary" disabled={isBookingDisabled}>
                 Перейти к подтверждению
                 {isBookingDisabled && (
                   <span style={{ fontSize: '12px', display: 'block', marginTop: '5px', color: 'rgb(36, 214, 160)' }}>
@@ -824,19 +834,19 @@ const CombinedLayoutBooking = () => {
               </button>
              
              
-                <button type="button" className="booking-btn cafe-btn-secondary" onClick={handleGoToCafe}>
+                <button type="button" className="booking-btn secondary" onClick={handleGoToCafe}>
                   Перейти в кафе
                 </button>
               
 
-              <button type="button" className="btn secondary" onClick={handleBackToClub}>
+              <button type="button" className="booking-btn secondary" onClick={handleBackToClub}>
                 Выбрать другой клуб
               </button>
-              <button type="button" className="btn secondary" onClick={handleBackToHome}>
+              <button type="button" className="booking-btn secondary" onClick={handleBackToHome}>
                 Вернуться на главную
               </button>
               {getTotalItems() > 0 && (
-                <button type="button" className="btn secondary" onClick={handleClearCart}>Очистить корзину</button>
+                <button type="button" className="booking-btn secondary" onClick={handleClearCart}>Очистить корзину</button>
               )}
             </div>
           </form>

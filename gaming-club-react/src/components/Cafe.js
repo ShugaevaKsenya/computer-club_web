@@ -192,7 +192,7 @@ const Cafe = () => {
               clearCart();
               localStorage.removeItem('bookingStarted');
               localStorage.removeItem('selectedClubId');
-              navigate('/');
+              navigate('/clubs');
             }}
           >
             Вернуться к клубам

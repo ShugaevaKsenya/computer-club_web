@@ -9,6 +9,16 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    // Когда окно открывается — блокируем прокрутку фона
+    document.body.style.overflow = 'hidden';
+  
+    // Когда окно закрывается — возвращаем прокрутку
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+  
+  useEffect(() => {
     const loadComputerDetails = async () => {
       if (!positionInfo?.computer?.id) {
         setError('Нет данных о компьютере');
@@ -190,8 +200,8 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Процессор': computerDetails.specs.processor,
                           'Видеокарта': computerDetails.specs.gpu,
                           'Оперативная память': computerDetails.specs.ram,
-                          'Накопитель': computerDetails.specs.storage,
-                          'Материнская плата': computerDetails.specs.motherboard,
+                          // 'Накопитель': computerDetails.specs.storage,
+                          // 'Материнская плата': computerDetails.specs.motherboard,
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
                         
@@ -213,7 +223,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Наушники': computerDetails.specs.headphones,
                           'Клавиатура': computerDetails.specs.keyboard,
                           'Мышь': computerDetails.specs.mouse,
-                          'Охлаждение CPU': computerDetails.specs.cpuCooler,
+                          // 'Охлаждение CPU': computerDetails.specs.cpuCooler,
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
                         
@@ -231,8 +241,8 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                       <h4>Дополнительные компоненты</h4>
                       <div className="specs-list">
                         {Object.entries({
-                          'Блок питания': computerDetails.specs.powerSupply,
-                          'Корпус': computerDetails.specs.case,
+                          // 'Блок питания': computerDetails.specs.powerSupply,
+                          // 'Корпус': computerDetails.specs.case,
                           'Сетевая карта': computerDetails.specs.networkCard,
                           'Звуковая карта': computerDetails.specs.soundCard,
                           'Операционная система': computerDetails.specs.operatingSystem,

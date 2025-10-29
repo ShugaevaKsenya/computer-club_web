@@ -28,21 +28,51 @@
 }
 
 .auth-corner .hero-auth-btn {
-  padding: 10px 20px;
-  font-size: 0.9rem;
-  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(106, 90, 205, 0.4);
   transition: all 0.3s ease;
-  color: #e0e0ff;
-  border-radius: 20px;
   cursor: pointer;
+  box-sizing: border-box;
+  box-shadow: var(--clubs-shadow-glow);
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  border-radius: 30px;
+  padding: 10px 20px;
+  font-family: var(--font-main);
+  font-size: 18px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #e0e0ff;
+  border: 1px solid rgba(106, 90, 205, 0.4);
+  
+}
+.auth-corner .hero-auth-btn:hover {
+  
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(32, 152, 182, 0.471);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(106, 90, 205, 0.7);
 }
 
-.auth-corner .hero-auth-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+
+
+.auth-corner .hero-auth-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  
+  transition: left 0.5s;
+
 }
+
+.auth-corner .hero-auth-btn:hover::before {
+  left: 100%;
+}
+
 
 /* Фон */
 .background-container {
@@ -194,7 +224,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   text-align: center;
   gap: 50px;
   border: 1px solid rgba(255, 255, 255, 0.2);

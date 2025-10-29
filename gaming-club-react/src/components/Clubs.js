@@ -22,7 +22,16 @@ const Clubs = () => {
     { id: 3, title: "Московская 11", address: "ул. Московская, 11", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] }
   ];
 
+  // const handleBackToHome = () => {
+  //   navigate('/');
+  // };
   const handleBackToHome = () => {
+    localStorage.removeItem('bookingStarted');
+    localStorage.removeItem('selectedClubId');
+    localStorage.removeItem('bookingFormData');
+    localStorage.removeItem('savedBooking');
+    localStorage.removeItem('cartClubId'); // сбрасываем привязку корзины к клубу
+    clearCart(); //  очищаем корзину полностью
     navigate('/');
   };
   
@@ -71,8 +80,8 @@ const Clubs = () => {
       </div>
 
       <div className="container">
-        <div className="section-title-container">
-          <h2 className="section-title">Наши клубы</h2>
+        <div className="clubs-section-title-container">
+          <h2 className="clubs-section-title">Наши клубы</h2>
         </div>
 
         <div className="clubs-grid">
@@ -100,9 +109,12 @@ const Clubs = () => {
           ))}
         </div>
         <div className="clubs-actions">
-          <button onClick={() => handleBackToHome} className="club-btn club-btn-secondary">
+          {/* <button onClick={() => handleBackToHome} className="club-btn club-btn-secondary">
             ← Вернуться на главную
-          </button>
+          </button> */}
+          <button type="button" className="club-btn club-btn-return" onClick={handleBackToHome}>
+          ← Вернуться на главную
+              </button>
         </div>
       </div>
     </section>

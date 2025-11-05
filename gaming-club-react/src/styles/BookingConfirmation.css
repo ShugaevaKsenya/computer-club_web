@@ -1,190 +1,160 @@
 .booking-confirmation {
-  min-height: 100vh;
-  padding: 40px 0;
   position: relative;
-  color: #333;
+  padding: 40px 0;
+  color: var(--cafe-text-color);
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.background-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.bg-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(10, 10, 20, 0.85), rgba(20, 10, 30, 0.9));
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
 .confirmation-header {
   text-align: center;
   margin-bottom: 40px;
-  color: white;
 }
 
-.mock-payment-form {
-  background: rgba(30, 30, 46, 0.8);
-  padding: 20px;
-  border-radius: 12px;
-  margin-top: 20px;
-  border: 1px solid rgba(106, 90, 205, 0.4);
-}
-
-.mock-payment-form h4 {
-  margin-top: 0;
-  color: #e0e0ff;
-  text-align: center;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 0.9rem;
-  color: #ccc;
-}
-
-.bank-select {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(106, 90, 205, 0.4);
-  background: rgba(20, 20, 30, 0.7);
-  color: white;
-  font-size: 1rem;
-}
-
-.card-input,
-.expiry-input,
-.cvv-input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(106, 90, 205, 0.4);
-  background: rgba(20, 20, 30, 0.7);
-  color: white;
-  font-size: 1rem;
-}
-
-.form-row {
-  display: flex;
-  gap: 12px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.payment-error {
-  color: #ff6b6b;
-  background: rgba(255, 107, 107, 0.1);
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 16px;
-  text-align: center;
-}
-
-.payment-success {
-  color: #6aff9e;
-  background: rgba(106, 255, 158, 0.1);
-  padding: 12px;
-  border-radius: 8px;
-  text-align: center;
-  margin-bottom: 16px;
-  font-weight: 600;
-}
-
-/* ИСПРАВЛЕНИЕ: Меняем layout кнопок на вертикальный */
-.payment-actions-row {
-  display: flex;
-  flex-direction: column; /* Вертикальное расположение */
-  gap: 10px;
-  margin-top: 16px;
-}
-
-.payment-actions-row .btn {
-  width: 150px !important; /* Занимают всю ширину */
-  padding: 12px 16px !important;
-  font-size: 0.95rem !important;
-  min-height: auto !important;
-}
-
-/* ИСПРАВЛЕНИЕ: Уменьшаем размер основных кнопок на странице */
-.booking-confirmation .payment-actions .btn {
-  padding: 12px 20px !important;
-  font-size: 0.95rem !important;
-  min-height: auto !important;
-  width:  150px; /* Занимают всю ширину */
-}
-
-/* ИСПРАВЛЕНИЕ: Кнопка Применить промокод - такой же размер как остальные */
-.booking-confirmation .promo-code-section .btn {
-  padding: 12px 20px !important;
-  font-size: 0.95rem !important;
-  min-height: auto !important;
-  white-space: nowrap;
-  height: auto !important;
-  line-height: normal !important;
-}
-
-/* Контейнер для промокода */
-.promo-code-section {
-  display: flex;
-  gap: 10px;
-  align-items: stretch;
-}
-
-.promo-code-input {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-size: 0.95rem;
-  background: white;
-  color: #333;
-  height: auto;
-}
-/* ИСПРАВЛЕНИЕ: Уменьшаем размер кнопки оплаты */
-.booking-confirmation .payment-btn {
-  font-size: 1rem !important;
-  padding: 14px 20px !important;
-  font-weight: 600;
-  min-height: auto !important;
-  width: 100%; /* Занимает всю ширину */
+.header-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-shadow: 0 0 20px var(--cafe-glow);
 }
 
 .confirmation-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 2.8rem;
+  font-weight: 800;
+  color: var(--cafe-text-color);
+  text-shadow: 0 0 20px var(--cafe-glow);
+  margin: 0 0 10px 0;
+  background: linear-gradient(135deg, #fff, var(--cafe-secondary-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: #667eea;
 }
 
 .confirmation-subtitle {
-  font-size: 1.2rem;
-  opacity: 0.8;
-  color: white;
+  font-size: 1.3rem;
+  opacity: 0.9;
+  color: var(--cafe-text-color);
+  font-weight: 300;
 }
 
 .confirmation-content {
   display: grid;
-  grid-template-columns: 1fr 400px;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto;
+  grid-template-columns: 1fr 380px;
+  gap: 30px;
+  align-items: start;
 }
 
-.booking-info {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  padding: 30px;
-  backdrop-filter: blur(10px);
-  color: #333;
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.info-section {
-  margin-bottom: 30px;
+.booking-info-card,
+.promo-section,
+.food-order-section,
+.payment-card,
+.support-card {
+  background: var(--cafe-bg-card);
+  border: 1px solid var(--cafe-border-color);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
 }
 
-.info-section h2 {
-  color: #333;
+.booking-info-card::before,
+.promo-section::before,
+.food-order-section::before,
+.payment-card::before,
+.support-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(106, 90, 249, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.booking-info-card:hover::before,
+.promo-section:hover::before,
+.food-order-section:hover::before,
+.payment-card:hover::before,
+.support-card:hover::before {
+  left: 100%;
+}
+
+.booking-info-card:hover,
+.promo-section:hover,
+.food-order-section:hover,
+.payment-card:hover,
+.support-card:hover {
+  border-color: rgba(106, 90, 249, 0.6);
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 32px rgba(106, 90, 249, 0.25),
+    0 0 0 1px rgba(106, 90, 249, 0.1);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  font-size: 1.5rem;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(106, 90, 249, 0.2);
+}
+
+.card-header h2,
+.card-header h3 {
+  color: var(--cafe-text-color);
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.booking-badge,
+.items-count {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .info-grid {
@@ -193,208 +163,550 @@
   gap: 15px;
 }
 
+.info-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
 .info-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #eee;
-  color: #333;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .info-label {
-  font-weight: 600;
-  color: #666;
+  font-size: 0.9rem;
+  color: var(--cafe-text-color);
+  opacity: 0.8;
+  font-weight: 500;
 }
 
 .info-value {
+  font-size: 1rem;
+  color: var(--cafe-text-color);
+  font-weight: 600;
+}
+
+.highlight {
+  color: var(--cafe-secondary-color) !important;
+}
+
+.computer-specs {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(106, 90, 249, 0.2);
+}
+
+.computer-specs h3 {
+  color: var(--cafe-text-color);
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.spec-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+}
+
+.spec-label {
+  color: var(--cafe-text-color);
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.spec-value {
+  color: var(--cafe-text-color);
   font-weight: 500;
-  color: #333;
+}
+
+.promo-code-section {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+}
+
+.promo-code-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid var(--cafe-border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  background: rgba(40, 40, 60, 0.6);
+  color: var(--cafe-text-color);
+  transition: all 0.3s ease;
+}
+
+.promo-code-input:focus {
+  outline: none;
+  border-color: var(--cafe-primary-color);
+  box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.1);
+}
+
+.promo-code-input::placeholder {
+  color: rgba(224, 224, 255, 0.6);
+}
+
+/* Стили кнопок как в Cafe.css */
+.booking-confirmation .confirmation-btn {
+  padding: 16px 32px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  border: none;
+  font-size: 1.1rem;
+  min-width: 200px;
+  height: auto;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+.booking-confirmation .confirmation-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.booking-confirmation .confirmation-btn:hover::before {
+  left: 100%;
+}
+
+.booking-confirmation .confirmation-btn.primary {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.booking-confirmation .confirmation-btn.primary:hover {
+  background: linear-gradient(135deg, #7b6bff, #a99bff);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(106, 90, 249, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.booking-confirmation .confirmation-btn.secondary,
+.booking-confirmation .confirmation-btn.outline {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  color: var(--cafe-text-color);
+  border: 1px solid rgba(106, 90, 249, 0.4);
+}
+
+.booking-confirmation .confirmation-btn.secondary:hover,
+.booking-confirmation .confirmation-btn.outline:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+  border-color: rgba(106, 90, 249, 0.8);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(106, 90, 249, 0.3);
+}
+
+.booking-confirmation .confirmation-btn.promo-btn {
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.promo-code-applied {
+  margin-top: 15px;
+  padding: 12px;
+  background: rgba(106, 90, 249, 0.1);
+  border: 1px solid rgba(106, 90, 249, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.promo-success {
+  color: var(--cafe-text-color);
+  font-weight: 500;
+}
+
+.discount-badge {
+  color: var(--cafe-secondary-color);
+  font-weight: 600;
 }
 
 .cart-items-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
 .cart-item-confirm {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  color: #333;
+  padding: 12px;
+  background: rgba(40, 40, 60, 0.4);
+  border-radius: 12px;
+  border-left: 4px solid var(--cafe-primary-color);
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .item-name {
-  flex: 1;
-  color: #333;
+  font-weight: 500;
+  color: var(--cafe-text-color);
 }
 
 .item-quantity {
-  margin: 0 10px;
-  color: #333;
+  color: var(--cafe-text-color);
+  opacity: 0.8;
+  font-size: 0.9rem;
 }
 
 .item-price {
   font-weight: 600;
-  color: #333;
-}
-
-.payment-section {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.payment-card {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  padding: 30px;
-  backdrop-filter: blur(10px);
-  color: #333;
-}
-
-.payment-card h3 {
-  color: #333;
-  margin-bottom: 20px;
-  font-size: 1.3rem;
+  color: var(--cafe-secondary-color);
 }
 
 .cost-breakdown {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-bottom: 30px;
-  color: #333;
+  gap: 12px;
+  margin-bottom: 25px;
 }
 
 .cost-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  color: #333;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(106, 90, 249, 0.2);
+  color: var(--cafe-text-color);
+}
+
+.cost-item.discount {
+  color: #48bb78;
+  font-weight: 600;
+}
+
+.cost-item.original-price {
+  color: rgba(224, 224, 255, 0.6);
+  font-size: 0.9rem;
+}
+
+.strikethrough {
+  text-decoration: line-through;
 }
 
 .cost-total {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
-  border-top: 2px solid #333;
+  padding: 20px 0 0;
+  border-top: 2px solid rgba(106, 90, 249, 0.3);
   margin-top: 10px;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #333;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cafe-text-color);
 }
 
 .total-amount {
-  color: #667eea;
-  font-size: 1.4rem;
+  color: var(--cafe-secondary-color);
+  font-size: 1.5rem;
 }
 
-.payment-actions {
+.payment-section {
+  margin-bottom: 20px;
+}
+
+.payment-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+}
+
+.mock-payment-form {
+  background: rgba(40, 40, 60, 0.6);
+  border: 2px solid var(--cafe-border-color);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 15px;
+}
+
+.payment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.payment-header h4 {
+  color: var(--cafe-text-color);
+  margin: 0;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cafe-text-color);
+  font-weight: 500;
+}
+
+.card-input,
+.expiry-input,
+.cvv-input,
+.bank-select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--cafe-border-color);
+  border-radius: 12px;
+  background: rgba(40, 40, 60, 0.8);
+  color: var(--cafe-text-color);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.card-input:focus,
+.expiry-input:focus,
+.cvv-input:focus,
+.bank-select:focus {
+  outline: none;
+  border-color: var(--cafe-primary-color);
+  box-shadow: 0 0 0 3px rgba(106, 90, 249, 0.1);
+}
+
+.card-input::placeholder,
+.expiry-input::placeholder,
+.cvv-input::placeholder {
+  color: rgba(224, 224, 255, 0.6);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.payment-actions-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.secondary-actions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
+}
+
+.payment-error {
+  background: rgba(255, 107, 107, 0.1);
+  color: #ff6b6b;
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.payment-success {
+  background: rgba(106, 255, 158, 0.1);
+  color: var(--cafe-text-color);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  border: 1px solid rgba(106, 255, 158, 0.3);
 }
 
 .payment-security {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #eee;
-  color: #333;
+  background: rgba(106, 90, 249, 0.1);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid rgba(106, 90, 249, 0.3);
 }
 
 .security-info {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
-  color: #28a745;
+  margin-bottom: 8px;
+  color: var(--cafe-text-color);
   font-weight: 500;
 }
 
 .security-note {
+  color: rgba(224, 224, 255, 0.8);
   font-size: 0.9rem;
-  color: #666;
   margin: 0;
 }
 
-.support-info {
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  padding: 20px;
-  backdrop-filter: blur(10px);
-  color: #333;
+.support-card {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
 }
 
-.support-info h4 {
-  color: #333;
-  margin-bottom: 10px;
+.support-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
-.support-info p {
-  margin: 5px 0;
-  color: #666;
-  font-size: 0.9rem;
+.support-header h4 {
+  color: white;
+  margin: 0;
 }
 
+.support-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  color: white;
+}
+
+.loading-state,
 .no-booking-data {
   text-align: center;
-  color: white;
   padding: 60px 20px;
+  color: var(--cafe-text-color);
 }
 
-.no-booking-data h2 {
-  margin-bottom: 20px;
-  color: white;
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(106, 90, 249, 0.3);
+  border-top: 4px solid var(--cafe-primary-color);
+  border-radius: 50%;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: var(--cafe-accent-color);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+/* Анимация появления элементов */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.booking-info-card,
+.promo-section,
+.food-order-section,
+.payment-card,
+.support-card {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.booking-info-card { animation-delay: 0.1s; }
+.promo-section { animation-delay: 0.2s; }
+.food-order-section { animation-delay: 0.3s; }
+.payment-card { animation-delay: 0.4s; }
+.support-card { animation-delay: 0.5s; }
 
 /* Адаптивность */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .confirmation-content {
     grid-template-columns: 1fr;
     gap: 20px;
   }
   
+  .sidebar {
+    order: -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 15px;
+  }
+  
   .confirmation-header h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
   
-  .booking-info,
-  .payment-card {
+  .confirmation-subtitle {
+    font-size: 1.1rem;
+  }
+  
+  .info-row {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+  
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .payment-actions-row {
+    grid-template-columns: 1fr;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+  }
+  
+  .booking-info-card,
+  .promo-section,
+  .food-order-section,
+  .payment-card,
+  .support-card {
     padding: 20px;
-  }
-  
-  .info-item {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-  
-  .cart-item-confirm {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  /* Адаптивные стили для кнопок на мобильных */
-  .booking-confirmation .payment-actions .btn {
-    padding: 10px 16px !important;
-    font-size: 0.9rem !important;
-  }
-
-  .booking-confirmation .payment-btn {
-    font-size: 0.95rem !important;
-    padding: 12px 18px !important;
-  }
-
-  .payment-actions-row .btn {
-    padding: 10px 12px !important;
-    font-size: 0.9rem !important;
   }
 }
 
@@ -403,41 +715,22 @@
     font-size: 1.8rem;
   }
   
-  .confirmation-subtitle {
-    font-size: 1rem;
+  .header-icon {
+    font-size: 2.5rem;
   }
   
-  .payment-actions {
-    gap: 8px;
+  .card-header {
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
   }
-
-  /* Еще меньшие кнопки на очень маленьких экранах */
-  .booking-confirmation .payment-actions .btn {
-    padding: 8px 14px !important;
-    font-size: 0.85rem !important;
+  
+  .promo-code-section {
+    flex-direction: column;
   }
-
-  .booking-confirmation .payment-btn {
-    font-size: 0.9rem !important;
-    padding: 10px 16px !important;
+  
+  .confirmation-btn {
+    padding: 14px 24px;
+    font-size: 1rem;
   }
-
-  .payment-actions-row .btn {
-    padding: 8px 10px !important;
-    font-size: 0.85rem !important;
-  }
-}
-
-/* Дополнительные исправления для темного текста */
-.booking-info *,
-.payment-card *,
-.support-info * {
-  color: #333;
-}
-
-.info-section,
-.cost-breakdown,
-.payment-security,
-.support-info {
-  color: #333;
 }

@@ -77,6 +77,13 @@ const Cafe = () => {
       );
     }
   };
+  const handleContinueBooking = () => {
+    const clubIdForBooking = localStorage.getItem('cartClubId') || clubId;
+    localStorage.setItem('selectedClubId', clubIdForBooking);
+    localStorage.setItem('bookingStarted', 'true');
+    navigate('/booking');
+  };
+  
 
   const addAllToCart = () => {
     menuItems.forEach(item => {
@@ -197,12 +204,19 @@ const Cafe = () => {
           >
             Вернуться к клубам
           </button>
-            <button
+            {/* <button
               className="cafe-btn cafe-btn-primary"
               onClick={() => navigate('/booking')}
             >
               Продолжить бронирование
+            </button> */}
+            <button
+              className="cafe-btn cafe-btn-primary"
+              onClick={handleContinueBooking}
+            >
+              Продолжить бронирование
             </button>
+
           
         </div>
       </div>

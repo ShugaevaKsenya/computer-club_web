@@ -1,3 +1,5 @@
+
+
 const API_BASE_URL = 'http://127.0.0.1:8000/api';
 
 class ApiService {
@@ -22,10 +24,13 @@ class ApiService {
       ...options,
     };
 
-    const auth = localStorage.getItem('auth');
-    if (auth) {
-      config.headers['Authorization'] = auth;
+
+    if (this.authHeader) {
+      config.headers['Authorization'] = this.authHeader;
     }
+    
+
+        
 
     if (options.body && config.method !== 'GET') {
       config.body = JSON.stringify(options.body);
@@ -63,13 +68,71 @@ class ApiService {
     }
   }
 
-async login(email, password) {
-  const response = await this.request('/login', { 
-    method: 'POST',
-    body: { email, password }
-  });
-  return { user: response }; 
-}
+  // Новые методы для работы с занятыми слотами
+  async getBookingsByComputerAndDate(computerId, date) {
+    try {
+      return await this.request(`/bookings/${computerId}/${date}`);
+    } catch (error) {
+      console.error('Error fetching bookings by computer and date:', error);
+      return [];
+    }
+  }
+
+  async getBookedSlots(computerId, date) {
+    try {
+      return await this.request(`/bookings/slots?computer_id=${computerId}&date=${date}`);
+    } catch (error) {
+      console.error('Error fetching booked slots:', error);
+      return [];
+    }
+  }
+
+  // Методы для комнат по club_id
+  async getRoomsByClubId(clubId) {
+    try {
+      return await this.request(`/rooms/${clubId}/clubs`);
+    } catch (error) {
+      console.error('Error fetching rooms by club ID:', error);
+      return [];
+    }
+  }
+
+  // Методы для позиций компьютеров
+  async getComputerPositionsByClubId(clubId) {
+    try {
+      return await this.request(`/computer-positions/${clubId}/clubs`);
+    } catch (error) {
+      console.error('Error fetching computer positions by club ID:', error);
+      return [];
+    }
+  }
+
+  async getComputerPositionsByRoomId(roomId) {
+    try {
+      return await this.request(`/computer-positions/${roomId}/rooms`);
+    } catch (error) {
+      console.error('Error fetching computer positions by room ID:', error);
+      return [];
+    }
+  }
+
+  // Методы для еды по club_id
+  async getFoodsByClubId(clubId) {
+    try {
+      return await this.request(`/foods/${clubId}/clubs`);
+    } catch (error) {
+      console.error('Error fetching foods by club ID:', error);
+      return [];
+    }
+  }
+  
+  async login(email, password) {
+    const response = await this.request('/login', { 
+      method: 'POST',
+      body: { email, password }
+    });
+    return { user: response }; 
+  }
 
   async register(userData) {
     const response = await this.request('/users', {
@@ -78,241 +141,290 @@ async login(email, password) {
     });
     return response.user;
   }
+  // Методы для работы с бронированиями
+async getBookingsByComputerAndDate(computerId, date) {
+  try {
+    return await this.request(`/bookings/${computerId}/${date}`);
+  } catch (error) {
+    console.error('Error fetching bookings by computer and date:', error);
+    return [];
+  }
+}
+
+async getAvailableComputers(date, timeFrom, timeTo) {
+  try {
+    return await this.request(`/computers/available?date=${date}&time_from=${timeFrom}&time_to=${timeTo}`);
+  } catch (error) {
+    console.error('Error fetching available computers:', error);
+    return [];
+  }
+}
+
+// Метод для проверки доступности времени
+async checkComputerAvailability(computerId, date, timeFrom, timeTo) {
+  try {
+    // Получаем все бронирования для этого компьютера на выбранную дату
+    const bookings = await this.getBookingsByComputerAndDate(computerId, date);
+    
+    const selectedStart = new Date(`${date}T${timeFrom}`);
+    const selectedEnd = new Date(`${date}T${timeTo}`);
+    
+    // Проверяем пересечения с существующими бронированиями
+    const hasConflict = bookings.some(booking => {
+      const bookingStart = new Date(booking.start_time);
+      const bookingEnd = new Date(booking.end_time);
+      
+      return (
+        selectedStart < bookingEnd && 
+        selectedEnd > bookingStart
+      );
+    });
+    
+    return !hasConflict;
+  } catch (error) {
+    console.error('Error checking computer availability:', error);
+    return false;
+  }
+}
 
   async getCurrentUser() {
     return this.request('/user');
   }
 
-    // Computers API
-    async getComputers() {
-        return this.request('/computers');
-    }
+  // Computers API
+  async getComputers() {
+    return this.request('/computers');
+  }
 
-    async getComputer(id) {
-        return this.request(`/computers/${id}`);
-    }
+  async getComputer(id) {
+    return this.request(`/computers/${id}`);
+  }
 
-    async getComputerWithDetails(id) {
-        return this.request(`/computers/${id}?with=specs,position`);
-    }
+  async getComputerWithDetails(id) {
+    return this.request(`/computers/${id}?with=specs,position`);
+  }
 
-    async deleteComputer(id) {
-        return this.request(`/computers/${id}`, { method: 'DELETE' });
-    }
+  async deleteComputer(id) {
+    return this.request(`/computers/${id}`, { method: 'DELETE' });
+  }
 
-    // Computer Specs API
-    async getComputerSpecs() {
-        return this.request('/computer-specs');
-    }
+  // Computer Specs API
+  async getComputerSpecs() {
+    return this.request('/computer-specs');
+  }
 
-    async getComputerSpec(id) {
-        return this.request(`/computer-specs/${id}`);
-    }
+  async getComputerSpec(id) {
+    return this.request(`/computer-specs/${id}`);
+  }
 
-    async deleteComputerSpec(id) {
-        return this.request(`/computer-specs/${id}`, { method: 'DELETE' });
-    }
-    async getRooms() {
-        return this.request('/rooms');
-    }
-    // Computer Positions API
-    async getComputerPositions() {
-        return this.request('/computer-positions');
-    }
+  async deleteComputerSpec(id) {
+    return this.request(`/computer-specs/${id}`, { method: 'DELETE' });
+  }
 
-    async getComputerPosition(id) {
-        return this.request(`/computer-positions/${id}`);
-    }
+  async getRooms() {
+    return this.request('/rooms');
+  }
 
-    async deleteComputerPosition(id) {
-        return this.request(`/computer-positions/${id}`, { method: 'DELETE' });
-    }
+  // Computer Positions API
+  async getComputerPositions() {
+    return this.request('/computer-positions');
+  }
 
-    // Bookings API
-    async getBookings() {
-        return this.request('/bookings');
-    }
+  async getComputerPosition(id) {
+    return this.request(`/computer-positions/${id}`);
+  }
 
-    async createBooking(bookingData) {
-        return this.request('/bookings', {
-            method: 'POST',
-            body: bookingData
-        });
-    }
+  async deleteComputerPosition(id) {
+    return this.request(`/computer-positions/${id}`, { method: 'DELETE' });
+  }
 
-    async getBooking(id) {
-        return this.request(`/bookings/${id}`);
-    }
+  // Bookings API
+  async getBookings() {
+    return this.request('/bookings');
+  }
 
-    // Foods API
-    async getFoods() {
-        return this.request('/foods');
-    }
-    async getFoodsByClub(clubId) {
-        return this.request(`/foods?club_id=${clubId}`);
+  async createBooking(bookingData) {
+    return this.request('/bookings', {
+      method: 'POST',
+      body: bookingData
+    });
+  }
+
+  async getBooking(id) {
+    return this.request(`/bookings/${id}`);
+  }
+
+  // Foods API
+  async getFoods() {
+    return this.request('/foods');
+  }
+
+
+
+  async getFood(id) {
+    return this.request(`/foods/${id}`);
+  }
+
+  async deleteFood(id) {
+    return this.request(`/foods/${id}`, { method: 'DELETE' });
+  }
+
+  // Payments API
+  async getPayments() {
+    return this.request('/payments');
+  }
+
+  async getPayment(id) {
+    return this.request(`/payments/${id}`);
+  }
+
+  async getUserPayments(userId) {
+    return this.request(`/users/${userId}/payments`);
+  }
+
+  async getAdditionalMenu() {
+    return this.request('/additional-menu');
+  }
+
+  async getAdditionalMenuByBooking(bookingId) {
+    return this.request(`/additional-menu/booking/${bookingId}`);
+  }
+
+  async addFoodToBooking(bookingId, foodData) {
+    console.log('📤 Sending food to additional-menu:', {
+      booking_id: bookingId,
+      ...foodData
+    });
+    
+    try {
+      const requestData = {
+        booking_id: parseInt(bookingId),
+        food_id: parseInt(foodData.food_id),
+        count: parseInt(foodData.count)
+      };
+
+      console.log('🔄 Processed request data:', requestData);
+
+      const result = await this.request('/additional-menu', {
+        method: 'POST',
+        body: requestData
+      });
+      
+      console.log('✅ Food added successfully:', result);
+      return result;
+      
+    } catch (error) {
+      console.error('❌ Error adding food to booking:', error);
+      
+      if (error.status === 500) {
+        console.warn('⚠️ Server returned 500, trying fallback approach...');
+        return this.fallbackFoodAddition(bookingId, foodData);
       }
       
-
-    async getFood(id) {
-        return this.request(`/foods/${id}`);
+      throw error;
     }
+  }
 
-    async deleteFood(id) {
-        return this.request(`/foods/${id}`, { method: 'DELETE' });
+  async fallbackFoodAddition(bookingId, foodData) {
+    try {
+      console.log('🔄 Using fallback method for food addition...');
+      
+      const formData = new FormData();
+      formData.append('booking_id', bookingId);
+      formData.append('food_id', foodData.food_id);
+      formData.append('count', foodData.count);
+
+      const response = await fetch(`${this.baseURL}/additional-menu`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log('✅ Fallback method succeeded:', result);
+        return result;
+      } else {
+        throw new Error(`Fallback failed with status: ${response.status}`);
+      }
+    } catch (fallbackError) {
+      console.error('❌ Fallback method also failed:', fallbackError);
+      
+      return {
+        success: true,
+        warning: 'Food items recorded locally but not on server',
+        booking_id: bookingId,
+        food_id: foodData.food_id,
+        count: foodData.count,
+        local_only: true
+      };
     }
+  }
 
-    // Payments API
-    async getPayments() {
-        return this.request('/payments');
+  async testAdditionalMenuEndpoint() {
+    try {
+      console.log('🔍 Testing additional-menu endpoint...');
+      const testData = {
+        booking_id: 1,
+        food_id: 1,
+        count: 1
+      };
+      
+      const result = await this.request('/additional-menu', {
+        method: 'POST',
+        body: testData
+      });
+      
+      console.log('✅ Additional menu endpoint test:', result);
+      return result;
+    } catch (error) {
+      console.error('❌ Additional menu endpoint test failed:', error);
+      throw error;
     }
+  }
 
-    async getPayment(id) {
-        return this.request(`/payments/${id}`);
-    }
+  async getFoodsByClub(clubId) {
+    return this.request(`/foods/${clubId}/clubs`);
+  }
+  
+  async createPayment(paymentData) {
+    return this.request('/payments', {
+      method: 'POST',
+      body: paymentData
+    });
+  }
 
-    async getUserPayments(userId) {
-        return this.request(`/users/${userId}/payments`);
-    }
+  async getTariffs() {
+    return this.request('/tariffs');
+  }
 
-    async getAdditionalMenu() {
-        return this.request('/additional-menu');
-    }
+  async getTariff(id) {
+    return this.request(`/tariffs/${id}`);
+  }
 
-    async getAdditionalMenuByBooking(bookingId) {
-        return this.request(`/additional-menu/booking/${bookingId}`);
-    }
+  async getPromoCodes() {
+    return this.request('/codes');
+  }
 
-    async addFoodToBooking(bookingId, foodData) {
-        console.log('📤 Sending food to additional-menu:', {
-            booking_id: bookingId,
-            ...foodData
-        });
-        
-        try {
-            const requestData = {
-                booking_id: parseInt(bookingId),
-                food_id: parseInt(foodData.food_id),
-                count: parseInt(foodData.count)
-            };
+  async getPromoCode(id) {
+    return this.request(`/codes/${id}`);
+  }
 
-            console.log('🔄 Processed request data:', requestData);
+  async getClubs() {
+    return this.request('/clubs');
+  }
 
-            const result = await this.request('/additional-menu', {
-                method: 'POST',
-                body: requestData
-            });
-            
-            console.log('✅ Food added successfully:', result);
-            return result;
-            
-        } catch (error) {
-            console.error('❌ Error adding food to booking:', error);
-            
-            if (error.status === 500) {
-                console.warn('⚠️ Server returned 500, trying fallback approach...');
-                return this.fallbackFoodAddition(bookingId, foodData);
-            }
-            
-            throw error;
-        }
-    }
+  async getClub(id) {
+    return this.request(`/clubs/${id}`);
+  }
 
-    async fallbackFoodAddition(bookingId, foodData) {
-        try {
-            console.log('🔄 Using fallback method for food addition...');
-            
-            const formData = new FormData();
-            formData.append('booking_id', bookingId);
-            formData.append('food_id', foodData.food_id);
-            formData.append('count', foodData.count);
+  async getAvailableComputers(date, timeFrom, timeTo) {
+    return this.request(`/computers/available?date=${date}&time_from=${timeFrom}&time_to=${timeTo}`);
+  }
 
-            const response = await fetch(`${this.baseURL}/additional-menu`, {
-                method: 'POST',
-                body: formData,
-                credentials: 'include'
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log('✅ Fallback method succeeded:', result);
-                return result;
-            } else {
-                throw new Error(`Fallback failed with status: ${response.status}`);
-            }
-        } catch (fallbackError) {
-            console.error('❌ Fallback method also failed:', fallbackError);
-            
-            return {
-                success: true,
-                warning: 'Food items recorded locally but not on server',
-                booking_id: bookingId,
-                food_id: foodData.food_id,
-                count: foodData.count,
-                local_only: true
-            };
-        }
-    }
-
-    async testAdditionalMenuEndpoint() {
-        try {
-            console.log('🔍 Testing additional-menu endpoint...');
-            const testData = {
-                booking_id: 1,
-                food_id: 1,
-                count: 1
-            };
-            
-            const result = await this.request('/additional-menu', {
-                method: 'POST',
-                body: testData
-            });
-            
-            console.log('✅ Additional menu endpoint test:', result);
-            return result;
-        } catch (error) {
-            console.error('❌ Additional menu endpoint test failed:', error);
-            throw error;
-        }
-    }
-
-    async createPayment(paymentData) {
-        return this.request('/payments', {
-            method: 'POST',
-            body: paymentData
-        });
-    }
-
-    async getTariffs() {
-        return this.request('/tariffs');
-    }
-
-    async getTariff(id) {
-        return this.request(`/tariffs/${id}`);
-    }
-
-    async getPromoCodes() {
-        return this.request('/codes');
-    }
-
-    async getPromoCode(id) {
-        return this.request(`/codes/${id}`);
-    }
-
-    async getClubs() {
-        return this.request('/clubs');
-    }
-
-    async getClub(id) {
-        return this.request(`/clubs/${id}`);
-    }
-
-    async getAvailableComputers(date, timeFrom, timeTo) {
-        return this.request(`/computers/available?date=${date}&time_from=${timeFrom}&time_to=${timeTo}`);
-    }
-
-    async getUserBookings(userId) {
-        return this.request(`/users/${userId}/bookings`);
-    }
+  async getUserBookings(userId) {
+    return this.request(`/users/${userId}/bookings`);
+  }
 }
 
 export const apiService = new ApiService();

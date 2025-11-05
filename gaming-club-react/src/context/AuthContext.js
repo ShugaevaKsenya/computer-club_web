@@ -111,11 +111,25 @@ const login = async (email, password) => {
   localStorage.removeItem('bookingStarted'); // ← СБРОС
 };
 
+  // return (
+  //   <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+  //     {children}
+  //   </AuthContext.Provider>
+  // );
   return (
-    <AuthContext.Provider value={{ user, login, register, logout, loading }}>
+    <AuthContext.Provider value={{ 
+        user, 
+        login, 
+        register, 
+        logout, 
+        loading,
+        isAuthenticated: !!user, // ← добавлено
+        token: user ? `Basic ${btoa(`${user.email}:${user.password}`)}` : null
+    }}>
       {children}
     </AuthContext.Provider>
   );
+  
 };
 
 

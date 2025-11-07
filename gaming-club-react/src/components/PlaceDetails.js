@@ -143,20 +143,31 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                 <span className="label">Комната:</span>
                 <span className="value">{positionInfo.room || 'Не указана'}</span>
               </div>
-              <div className="info-item">
+              {/* <div className="info-item">
                 <span className="label">Номер места:</span>
                 <span className="value">{positionInfo.number || place}</span>
-              </div>
+              </div> */}
+               {computerDetails?.id && (
+                <div className="info-item">
+                  <span className="label">ID компьютера:</span>
+                  <span className="value">{computerDetails.id}</span>
+                </div>
+              )}
               <div className="info-item">
                 <span className="label">Position ID:</span>
                 <span className="value">{positionInfo.position?.id || 'Не указан'}</span>
               </div>
+              <div className="info-item highlight">
+                    <span className="label">Стоимость:</span>
+                    <span className="value price">{calculatedRate} ₽/час</span>
+                  </div>
+              
             </div>
           </div>
 
           {computerDetails && (
             <>
-              <div className="info-section">
+              {/* <div className="info-section">
                 <h3>Основная информация</h3>
                 <div className="info-grid">
                   <div className="info-item highlight">
@@ -178,18 +189,18 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {computerDetails.specs && !loading && (
                 <div className="info-section">
                   <h3>Технические характеристики</h3>
-                  <div className="specs-source-info">
+                  {/* <div className="specs-source-info">
                     {computerSpecs ? (
                       <span className="source-api">Данные загружены из API</span>
                     ) : (
                       <span className="source-fallback">Используются базовые данные</span>
                     )}
-                  </div>
+                  </div> */}
 
                   <div className="specs-grid">
                     {/* Основные компоненты */}
@@ -200,8 +211,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Процессор': computerDetails.specs.processor,
                           'Видеокарта': computerDetails.specs.gpu,
                           'Оперативная память': computerDetails.specs.ram,
-                          // 'Накопитель': computerDetails.specs.storage,
-                          // 'Материнская плата': computerDetails.specs.motherboard,
+                    
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
                         
@@ -223,7 +233,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                           'Наушники': computerDetails.specs.headphones,
                           'Клавиатура': computerDetails.specs.keyboard,
                           'Мышь': computerDetails.specs.mouse,
-                          // 'Охлаждение CPU': computerDetails.specs.cpuCooler,
+                        
                         }).map(([label, value]) => (
                           <div className="spec-item" key={label}>
                         
@@ -241,8 +251,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                       <h4>Дополнительные компоненты</h4>
                       <div className="specs-list">
                         {Object.entries({
-                          // 'Блок питания': computerDetails.specs.powerSupply,
-                          // 'Корпус': computerDetails.specs.case,
+                       
                           'Сетевая карта': computerDetails.specs.networkCard,
                           'Звуковая карта': computerDetails.specs.soundCard,
                           'Операционная система': computerDetails.specs.operatingSystem,
@@ -271,7 +280,7 @@ const PlaceDetails = ({ place, onBack, onSelect, positionInfo }) => {
                 <span className="availability-text">Место доступно для бронирования</span>
               </div>
               <div className="availability-item">
-                <span className="availability-info-text">Минимальное время брони: 30 минут</span>
+                <span className="availability-info-text">Минимальное время брони: 1 час </span>
               </div>
               <div className="availability-item">
                 <span className="availability-info-text">Максимальное время брони: 24 часа</span>

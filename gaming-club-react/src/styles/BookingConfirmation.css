@@ -99,7 +99,8 @@
 .promo-section::before,
 .food-order-section::before,
 .payment-card::before,
-.support-card::before {
+.support-card::before
+{
   content: '';
   position: absolute;
   top: 0;
@@ -110,11 +111,14 @@
   transition: left 0.6s ease;
 }
 
+
+
 .booking-info-card:hover::before,
 .promo-section:hover::before,
 .food-order-section:hover::before,
 .payment-card:hover::before,
-.support-card:hover::before {
+.support-card:hover::before,
+.tariff-group:hover::before{
   left: 100%;
 }
 
@@ -173,6 +177,9 @@
   display: flex;
   flex-direction: column;
   gap: 5px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 0;
 }
 
 .info-label {
@@ -207,16 +214,39 @@
 .specs-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 15px;
+  gap: 10px;
+  
 }
 
-.spec-item {
+.booking-confirmation .spec-item {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
+
+  padding: 5px;
+  padding-left:8px ;
+  padding-right:8px ;
+
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  position: relative;
+  transition: all 0.4s ease;
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  
 }
 
+
+
+.booking-confirmation .spec-item:hover{
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.1));
+  border-color: rgba(106, 90, 249, 0.8);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(106, 90, 249, 0.3);
+}
 .spec-label {
   color: var(--cafe-text-color);
   opacity: 0.8;
@@ -275,10 +305,15 @@
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 8px;
+
   justify-content: center;
+  
 }
 
+
+.support-card{
+  margin-top: 20px;
+}
 .booking-confirmation .confirmation-btn::before {
   content: '';
   position: absolute;
@@ -298,6 +333,8 @@
   background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  align-self: center;
+  padding: 16px 26px;
 }
 
 .booking-confirmation .confirmation-btn.primary:hover {
@@ -326,6 +363,20 @@
 .booking-confirmation .confirmation-btn.promo-btn {
   white-space: nowrap;
   min-width: 120px;
+}
+.booking-confirmation .confirmation-btn.promo-btn {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  align-self: center;
+}
+
+.booking-confirmation .confirmation-btn.promo-btn:hover {
+  background: linear-gradient(135deg, #7b6bff, #a99bff);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 
+    0 10px 30px rgba(106, 90, 249, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 .promo-code-applied {
@@ -363,6 +414,37 @@
   background: rgba(40, 40, 60, 0.4);
   border-radius: 12px;
   border-left: 4px solid var(--cafe-primary-color);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+
+
+.cart-item-confirm:hover {
+  border-color: rgba(106, 90, 249, 0.6);
+  transform: translateX(5px);
+  box-shadow: 
+    0 12px 32px rgba(106, 90, 249, 0.25),
+    0 0 0 1px rgba(106, 90, 249, 0.1);
+  
+  
+}
+
+
+
+.cart-item-confirm::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(106, 90, 249, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+.cart-item-confirm:hover::before{
+  left: 100%;
 }
 
 .item-info {
@@ -451,6 +533,7 @@
   border-radius: 16px;
   padding: 20px;
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 .payment-header {
@@ -489,6 +572,26 @@
   font-size: 1rem;
   transition: all 0.3s ease;
 }
+/* Стили для автозаполнения */
+.card-input:-webkit-autofill,
+.expiry-input:-webkit-autofill,
+.cvv-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px rgba(40, 40, 60, 0.8) inset !important;
+  -webkit-text-fill-color: var(--cafe-text-color) !important;
+  border: 2px solid var(--cafe-border-color) !important;
+  background-color: rgba(40, 40, 60, 0.8) !important;
+}
+
+.expiry-input:-webkit-autofill,
+.cvv-input:-webkit-autofill,
+.card-input:-webkit-autofill {
+  box-shadow: 0 0 0px 1000px rgba(40, 40, 60, 0.8) inset !important;
+  -webkit-box-shadow: 0 0 0px 1000px rgba(40, 40, 60, 0.8) inset !important;
+  -webkit-text-fill-color: var(--cafe-text-color) !important;
+  border: 2px solid var(--cafe-border-color) !important;
+  background-color: rgba(40, 40, 60, 0.8) !important;
+  transition: background-color 9999s ease-in-out 0s !important; 
+}
 
 .card-input:focus,
 .expiry-input:focus,
@@ -513,7 +616,7 @@
 
 .payment-actions-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* grid-template-columns: 1fr 1fr; */
   gap: 12px;
   margin-top: 20px;
 }
@@ -734,3 +837,384 @@
     font-size: 1rem;
   }
 }
+/* Стили для секции информации о тарифах */
+.tariff-info-section {
+  background: var(--cafe-bg-card);
+  border: 1px solid var(--cafe-border-color);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(15px);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  position: relative;
+  overflow: hidden;
+}
+
+.tariff-info-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(106, 90, 249, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+.tariff-info-section:hover::before {
+  left: 100%;
+}
+
+.booking-confirm.tariff-info-section:hover {
+  border-color: rgba(106, 90, 249, 0.6);
+  transform: translateY(-5px);
+  box-shadow: 
+    0 12px 32px rgba(106, 90, 249, 0.25),
+    0 0 0 1px rgba(106, 90, 249, 0.1);
+    
+}
+
+.tariff-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(40, 40, 60, 0.4);
+  border-radius: 12px;
+  border-left: 4px solid var(--cafe-primary-color);
+}
+
+.tariff-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  color: var(--cafe-text-color);
+  border-bottom: 1px solid rgba(106, 90, 249, 0.2);
+}
+
+.tariff-summary-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.tariff-summary-item.total {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--cafe-secondary-color);
+}
+
+.applied-tariffs {
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(106, 90, 249, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(106, 90, 249, 0.3);
+}
+
+.applied-tariffs h4 {
+  color: var(--cafe-text-color);
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+}
+
+.tariff-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tariff-tag {
+  background: linear-gradient(135deg, var(--cafe-primary-color), var(--cafe-secondary-color));
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tariff-breakdown {
+  margin-top: 20px;
+}
+
+.tariff-breakdown h4 {
+  color: var(--cafe-text-color);
+  margin: 0 0 15px 0;
+  font-size: 1.1rem;
+}
+
+.tariff-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: rgba(40, 40, 60, 0.4);
+  border-radius: 12px;
+  border-left: 4px solid var(--cafe-accent-color);
+  transition: all 0.3s ease;
+  position: relative;
+  animation: slideGlowUp 0.5s ease-out;
+  overflow: hidden;
+}
+
+.tariff-group:hover {
+  background: rgba(40, 40, 60, 0.6);
+  transform: translateX(5px);
+  border-color: rgba(106, 90, 249, 0.6);
+  transform: translateX(5px);
+  box-shadow: 
+    0 12px 32px rgba(106, 90, 249, 0.25),
+    0 0 0 1px rgba(106, 90, 249, 0.1);
+  
+}
+.tariff-group::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(106, 90, 249, 0.1), transparent);
+  transition: left 0.6s ease;
+}
+
+
+.tariff-group:hover::before{
+  left: 100%;
+}
+
+
+.group-time {
+  color: var(--cafe-text-color);
+  font-weight: 500;
+  font-size: 0.95rem;
+  min-width: 180px;
+}
+
+.group-details {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tariff-name {
+  color: var(--cafe-text-color);
+  font-weight: 500;
+}
+
+.tariff-coefficient {
+  color: var(--cafe-accent-color);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.group-hours {
+  color: var(--cafe-text-color);
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+.group-price {
+  color: var(--cafe-secondary-color);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+/* Стили для состояния загрузки и ошибок */
+.loading-state h2,
+.no-booking-data h2 {
+  color: var(--cafe-text-color);
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.no-booking-data p {
+  color: rgba(224, 224, 255, 0.8);
+  font-size: 1.1rem;
+  margin-bottom: 0;
+}
+
+/* Дополнительные стили для карточек */
+.support-info h4 {
+  color: white;
+  margin: 0 0 12px 0;
+  font-size: 1.2rem;
+}
+
+.support-info p {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 8px 0;
+  font-size: 0.95rem;
+}
+
+
+
+/* Адаптивность для новых элементов */
+@media (max-width: 768px) {
+  .tariff-info-section {
+    padding: 20px;
+  }
+  
+  .tariff-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .group-time {
+    min-width: auto;
+    margin-bottom: 5px;
+  }
+  
+  .group-details {
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .tariff-summary-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .applied-tariffs {
+    padding: 12px;
+  }
+  
+  .tariff-tags {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .tariff-info-section {
+    padding: 15px;
+  }
+  
+  .group-details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .tariff-breakdown h4 {
+    font-size: 1rem;
+  }
+  
+  .applied-tariffs h4 {
+    font-size: 1rem;
+  }
+}
+
+/* Анимации для плавного появления */
+.tariff-info-section {
+  animation: fadeInUp 0.6s ease 0.25s forwards;
+  opacity: 0;
+}
+
+/* Улучшенные стили для состояний */
+.confirmation-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.confirmation-btn:disabled:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.bank-detection {
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: rgba(106, 90, 249, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(106, 90, 249, 0.3);
+}
+
+.bank-info {
+  color: var(--cafe-text-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.bank-detection {
+  margin-top: 10px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(106, 90, 249, 0.15), rgba(157, 137, 255, 0.1));
+  border-radius: 12px;
+  border: 1px solid rgba(106, 90, 249, 0.3);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.bank-detection:hover {
+  border-color: rgba(106, 90, 249, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(106, 90, 249, 0.2);
+}
+
+.bank-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: white;
+}
+
+.bank-icon.sberbank { background: linear-gradient(135deg, #21AE46, #1A8C38); }
+.bank-icon.tinkoff { background: linear-gradient(135deg, #FFDD2D, #FCC521); color: #333; }
+.bank-icon.vtb { background: linear-gradient(135deg, #1A237E, #303F9F); }
+.bank-icon.alfa { background: linear-gradient(135deg, #EF3124, #D81B1B); }
+.bank-icon.gazprom { background: linear-gradient(135deg, #0D5B5B, #0A4444); }
+.bank-icon.raiffeisen { background: linear-gradient(135deg, #FF6B00, #E55A00); }
+.bank-icon.unknown { background: linear-gradient(135deg, #6a5af9, #9d89ff); }
+
+.bank-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bank-name {
+  color: var(--cafe-text-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.bank-status {
+  color: rgba(224, 224, 255, 0.8);
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+/* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Иконки банков через псевдоэлементы */
+.bank-icon.sberbank::before { content: 'СБ'; }
+.bank-icon.tinkoff::before { content: 'ТБ'; }
+.bank-icon.vtb::before { content: 'ВТ'; }
+.bank-icon.alfa::before { content: 'АБ'; }
+.bank-icon.gazprom::before { content: 'ГБ'; }
+.bank-icon.raiffeisen::before { content: 'РБ'; }
+.bank-icon.unknown::before { content: '?'; }

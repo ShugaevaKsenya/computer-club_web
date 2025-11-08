@@ -249,6 +249,12 @@ async checkComputerAvailability(computerId, date, timeFrom, timeTo) {
       body: bookingData
     });
   }
+  async updateBooking(id, updateData) {
+    return this.request(`/bookings/${id}`, {
+      method: 'PUT',
+      body: updateData
+    });
+  }
 
   async getBooking(id) {
     return this.request(`/bookings/${id}`);

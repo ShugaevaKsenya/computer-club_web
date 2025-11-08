@@ -17,10 +17,11 @@ const Clubs = () => {
     } = useCart();
 
   const clubsData = [
-    { id: 1, title: "Рахова 53", address: "ул. Рахова, 53", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] },
-    { id: 2, title: "Астраханская 15/8", address: "ул. Астраханская, 15/8", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] },
-    { id: 3, title: "Московская 11", address: "ул. Московская, 11", info: ["18 ПК с Game Room и VIP-зоной", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] }
+    { id: 1, title: "Пр. Ленина, 37", address: "Тамбовская область, город Истра", info: ["18 ПК с Game Room", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] },
+    { id: 2, title: "Проезд Чехова, 90", address: "Курганская область, город Шаховская", info: ["18 ПК с Game Room", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] },
+    { id: 3, title: "Шоссе Гоголя, 74", address: "Новосибирская область, город Люберцы,", info: ["18 ПК с Game Room", "Кресла DXRacer", "Зоны PS5 и PS4 PRO"] }
   ];
+
 
   // const handleBackToHome = () => {
   //   navigate('/');

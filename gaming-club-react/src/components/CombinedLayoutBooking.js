@@ -1,4 +1,5 @@
 
+
 // src/components/CombinedLayoutBooking.js 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useCart } from '../context/CartContext';
@@ -45,10 +46,9 @@ const CombinedLayoutBooking = () => {
   const [clubs, setClubs] = useState([]);
   const [loading, setLoading] = useState(true);
   
-  // Новые состояния для занятых слотов
+  // Обновленные состояния для занятых слотов
   const [bookedTimeSlots, setBookedTimeSlots] = useState([]);
   const [loadingTimeSlots, setLoadingTimeSlots] = useState(false);
-  const [bookedDates, setBookedDates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
 
   // Состояния для тарифов
@@ -289,51 +289,10 @@ const CombinedLayoutBooking = () => {
     }
   };
 
-  // Функция для загрузки занятых дат для конкретного компьютера
-  const loadBookedDates = useCallback(async (computerId) => {
-    if (!computerId) return;
-    
-    try {
-      // Загружаем бронирования на ближайший месяц
-      const startDate = new Date();
-      const endDate = new Date();
-      endDate.setMonth(endDate.getMonth() + 1);
-      
-      // Собираем все занятые даты
-      const bookedDatesSet = new Set();
-      
-      // Проверяем каждую дату в диапазоне
-      const currentDate = new Date(startDate);
-      while (currentDate <= endDate) {
-        const dateStr = currentDate.toISOString().split('T')[0];
-        try {
-          const bookings = await apiService.getBookingsByComputerAndDate(computerId, dateStr);
-          
-          if (bookings && bookings.length > 0) {
-            // Проверяем, полностью ли занят день (все 24 часа)
-            const isFullyBooked = checkIfDayIsFullyBooked(bookings, currentDate);
-            if (isFullyBooked) {
-              bookedDatesSet.add(dateStr);
-            }
-          }
-        } catch (error) {
-          console.error(`Error checking date ${dateStr}:`, error);
-        }
-        
-        currentDate.setDate(currentDate.getDate() + 1);
-      }
-      
-      setBookedDates(Array.from(bookedDatesSet));
-    } catch (error) {
-      console.error('Error loading booked dates:', error);
-      setBookedDates([]);
-    }
-  }, []);
-
-  // Функция для загрузки занятых временных слотов для конкретной даты
-  const loadBookedTimeSlots = useCallback(async (computerId, date) => {
+  // Упрощенная функция для загрузки бронирований на выбранную дату
+  const loadBookingsForSelectedDate = async (computerId, date) => {
     if (!computerId || !date) return;
-    
+
     try {
       setLoadingTimeSlots(true);
       const dateStr = date.toISOString().split('T')[0];
@@ -349,12 +308,12 @@ const CombinedLayoutBooking = () => {
       
       setBookedTimeSlots(slots);
     } catch (error) {
-      console.error('Error loading booked time slots:', error);
+      console.error('Ошибка при загрузке бронирований:', error);
       setBookedTimeSlots([]);
     } finally {
       setLoadingTimeSlots(false);
     }
-  }, []);
+  };
 
   // ==================== РАБОТА С МЕСТАМИ И ПОЗИЦИЯМИ ====================
 
@@ -423,8 +382,8 @@ const CombinedLayoutBooking = () => {
       setTotalPriceWithTariff(0);
       setTariffBreakdown([]);
       
-      // Загружаем занятые даты для нового компьютера
-      loadBookedDates(newComputerId);
+      // Сбрасываем занятые слоты при смене места
+      setBookedTimeSlots([]);
       
       setShowPlaceDetails(false);
     } else {
@@ -456,40 +415,6 @@ const CombinedLayoutBooking = () => {
   };
 
   // ==================== РАБОТА С ДАТАМИ И ВРЕМЕНЕМ ====================
-
-  // Функция для проверки, полностью ли занят день
-  const checkIfDayIsFullyBooked = (bookings, date) => {
-    const dayStart = new Date(date);
-    dayStart.setHours(0, 0, 0, 0);
-    
-    const dayEnd = new Date(date);
-    dayEnd.setHours(23, 59, 59, 999);
-    
-    // Сортируем бронирования по времени начала
-    const sortedBookings = bookings
-      .filter(booking => booking.status === 'confirmed')
-      .sort((a, b) => new Date(a.start_time) - new Date(b.start_time));
-    
-    let currentTime = new Date(dayStart);
-    
-    for (const booking of sortedBookings) {
-      const bookingStart = new Date(booking.start_time);
-      const bookingEnd = new Date(booking.end_time);
-      
-      // Если есть промежуток между currentTime и началом бронирования
-      if (bookingStart > currentTime) {
-        return false; // Есть свободное время
-      }
-      
-      // Обновляем currentTime до конца текущего бронирования
-      if (bookingEnd > currentTime) {
-        currentTime = new Date(bookingEnd);
-      }
-    }
-    
-    // Проверяем, покрыли ли мы весь день
-    return currentTime >= dayEnd;
-  };
 
   // Функция для проверки доступности временного слота
   const checkTimeSlotAvailability = async (computerId, date, timeFrom, timeTo) => {
@@ -558,14 +483,6 @@ const CombinedLayoutBooking = () => {
     return checkDate < today;
   };
 
-  // Проверка, занята ли дата полностью
-  const isDateFullyBooked = useCallback((date) => {
-    if (!formData.computer_id || bookedDates.length === 0) return false;
-    
-    const dateStr = date.toISOString().split('T')[0];
-    return bookedDates.includes(dateStr);
-  }, [formData.computer_id, bookedDates]);
-
   const validateTimeRange = (timeFrom, timeTo) => {
     if (!timeFrom || !timeTo) return true;
     
@@ -621,12 +538,12 @@ const CombinedLayoutBooking = () => {
     }
     
     // Загружаем занятые слоты для выбранной даты
-    loadBookedTimeSlots(formData.computer_id, new Date(formData.date));
+    loadBookingsForSelectedDate(formData.computer_id, new Date(formData.date));
     setShowTimePicker(true);
   };
 
   const handleDateSelect = (date) => {
-    if (isPastDate(date) || isDateFullyBooked(date)) return;
+    if (isPastDate(date)) return;
     setSelectedDate(date);
   };
 
@@ -648,6 +565,9 @@ const CombinedLayoutBooking = () => {
       setSelectedTariffs([]);
       setPlacePriceWithTariff(0);
       setTariffBreakdown([]);
+      
+      // Сбрасываем занятые слоты при смене даты
+      setBookedTimeSlots([]);
       
       setShowDatePicker(false);
       setSelectedDate(null);
@@ -732,38 +652,37 @@ const CombinedLayoutBooking = () => {
     e.preventDefault();
     
     // Проверяем авторизацию пользователя
-    // Проверяем авторизацию пользователя
-  if (!user) {
-    const bookingData = {
-      // Те же самые данные что и в proceedWithBooking
-      formData: { ...formData },
-      selectedPlace,
-      selectedPlaceRate,
-      tariffBreakdown,
-      selectedTariffs,
-      placePriceWithTariff,
-      totalPriceWithTariff,
-      cartItems: [...cartItems],
-      totalPrice: getTotalPrice(),
-      bookingMinutes: getBookingMinutes(),
-      calculatedData: { 
-        placeCost: placePriceWithTariff, 
-        totalCost: totalPriceWithTariff, 
-        bookingHours: getBookingHours() 
-      },
-      timestamp: Date.now()
-    };
-    
-    localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
-    
-    navigate('/login', { 
-      state: { 
-        from: '/booking',
-        message: 'Для завершения бронирования необходимо авторизоваться'
-      } 
-    });
-    return;
-  }
+    if (!user) {
+      const bookingData = {
+        // Те же самые данные что и в proceedWithBooking
+        formData: { ...formData },
+        selectedPlace,
+        selectedPlaceRate,
+        tariffBreakdown,
+        selectedTariffs,
+        placePriceWithTariff,
+        totalPriceWithTariff,
+        cartItems: [...cartItems],
+        totalPrice: getTotalPrice(),
+        bookingMinutes: getBookingMinutes(),
+        calculatedData: { 
+          placeCost: placePriceWithTariff, 
+          totalCost: totalPriceWithTariff, 
+          bookingHours: getBookingHours() 
+        },
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem('pendingBooking', JSON.stringify(bookingData));
+      
+      navigate('/login', { 
+        state: { 
+          from: '/booking',
+          message: 'Для завершения бронирования необходимо авторизоваться'
+        } 
+      });
+      return;
+    }
     
     if (!validateTimeRange(formData.timeFrom, formData.timeTo)) return;
     
@@ -794,7 +713,6 @@ const CombinedLayoutBooking = () => {
     }
     proceedWithBooking(formData.computer_id);
   };
-
 
   const proceedWithBooking = (computerId) => {
     try {
@@ -942,39 +860,36 @@ const CombinedLayoutBooking = () => {
     };
   
     // Функция для получения цвета тарифа
-    // Функция для получения цвета тарифа
-const getTariffColor = (tariff) => {
-  if (!tariff) return 'rgba(255, 255, 255, 0.1)';
-  
-  switch(tariff.name) {
-    case 'Дневной':
-      return 'rgba(108, 117, 125, 0.3)'; // серый
-    case 'Вечерний':
-      return 'rgba(53, 178, 220, 0.34)'; // малиновый
-    case 'Ночной':
-      return 'rgba(13, 110, 253, 0.3)'; // синий
-    default:
-      return 'rgba(255, 255, 255, 0.1)';
-  }
-};
+    const getTariffColor = (tariff) => {
+      if (!tariff) return 'rgba(255, 255, 255, 0.1)';
+      
+      switch(tariff.name) {
+        case 'Дневной':
+          return 'rgba(108, 117, 125, 0.3)'; // серый
+        case 'Вечерний':
+          return 'rgba(53, 178, 220, 0.34)'; // малиновый
+        case 'Ночной':
+          return 'rgba(13, 110, 253, 0.3)'; // синий
+        default:
+          return 'rgba(255, 255, 255, 0.1)';
+      }
+    };
 
-
-// Функция для получения цвета текста тарифа
-const getTariffTextColor = (tariff) => {
-  if (!tariff) return 'rgba(255, 255, 255, 0.7)';
-  
-  switch(tariff.name) {
-    case 'Дневной':
-      return '#6c757d'; // серый
-    case 'Вечерний':
-      return 'rgba(53, 178, 220, 0.86)'; // малиновый
-    case 'Ночной':
-      return '#0d6efd'; // синий
-    default:
-      return 'rgba(255, 255, 255, 0.7)';
-  }
-};
-  
+    // Функция для получения цвета текста тарифа
+    const getTariffTextColor = (tariff) => {
+      if (!tariff) return 'rgba(255, 255, 255, 0.7)';
+      
+      switch(tariff.name) {
+        case 'Дневной':
+          return '#6c757d'; // серый
+        case 'Вечерний':
+          return 'rgba(53, 178, 220, 0.86)'; // малиновый
+        case 'Ночной':
+          return '#0d6efd'; // синий
+        default:
+          return 'rgba(255, 255, 255, 0.7)';
+      }
+    };
   
     const getSlotType = (hour) => {
       if (!selectedDate || !bookedTimeSlots || bookedTimeSlots.length === 0) return 'free';
@@ -1313,11 +1228,10 @@ const getTariffTextColor = (tariff) => {
                 <div className="place-selected-info">
                   ✓ Место {selectedPlace} выбрано.
                   <br />
-                 
                 </div>
               )}
             </div>
-              <div></div>
+            <div></div>
             {/* Кнопка выбора даты */}
             {selectedPlace && (
               <div className="form-group">
@@ -1466,24 +1380,20 @@ const getTariffTextColor = (tariff) => {
                       <div className="calendar-grid">
                         {dayNames.map(day => <div key={day} className="calendar-day-header">{day}</div>)}
                         {calendarDays.map((date, index) => {
-                          const isFullyBooked = date ? isDateFullyBooked(date) : false;
                           return (
                             <button
                               key={index}
                               type="button"
                               className={`calendar-day ${date ? (
                                 isPastDate(date) ? 'past' : 
-                                isFullyBooked ? 'fully-booked' :
                                 selectedDate && date.toDateString() === selectedDate.toDateString() ? 'selected' : 
                                 isToday(date) ? 'today' : ''
                               ) : 'empty'}`}
                               onClick={() => date && handleDateSelect(date)}
-                              disabled={!date || isPastDate(date) || isFullyBooked}
-                              title={isFullyBooked ? 'День полностью занят' : ''}
+                              disabled={!date || isPastDate(date)}
                             >
                               {date ? date.getDate() : ''}
                               {date && isToday(date) && <div className="today-dot"></div>}
-                              {date && isFullyBooked && <div className="fully-booked-indicator">✗</div>}
                             </button>
                           );
                         })}
@@ -1514,8 +1424,6 @@ const getTariffTextColor = (tariff) => {
                 tariffs={tariffs} 
               />
             )}
-
-            
 
             <div className="booking-actions">
               <button type="submit" className="booking-btn primary" disabled={isBookingDisabled}>

@@ -1,5 +1,4 @@
 
-
 // export default BookingConfirmation;
 import React, { useState, useEffect } from 'react'; 
 import { apiService } from '../services/Api';
@@ -7,6 +6,7 @@ import '../styles/BookingConfirmation.css';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+
 const BookingConfirmation = () => {
   const [bookingData, setBookingData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -31,8 +31,8 @@ const BookingConfirmation = () => {
   });
   const [cardError, setCardError] = useState('');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-const { 
-    
+  
+  const { 
     updateCartItemQuantity, 
     clearCart, 
     getTotalPrice, 
@@ -40,6 +40,7 @@ const {
     getCartSummary,
     addToCart
   } = useCart();
+
   // CSS переменные как в Cafe.css
   const cssVariables = {
     '--cafe-primary-color': '#6a5af9',
@@ -52,7 +53,6 @@ const {
     '--cafe-glow': 'rgba(106, 90, 249, 0.4)'
   };
 
-  
   useEffect(() => {
     if (!isAuthenticated) {
       console.warn('Пользователь не авторизован, редирект на login');
@@ -64,69 +64,73 @@ const {
       apiService.setAuthHeader(`Bearer ${token}`);
       console.log('Auth token set via setAuthHeader:', token);
     }
-  }, [isAuthenticated, token]);
-  
+  }, [isAuthenticated, token, navigate]);
   
   useEffect(() => { 
     if (!isAuthenticated) return;
+    
     const loadBookingData = () => {
       try {
         let data = null;
         
+        // ВАЖНОЕ ИСПРАВЛЕНИЕ: используем location.state как основной источник
         if (location.state) {
           data = location.state;
-          console.log(' Booking data loaded from location state:', {
+          console.log('📋 Booking data loaded from location state:', {
+            formData: data.formData,
             hasTariffData: !!data.tariffBreakdown,
             tariffBreakdown: data.tariffBreakdown,
             selectedTariffs: data.selectedTariffs,
-            placePriceWithTariff: data.placePriceWithTariff
+            placePriceWithTariff: data.placePriceWithTariff,
+            totalPriceWithTariff: data.totalPriceWithTariff,
+            cartItems: data.cartItems,
+            totalPrice: data.totalPrice
           });
         } else {
-          const savedData = localStorage.getItem('savedBooking') || localStorage.getItem('lastBooking');
+          // Резервный вариант из localStorage
+          const savedData = localStorage.getItem('savedBooking') || localStorage.getItem('pendingBooking');
           console.log('Loading booking data from localStorage:', savedData);
           
           if (savedData) {
             data = JSON.parse(savedData);
             console.log('Booking data loaded successfully:', {
+              formData: data.formData,
               hasTariffData: !!data.tariffBreakdown,
               tariffBreakdown: data.tariffBreakdown
             });
           } else {
             console.warn('No booking data found');
+            navigate('/booking');
+            return;
           }
         }
 
         if (data) {
-          setBookingData(prev => ({
-            ...prev,
-            ...data,
-            selectedPlaceRate: data.selectedPlaceRate ?? prev?.selectedPlaceRate ?? 0,
-            // Добавляем данные о тарифах
-            tariffBreakdown: data.tariffBreakdown || prev?.tariffBreakdown || [],
-            selectedTariffs: data.selectedTariffs || prev?.selectedTariffs || [],
-            placePriceWithTariff: data.placePriceWithTariff || prev?.placePriceWithTariff || 0,
-            totalPriceWithTariff: data.totalPriceWithTariff || prev?.totalPriceWithTariff || 0
-          }));
+          // ДЕБАГ: Проверяем структуру данных
+          console.log('🔍 Debug formData structure:', {
+            dateFrom: data.formData?.dateFrom,
+            timeFrom: data.formData?.timeFrom,
+            dateTo: data.formData?.dateTo,
+            date: data.formData?.date,
+            fullFormData: data.formData
+          });
 
-          localStorage.setItem('savedBooking', JSON.stringify({
-            ...data,
-            selectedPlaceRate: data.selectedPlaceRate ?? JSON.parse(localStorage.getItem('savedBooking') || '{}')?.selectedPlaceRate ?? 0,
-            tariffBreakdown: data.tariffBreakdown || [],
-            selectedTariffs: data.selectedTariffs || [],
-            placePriceWithTariff: data.placePriceWithTariff || 0,
-            totalPriceWithTariff: data.totalPriceWithTariff || 0
-          }));
+          // ВАЖНОЕ ИСПРАВЛЕНИЕ: устанавливаем данные напрямую
+          setBookingData(data);
+
+          // Сохраняем для резервной копии
+          localStorage.setItem('savedBooking', JSON.stringify(data));
         }
       } catch (error) {
         console.error('Error loading booking data:', error);
+        navigate('/booking');
       } finally {
         setLoading(false);
       }
     };
   
     loadBookingData();
-  }, [location.state]);
-  
+  }, [location.state, isAuthenticated, navigate]);
 
   useEffect(() => {
     const loadAdditionalData = async () => {
@@ -200,56 +204,56 @@ const {
 
     return (
       <div className='booking-confirm'>
-      <div className="tariff-info-section">
-        <div className="card-header">
-          <h2>Детализация по тарифам</h2>
-        </div>
-        
-        <div className="tariff-summary">
-          <div className="tariff-summary-item">
-            <span>Базовая ставка:</span>
-            <span>{basePlaceRate} ₽/час</span>
+        <div className="tariff-info-section">
+          <div className="card-header">
+            <h2>Детализация по тарифам</h2>
           </div>
-          <div className="tariff-summary-item">
-            <span>Продолжительность:</span>
-            <span>{bookingHours} часов</span>
-          </div>
-          <div className="tariff-summary-item total">
-            <span>Стоимость места с учетом тарифов:</span>
-            <span className="highlight">{placePriceWithTariff} ₽</span>
-          </div>
-        </div>
-
-        {selectedTariffs && selectedTariffs.length > 0 && (
-          <div className="applied-tariffs">
-            <h4>Примененные тарифы:</h4>
-            <div className="tariff-tags">
-              {selectedTariffs.map((tariff, index) => (
-                <span key={index} className="tariff-tag">
-                  {tariff.name} ({tariff.coefficient}x)
-                </span>
-              ))}
+          
+          <div className="tariff-summary">
+            <div className="tariff-summary-item">
+              <span>Базовая ставка:</span>
+              <span>{basePlaceRate} ₽/час</span>
+            </div>
+            <div className="tariff-summary-item">
+              <span>Продолжительность:</span>
+              <span>{bookingHours} часов</span>
+            </div>
+            <div className="tariff-summary-item total">
+              <span>Стоимость места с учетом тарифов:</span>
+              <span className="highlight">{placePriceWithTariff} ₽</span>
             </div>
           </div>
-        )}
 
-        <div className="tariff-breakdown">
-          <h4>Детализация по времени:</h4>
-          {tariffBreakdown.map((group, index) => (
-            <div key={index} className="tariff-group">
-              <div className="group-time">
-                {group.start.toString().padStart(2, '0')}:00 - {group.end.toString().padStart(2, '0')}:00
-              </div>
-              <div className="group-details">
-                <span className="tariff-name">{group.tariff.name}</span>
-                <span className="tariff-coefficient">({group.tariff.coefficient}x)</span>
-                <span className="group-hours">{group.hours} час</span>
-                <span className="group-price">{Math.round(group.totalPrice)} ₽</span>
+          {selectedTariffs && selectedTariffs.length > 0 && (
+            <div className="applied-tariffs">
+              <h4>Примененные тарифы:</h4>
+              <div className="tariff-tags">
+                {selectedTariffs.map((tariff, index) => (
+                  <span key={index} className="tariff-tag">
+                    {tariff.name} ({tariff.coefficient}x)
+                  </span>
+                ))}
               </div>
             </div>
-          ))}
+          )}
+
+          <div className="tariff-breakdown">
+            <h4>Детализация по времени:</h4>
+            {tariffBreakdown.map((group, index) => (
+              <div key={index} className="tariff-group">
+                <div className="group-time">
+                  {group.start.toString().padStart(2, '0')}:00 - {group.end.toString().padStart(2, '0')}:00
+                </div>
+                <div className="group-details">
+                  <span className="tariff-name">{group.tariff.name}</span>
+                  <span className="tariff-coefficient">({group.tariff.coefficient}x)</span>
+                  <span className="group-hours">{group.hours} час</span>
+                  <span className="group-price">{Math.round(group.totalPrice)} ₽</span>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
       </div>
     );
   };
@@ -264,10 +268,9 @@ const {
       return null;
     }
 
-    // Находим спецификации по spec_id
     const specs = computerSpecs.find(s => s.id == computer.spec_id);
     if (!specs) {
-      console.log(` Computer specs not found for spec_id: ${computer.spec_id}`);
+      console.log(`Computer specs not found for spec_id: ${computer.spec_id}`);
       return null;
     }
 
@@ -327,31 +330,80 @@ const {
     return placeInfo[placeNumber] || { type: "Стандартное место" };
   };
 
-  
+  // ВАЖНОЕ ИСПРАВЛЕНИЕ: правильное извлечение данных из bookingData
+  const extractBookingData = () => {
+    if (!bookingData) return {};
+    
+    const formData = bookingData.formData || {};
+    const cartItems = bookingData.cartItems || [];
+    const totalPrice = bookingData.totalPrice || 0;
+    
+    // ВАЖНОЕ ИСПРАВЛЕНИЕ: используем totalPriceWithTariff из данных бронирования
+    const totalPriceWithTariff = bookingData.totalPriceWithTariff || 0;
+    const placePriceWithTariff = bookingData.placePriceWithTariff || 0;
+    const tariffBreakdown = bookingData.tariffBreakdown || [];
+    const selectedTariffs = bookingData.selectedTariffs || [];
+    const selectedPlaceRate = bookingData.selectedPlaceRate || 0;
+    const calculatedData = bookingData.calculatedData || {};
+    
+    // ВАЖНОЕ ИСПРАВЛЕНИЕ: правильное извлечение дат и времени
+    const dateFrom = formData.dateFrom || formData.date || '';
+    const timeFrom = formData.timeFrom || '';
+    const dateTo = formData.dateTo || formData.date || '';
+    const timeTo = formData.timeTo || '';
+    const place = formData.place || '';
+    const address = formData.address || '';
+    const computer_id = formData.computer_id || '';
+    const club_id = formData.club_id || '';
+    const room = formData.room || '';
+
+    console.log('📊 Extracted booking data:', {
+      dateFrom, timeFrom, dateTo, timeTo,
+      totalPriceWithTariff,
+      placePriceWithTariff,
+      foodTotal: totalPrice,
+      cartItemsCount: cartItems.length
+    });
+
+    return {
+      formData: {
+        dateFrom, timeFrom, dateTo, timeTo, place, address, computer_id, club_id, room
+      },
+      cartItems,
+      totalPrice,
+      totalPriceWithTariff,
+      placePriceWithTariff,
+      tariffBreakdown,
+      selectedTariffs,
+      selectedPlaceRate,
+      calculatedData,
+      selectedPlace: bookingData.selectedPlace
+    };
+  };
+
   const {
     formData = {},
-    selectedPlace,
-    selectedPlaceRate = 0,
     cartItems = [],
     totalPrice = 0,
-    calculatedData = {},
+    totalPriceWithTariff = 0,
+    placePriceWithTariff = 0,
     tariffBreakdown = [],
     selectedTariffs = [],
-    placePriceWithTariff = 0,
-    totalPriceWithTariff = 0
-  } = bookingData || {};
-  
-  const placeRate = selectedPlaceRate || calculatedData?.placeRate || 0;
-  
+    selectedPlaceRate = 0,
+    calculatedData = {},
+    selectedPlace = null
+  } = extractBookingData();
+
   const {
-    place = '',
     dateFrom = '',
     timeFrom = '',
     dateTo = '',
     timeTo = '',
+    place = '',
     address = '',
     computer_id = '',
-    club_id = ''
+    club_id = '',
+    room = ''
   } = formData;
 
   // расчет продолжительности бронирования
@@ -362,19 +414,9 @@ const {
     }
     
     try {
-      // Создаем полные даты с временем
       const startDateTime = new Date(`${dateFrom}T${timeFrom}`);
       const endDateTime = new Date(`${dateTo}T${timeTo}`);
- 
-      const minutes = Math.round((startDateTime - endDateTime) / 60000); // разница в минутах
 
-      console.log('Date calculation:', {
-        start: startDateTime.toString(),
-        end: endDateTime.toString(),
-        startISO: startDateTime.toISOString(),
-        endISO: endDateTime.toISOString()
-      });
-      
       // Проверяем валидность дат
       if (isNaN(startDateTime.getTime()) || isNaN(endDateTime.getTime())) {
         console.error('Invalid dates');
@@ -397,59 +439,22 @@ const {
     }
   };
 
-  // Расчеты стоимости
-  const foodTotal = cartItems.reduce((sum, item) => {
-    const foodInfo = getFoodInfo(item.id);
-    return sum + (foodInfo.price || 0) * item.quantity;
-  }, 0);
-
-  const formatDateDisplay = (dateString) => {
-    if (!dateString) return '';
-    try {
-      const [year, month, day] = dateString.split('-').map(Number);
-      const date = new Date(year, month - 1, day);
-      
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      
-      
-        return date.toLocaleDateString('ru-RU', {
-          day: 'numeric',
-          month: 'long',
-          weekday: 'short'
-        });
-      
-    } catch (error) {
-      console.error('Error formatting date:', error);
-      return dateString;
-    }
-  };
-
+  // ВАЖНОЕ ИСПРАВЛЕНИЕ: правильный расчет стоимости
   const calculateBaseCost = () => {
-    // Если есть данные о тарифах, используем их
-    if (placePriceWithTariff > 0) {
-      return placePriceWithTariff + foodTotal;
+    // Если есть totalPriceWithTariff из данных бронирования, используем его
+    if (totalPriceWithTariff > 0) {
+      console.log('💰 Using totalPriceWithTariff from booking data:', totalPriceWithTariff);
+      return totalPriceWithTariff;
     }
     
-    if (calculatedData && calculatedData.totalCost) {
-      return calculatedData.totalCost;
-    }
+    // Иначе рассчитываем вручную
+    const foodTotal = totalPrice;
+    const placeCost = placePriceWithTariff > 0 ? placePriceWithTariff : (calculatedData?.placeCost || Math.round(getBookingHours() * selectedPlaceRate));
     
-    if (!dateFrom || !timeFrom || !dateTo || !timeTo) return foodTotal;
+    const calculatedTotal = placeCost + foodTotal;
+    console.log('💰 Calculated total manually:', { placeCost, foodTotal, calculatedTotal });
     
-    try {
-      const bookingHours = getBookingHours();
-      console.log(' DEBUG booking times:', { dateFrom, timeFrom, dateTo, timeTo });
-
-      const placeCost = Math.round(bookingHours * placeRate);
-      return placeCost + foodTotal;
-    } catch (error) {
-      console.error('Error calculating booking cost:', error);
-      return foodTotal;
-    }
+    return calculatedTotal;
   };
 
   const calculateDiscount = (baseCost) => {
@@ -478,20 +483,14 @@ const {
     return Math.max(0, baseCost - discount.amount);
   };
 
-  // // Расчет всех значений с учетом тарифов
-  // const bookingHours = getBookingHours();
-  // const baseCost = calculateBaseCost();
-  // const finalCost = calculateFinalCost();
-  // const discount = calculateDiscount(baseCost);
-
   const bookingHours = React.useMemo(() => getBookingHours(), [dateFrom, timeFrom, dateTo, timeTo]);
-  const baseCost = React.useMemo(() => calculateBaseCost(), [bookingHours, placeRate, cartItems, placePriceWithTariff]);
+  const baseCost = React.useMemo(() => calculateBaseCost(), [totalPriceWithTariff, placePriceWithTariff, totalPrice, selectedPlaceRate, bookingHours]);
   const discount = React.useMemo(() => calculateDiscount(baseCost), [baseCost, appliedPromoCode]);
   const finalCost = React.useMemo(() => calculateFinalCost(), [baseCost, discount]);
 
-  
   // Используем данные о тарифах если они есть, иначе рассчитываем стандартно
-  const placeCost = placePriceWithTariff > 0 ? placePriceWithTariff : (calculatedData?.placeCost || Math.round(bookingHours * placeRate));
+  const placeCost = placePriceWithTariff > 0 ? placePriceWithTariff : (calculatedData?.placeCost || Math.round(bookingHours * selectedPlaceRate));
+  const foodTotal = totalPrice;
 
   // Получение информации о месте, компьютере и клубе
   const placeInfo = getPlaceInfo(selectedPlace);
@@ -513,7 +512,7 @@ const {
         promoData = promoCodes.find(p => p.code === promoCode);
         console.log('Found promo code in API:', promoData);
       } catch (apiError) {
-        console.log(' Cannot load promocodes from API, using default');
+        console.log('Cannot load promocodes from API, using default');
       }
       
       let appliedPromo;
@@ -560,8 +559,6 @@ const {
     clearCart();
     navigate('/');
   };
-  
-
 
   const handlePaymentAndBooking = async () => {
     const { number, expiry, cvv } = cardData;
@@ -584,27 +581,39 @@ const {
     setCardError('');
   
     try {
-      // 2. Создаём Payment
-      const paymentData = {
-        user_id: user.id,
-        payment_type: 'card',
-        status: 'completed',
-        price: finalCost,
-        payment_date: new Date().toISOString(),
-        payment_hash: 'mock_hash_' + Date.now()
-      };
+      // 2. Проверяем успешность оплаты (30% шанс неудачи)
+      const isPaymentSuccessful = Math.random() > 0.3;
+      
+      let payment = null;
+      let bookingStatus = 'confirmed';
+      
+      if (isPaymentSuccessful) {
+        // 3. Создаём Payment только при успешной оплате
+        const paymentData = {
+          user_id: user.id,
+          payment_type: 'card',
+          status: 'completed',
+          price: finalCost,
+          payment_date: new Date().toISOString(),
+          payment_hash: 'mock_hash_' + Date.now()
+        };
   
-      const payment = await apiService.createPayment(paymentData);
+        payment = await apiService.createPayment(paymentData);
   
-      if (!payment || !payment.id) {
-        throw new Error('Ошибка создания оплаты');
+        if (!payment || !payment.id) {
+          throw new Error('Ошибка создания оплаты');
+        }
+      } else {
+        // Если оплата не прошла, статус бронирования будет pending
+        bookingStatus = 'pending';
+        console.log('Оплата не прошла (30% шанс), бронирование создается со статусом pending');
       }
   
-      // 3. Создаём Booking
+      // 4. Создаём Booking с соответствующим статусом
       const bookingPayload = {
         computer_id: computer_id,
         user_id: user.id,
-        tariff_id: 1, // всегда 1
+        tariff_id: 1,
         club_id: club_id,
         code_id: appliedPromoCode?.id || null,
         start_time: `${dateFrom}T${timeFrom}`,
@@ -613,8 +622,8 @@ const {
         price_for_pc: placeCost,
         price_for_additions: foodTotal,
         total_price: finalCost,
-        status: 'confirmed',
-        payment_id: payment.id
+        status: bookingStatus,
+        payment_id: payment?.id || null
       };
   
       const booking = await apiService.createBooking(bookingPayload);
@@ -623,86 +632,91 @@ const {
         throw new Error('Ошибка создания бронирования');
       }
   
-      // 4. Добавляем еду из корзины
+      // 5. Добавляем еду из корзины в additional_menu
       for (const item of cartItems) {
         await apiService.addFoodToBooking(booking.id, { food_id: item.id, count: item.quantity });
       }
   
-      // 5. Очистка
+      // 6. Очистка
       localStorage.removeItem('savedBooking');
       localStorage.removeItem('lastBooking');
       localStorage.removeItem('bookingStarted');
       clearCart();
   
-      // 6. Успешный alert
-      alert(`Бронирование успешно добавлено в БД!\nНомер брони: CYB-2025-${booking.id}`);
+      // 7. Показываем соответствующий alert
+      if (isPaymentSuccessful) {
+        alert(`Бронирование успешно подтверждено и оплачено!\nНомер брони: ${booking.id}\nСтатус: ${bookingStatus}`);
+        setPaymentSuccess(true);
+      } else {
+        alert(`Бронирование создано, но оплата не прошла!\nНомер брони: ${booking.id}\nСтатус: ${bookingStatus}\n\nПожалуйста, оплатите бронирование в личном кабинете.`);
+      }
   
-      // 7. Перенаправление
-      navigate('/');
+      // // 8. Перенаправление через небольшой таймаут, чтобы пользователь увидел сообщение
+      // setTimeout(() => {
+      //   navigate('/');
+      // }, 3000);
+  
     } catch (error) {
       console.error('Ошибка при создании бронирования или оплаты:', error);
-      alert(`Ошибка при добавлении бронирования: ${error.message || error}`);
+      alert(`Ошибка при создании бронирования: ${error.message || error}`);
     } finally {
       setProcessingPayment(false);
     }
   };
-  
-// Убираем секунды из времени 
-const formatTimeDisplay = (timeString) => {
-  if (!timeString) return '';
-  try {
-  
-    if (timeString.includes(':')) {
-      const [hours, minutes] = timeString.split(':');
-      return `${hours}:${minutes}`;
+
+  // Убираем секунды из времени 
+  const formatTimeDisplay = (timeString) => {
+    if (!timeString) return '';
+    try {
+      if (timeString.includes(':')) {
+        const [hours, minutes] = timeString.split(':');
+        return `${hours}:${minutes}`;
+      }
+      return timeString;
+    } catch {
+      return timeString;
     }
-    return timeString;
-  } catch {
-    return timeString;
-  }
-};
-// Функция для определения банка по номеру карты
-const detectBank = (cardNumber) => {
-  const cleanNumber = cardNumber.replace(/\s/g, '');
-  
-  // БИНы  основных банков
-  const binRanges = {
-    'sberbank': [
-      '4276', '4279', '4364', '5469', // Сбербанк
-      '2202', '5336', '6763' // Мир-Сбербанк
-    ],
-    'tinkoff': [
-      '5213', '4377', '5536', '5189', // Тинькофф
-      '2200' // Мир-Тинькофф
-    ],
-    'vtb': [
-      '4189', '4190', '4272', '4627', // ВТБ
-      '2200 14' // Мир-ВТБ
-    ],
-    'alfa': [
-      '4584', '4154', '4779', '5486', // Альфа-Банк
-      '2200 20' // Мир-Альфа
-    ],
-    'gazprom': [
-      '5211', '5486', '6775', // Газпромбанк
-      '2200 06' // Мир-Газпром
-    ],
-    'raiffeisen': [
-      '4627', '5100', '5304', // Райффайзен
-      '2200 20' // Мир-Райффайзен
-    ]
   };
 
-  for (const [bank, bins] of Object.entries(binRanges)) {
-    if (bins.some(bin => cleanNumber.startsWith(bin))) {
-      return bank;
+  const formatDateDisplay = (dateString) => {
+    if (!dateString) return '';
+    try {
+      const [year, month, day] = dateString.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      
+      return date.toLocaleDateString('ru-RU', {
+        day: 'numeric',
+        month: 'long',
+        weekday: 'short'
+      });
+    } catch (error) {
+      console.error('Error formatting date:', error);
+      return dateString;
     }
-  }
-  
-  return 'unknown'; // Если банк не определен
-};
+  };
 
-  // Функция для получения названия банка по коду
+  // Функция для определения банка по номеру карты
+  const detectBank = (cardNumber) => {
+    const cleanNumber = cardNumber.replace(/\s/g, '');
+    
+    const binRanges = {
+      'sberbank': ['4276', '4279', '4364', '5469', '2202', '5336', '6763'],
+      'tinkoff': ['5213', '4377', '5536', '5189', '2200'],
+      'vtb': ['4189', '4190', '4272', '4627', '2200 14'],
+      'alfa': ['4584', '4154', '4779', '5486', '2200 20'],
+      'gazprom': ['5211', '5486', '6775', '2200 06'],
+      'raiffeisen': ['4627', '5100', '5304', '2200 20']
+    };
+
+    for (const [bank, bins] of Object.entries(binRanges)) {
+      if (bins.some(bin => cleanNumber.startsWith(bin))) {
+        return bank;
+      }
+    }
+    
+    return 'unknown';
+  };
+
   const getBankName = (bankCode) => {
     const bankNames = {
       'sberbank': 'Сбербанк',
@@ -716,7 +730,6 @@ const detectBank = (cardNumber) => {
     return bankNames[bankCode] || 'Неизвестный банк';
   };
 
-  
   const handleCardNumberChange = (e) => {
     let v = e.target.value.replace(/\D/g, '').replace(/(.{4})/g, '$1 ').trim();
     const detectedBank = detectBank(v);
@@ -728,8 +741,6 @@ const detectBank = (cardNumber) => {
     }));
     setCardError('');
   };
-  
-  
 
   const renderPromoCodeInfo = () => {
     if (!appliedPromoCode) return null;
@@ -819,13 +830,7 @@ const detectBank = (cardNumber) => {
                   </div>
                   <div className="info-item">
                     <span className="info-label">Базовая ставка:</span>
-                    <span className="info-value">{placeRate} ₽/час</span>
-                  </div>
-                </div>
-                <div className="info-row">
-                  <div className="info-item">
-                    <span className="info-label">(Потом убрать) User ID:</span>
-                    <span className="info-value highlight">{user?.id || 'Неизвестно'}</span>
+                    <span className="info-value">{selectedPlaceRate} ₽/час</span>
                   </div>
                 </div>
 
@@ -835,10 +840,17 @@ const detectBank = (cardNumber) => {
                     <span className="info-value">{clubInfo.address || address}</span>
                   </div>
                   <div className="info-item">
+                    <span className="info-label">Комната:</span>
+                    <span className="info-value">{room}</span>
+                  </div>
+                </div>
+
+                {/* <div className="info-row">
+                  <div className="info-item">
                     <span className="info-label">Продолжительность:</span>
                     <span className="info-value highlight">{bookingHours > 0 ? `${bookingHours} часов` : 'Не указано'}</span>
                   </div>
-                </div>
+                </div> */}
 
                 <div className="info-row">
                   <div className="info-item">
@@ -893,12 +905,12 @@ const detectBank = (cardNumber) => {
               </div>
             </div>
 
-            {/* Новая секция с информацией о тарифах */}
+            {/* Секция с информацией о тарифах */}
             <TariffInformation 
               tariffBreakdown={tariffBreakdown}
               selectedTariffs={selectedTariffs}
               placePriceWithTariff={placePriceWithTariff}
-              basePlaceRate={placeRate}
+              basePlaceRate={selectedPlaceRate}
               bookingHours={bookingHours}
             />
 
@@ -955,10 +967,9 @@ const detectBank = (cardNumber) => {
               </div>
               
               <div className="cost-breakdown">
-                {/* Обновленная строка с учетом тарифов */}
                 <div className="cost-item">
                   <span>
-                    {tariffBreakdown.length > 0 ? 'Аренда места (с учетом тарифов):' : `Аренда места (${bookingHours} часов × ${placeRate} ₽/час):`}
+                    {tariffBreakdown.length > 0 ? 'Аренда места (с учетом тарифов):' : `Аренда места (${bookingHours} часов × ${selectedPlaceRate} ₽/час):`}
                   </span>
                   <span>{placeCost} ₽</span>
                 </div>
@@ -1003,6 +1014,7 @@ const detectBank = (cardNumber) => {
                     </div>
                     
                     {cardError && <div className="payment-error"> {cardError}</div>}
+                    
                     {paymentSuccess && (
                       <div className="payment-success">
                         Оплата прошла успешно! Бронирование подтверждено.
@@ -1011,8 +1023,6 @@ const detectBank = (cardNumber) => {
 
                     {!paymentSuccess && (
                       <>
-                        
-                     
                         <div className="form-group">
                           <label>Номер карты</label>
                           <input
@@ -1068,14 +1078,11 @@ const detectBank = (cardNumber) => {
                           </div>
                         </div>
 
-                      
-
                         <div className="payment-actions-row">
                           <button
                             type="button"
                             className="confirmation-btn primary"
                             onClick={handlePaymentAndBooking}
-                           
                             disabled={processingPayment}
                           >
                             {processingPayment ? 'Обработка...' : ' Оплатить'}
@@ -1110,7 +1117,7 @@ const detectBank = (cardNumber) => {
                   <span>Безопасная оплата через CloudPayments</span>
                 </div>
                 <p className="security-note">
-                  После оплаты вы получите подтверждение на email
+                  После оплаты вы получите подтверждение бронирования на email
                 </p>
               </div>
             </div>

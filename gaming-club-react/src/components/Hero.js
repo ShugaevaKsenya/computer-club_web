@@ -48,7 +48,7 @@ const Hero = () => {
   {/* <button onClick={handleCafeClick} className="hero-btn hero-btn-secondary">Перейти в кафе</button> */}
   {user && (
     <button onClick={handleMyBookingClick} className="hero-btn hero-btn-secondary">
-      📋 Мои брони
+      Мои брони
     </button>
   )}
 </div>

@@ -6,7 +6,7 @@ import { CartProvider } from './context/CartContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Hero from './components/Hero';
 import Clubs from './components/Clubs';
-import Pricing from './components/Pricing';
+
 import Cafe from './components/Cafe';
 import CombinedLayoutBooking from './components/CombinedLayoutBooking';
 import BookingConfirmation from './components/BookingConfirmation';
@@ -14,7 +14,7 @@ import AdminPanel from './components/AdminPanel';
 import MyBookings from './components/MyBookings';
 import Login from './components/Login';
 import './styles/App.css';
-import Rooms from './components/Rooms';
+
 
 // Защита только для админки и "Мои бронирования"
 const ProtectedRoute = ({ children, adminOnly = false }) => {
@@ -72,7 +72,7 @@ function AppContent() {
       <Route path="/" element={<HomePage />} />
       <Route path="/clubs" element={<Clubs />} />
       {/* <Route path="/cafe" element={<Cafe />} /> */}
-      <Route path="/rooms/:clubId" element={<Rooms />} />
+      {/* <Route path="/rooms/:clubId" element={<Rooms />} /> */}
       <Route path="/booking" element={<CombinedLayoutBooking />} />
       <Route path="/confirmation" element={<BookingConfirmation />} />
       <Route path="/cafe/:clubId" element={<Cafe />} />

@@ -554,659 +554,749 @@ const AdminPanel = () => {
       </div>
     );
   }
-
   return (
-    <div className="admin-panel">
-      <div className="admin-header">
-        <h1>Панель администратора</h1>
-        <button onClick={handleLogout} className="btn logout-btn">
-          Выйти
-        </button>
-        <div className="header-actions">
-          <button onClick={loadData} className="btn refresh-btn">Обновить данные</button>
-          {error && (
-            <div className="error-banner">
-              {error}
-              <button onClick={() => setError(null)} className="close-btn">×</button>
-            </div>
-          )}
-        </div>
-      </div>
-
-      <div className="admin-tabs">
-        <button 
-          className={`tab-btn ${activeTab === 'foods' ? 'active' : ''}`}
-          onClick={() => setActiveTab('foods')}
-        >
-          Управление едой ({foods.length})
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'computers' ? 'active' : ''}`}
-          onClick={() => setActiveTab('computers')}
-        >
-          Управление компьютерами ({computers.length})
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'specs' ? 'active' : ''}`}
-          onClick={() => setActiveTab('specs')}
-        >
-          Характеристики ({specs.length})
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'positions' ? 'active' : ''}`}
-          onClick={() => setActiveTab('positions')}
-        >
-          Позиции ({positions.length})
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'rooms' ? 'active' : ''}`}
-          onClick={() => setActiveTab('rooms')}
-        >
-          Комнаты ({rooms.length})
-        </button>
-        <button 
-          className={`tab-btn ${activeTab === 'clubs' ? 'active' : ''}`}
-          onClick={() => setActiveTab('clubs')}
-        >
-          Клубы ({clubs.length})
-        </button>
-      </div>
-
-      <div className="admin-content">
-        {activeTab === 'foods' && (
-          <div className="tab-content">
-            <div className="filters-section">
-              <label>
-                Тип еды:
-                <select value={foodFilter} onChange={handleFoodFilterChange}>
-                  <option value="all">Все</option>
-                  <option value="food">Еда</option>
-                  <option value="drink">Напитки</option>
-                  <option value="snack">Закуски</option>
-                </select>
-              </label>
-            </div>
-            <div className="form-section">
-              <h3>{getFormTitle('food')}</h3>
-              {formErrors.food && <div className="form-error">{formErrors.food}</div>}
-              <form onSubmit={handleFoodSubmit} className="admin-form">
-                <div className="form-row">
-                  <input
-                    type="text"
-                    placeholder="Название товара *"
-                    value={foodForm.name}
-                    onChange={(e) => setFoodForm(prev => ({ ...prev, name: e.target.value }))}
-                    required
-                  />
-                  <select
-                    value={foodForm.type}
-                    onChange={(e) => setFoodForm(prev => ({ ...prev, type: e.target.value }))}
-                  >
-                    <option value="food">Еда</option>
-                    <option value="drink">Напиток</option>
-                    <option value="snack">Закуска</option>
-                  </select>
+    <div className="admin-panel-container">
+      <div className="admin-panel">
+        <div className="admin-header">
+          <h1>Панель администратора</h1>
+          <div className='buttons'>
+            <button onClick={handleLogout} className="btn logout-btn">
+              Выйти
+            </button>
+            <div className="header-actions">
+              <button onClick={loadData} className="btn refresh-btn">Обновить данные</button>
+              {error && (
+                <div className="error-banner">
+                  {error}
+                  <button onClick={() => setError(null)} className="close-btn">×</button>
                 </div>
-                <div className="form-row">
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0.01"
-                    placeholder="Цена *"
-                    value={foodForm.price}
-                    onChange={(e) => setFoodForm(prev => ({ ...prev, price: e.target.value }))}
-                    required
-                  />
-                  <input
-                    type="number"
-                    min="0"
-                    placeholder="Количество *"
-                    value={foodForm.count}
-                    onChange={(e) => setFoodForm(prev => ({ ...prev, count: e.target.value }))}
-                    required
-                  />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Путь к изображению (опционально)"
-                  value={foodForm.path_to_img}
-                  onChange={(e) => setFoodForm(prev => ({ ...prev, path_to_img: e.target.value }))}
-                />
-                <div className="form-actions">
-                  <button type="submit" className="btn primary">
-                    {editingType === 'food' ? 'Обновить' : 'Добавить'} товар
-                  </button>
-                  {editingType === 'food' && (
-                    <button type="button" onClick={cancelEdit} className="btn secondary">
-                      Отмена
-                    </button>
-                  )}
-                </div>
-              </form>
-            </div>
-
-            <div className="list-section">
-              <h3>Список товаров ({filteredFoods.length})</h3>
-              <div className="items-grid">
-                {filteredFoods.map(food => (
-                  <div key={food.id} className="item-card">
-                    <div className="item-info">
-                      <h4>{food.name}</h4>
-                      <p>Тип: {food.type}</p>
-                      <p>Цена: {food.price} ₽</p>
-                      <p>В наличии: {food.count} шт.</p>
-                      {food.path_to_img && <p>Изображение: {food.path_to_img}</p>}
-                    </div>
-                    <div className="item-actions">
-                      <button onClick={() => startEdit('food', food)} className="btn edit-btn">
-                        Редактировать
-                      </button>
-                      <button onClick={() => handleDeleteFood(food.id)} className="btn danger">
-                        Удалить
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              )}
             </div>
           </div>
-        )}
-
-        {/* Компьютеры */}
-        {activeTab === 'computers' && (
-          <div className="tab-content">
-            <div className="filters-section">
-              <label>
-                Клуб:
-                <select value={clubFilter} onChange={handleClubFilterChange}>
-                  <option value="all">Все клубы</option>
-                  {clubs.map(club => (
-                    <option key={club.id} value={club.id}>{club.address}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Комната:
-                <select value={roomFilter} onChange={handleRoomFilterChange}>
-                  <option value="all">Все комнаты</option>
-                  {rooms
-                    .filter(r => clubFilter === 'all' || r.club_id == clubFilter)
-                    .map(room => (
-                      <option key={room.id} value={room.id}>{room.name}</option>
-                    ))}
-                </select>
-              </label>
-            </div>
-            <div className="form-section">
-              <h3>{getFormTitle('computer')}</h3>
-              <form onSubmit={handleComputerSubmit} className="admin-form">
-                <div className="form-row">
-                  <input
-                    type="number"
-                    step="0.01"
-                    placeholder="Цена за час *"
-                    value={computerForm.price}
-                    onChange={(e) => {
-                      setComputerForm(prev => ({ ...prev, price: e.target.value }));
-                      if (formErrors.computer) setFormErrors(prev => ({ ...prev, computer: null }));
-                    }}
-                    required
-                  />
-                  <select
-                    value={computerForm.spec_id}
-                    onChange={(e) => setComputerForm(prev => ({ ...prev, spec_id: e.target.value }))}
-                    required
-                  >
-                    <option value="">Характеристики</option>
-                    {specs.map(spec => (
-                      <option key={spec.id} value={spec.id}>
-                        {spec.processor} + {spec.gpu}
-                      </option>
-                    ))}
+        </div>
+  
+        <div className="admin-tabs">
+          <button 
+            className={`tab-btn ${activeTab === 'foods' ? 'active' : ''}`}
+            onClick={() => setActiveTab('foods')}
+          >
+            Управление едой ({foods.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'computers' ? 'active' : ''}`}
+            onClick={() => setActiveTab('computers')}
+          >
+            Управление компьютерами ({computers.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'specs' ? 'active' : ''}`}
+            onClick={() => setActiveTab('specs')}
+          >
+            Характеристики ({specs.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'positions' ? 'active' : ''}`}
+            onClick={() => setActiveTab('positions')}
+          >
+            Позиции ({positions.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'rooms' ? 'active' : ''}`}
+            onClick={() => setActiveTab('rooms')}
+          >
+            Комнаты ({rooms.length})
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'clubs' ? 'active' : ''}`}
+            onClick={() => setActiveTab('clubs')}
+          >
+            Клубы ({clubs.length})
+          </button>
+        </div>
+  
+        <div className="admin-content">
+          {activeTab === 'foods' && (
+            <div className="tab-content">
+              <div className="filters-section">
+                <label>
+                  Тип еды:
+                  <select value={foodFilter} onChange={handleFoodFilterChange}>
+                    <option value="all">Все</option>
+                    <option value="food">Еда</option>
+                    <option value="drink">Напитки</option>
+                    <option value="snack">Закуски</option>
                   </select>
+                </label>
+              </div>
+              <div className="form-section">
+                <h3>{getFormTitle('food')}</h3>
+                {formErrors.food && <div className="form-error">{formErrors.food}</div>}
+                <form onSubmit={handleFoodSubmit} className="admin-form">
+                  <div className="form-row">
+                    <input
+                      type="text"
+                      placeholder="Название товара *"
+                      value={foodForm.name}
+                      onChange={(e) => setFoodForm(prev => ({ ...prev, name: e.target.value }))}
+                      required
+                    />
+                    <select
+                      value={foodForm.type}
+                      onChange={(e) => setFoodForm(prev => ({ ...prev, type: e.target.value }))}
+                    >
+                      <option value="food">Еда</option>
+                      <option value="drink">Напиток</option>
+                      <option value="snack">Закуска</option>
+                    </select>
+                  </div>
+                  <div className="form-row">
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      placeholder="Цена *"
+                      value={foodForm.price}
+                      onChange={(e) => setFoodForm(prev => ({ ...prev, price: e.target.value }))}
+                      required
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      placeholder="Количество *"
+                      value={foodForm.count}
+                      onChange={(e) => setFoodForm(prev => ({ ...prev, count: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Путь к изображению (опционально)"
+                    value={foodForm.path_to_img}
+                    onChange={(e) => setFoodForm(prev => ({ ...prev, path_to_img: e.target.value }))}
+                  />
+                  <div className="form-actions">
+                    <button type="submit" className="btn primary">
+                      {editingType === 'food' ? 'Обновить' : 'Добавить'} товар
+                    </button>
+                    {editingType === 'food' && (
+                      <button type="button" onClick={cancelEdit} className="btn secondary">
+                        Отмена
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+  
+              <div className="list-section">
+                <h3>Список товаров ({filteredFoods.length})</h3>
+                <div className="items-grid">
+                  {filteredFoods.map(food => (
+                    <div key={food.id} className="item-card">
+                      <div className="item-info">
+                        <h4>{food.name}</h4>
+                        <div className="info-row">
+                          <div className="info-field">
+                            <span className="field-label">Тип</span>
+                            <span className="field-value">{food.type}</span>
+                          </div>
+                          <div className="info-field">
+                            <span className="field-label">Цена</span>
+                            <span className="field-value">{food.price} ₽</span>
+                          </div>
+                          <div className="info-field">
+                            <span className="field-label">В наличии</span>
+                            <span className="field-value">{food.count} шт.</span>
+                          </div>
+                          {food.path_to_img && food.path_to_img !== '/images/default-food.jpg' && (
+                            <div className="info-field">
+                              <span className="field-label">Изображение</span>
+                              <span className="field-value">{food.path_to_img}</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="item-actions">
+                        <button onClick={() => startEdit('food', food)} className="btn edit-btn">
+                          Редактировать
+                        </button>
+                        <button onClick={() => handleDeleteFood(food.id)} className="btn danger">
+                          Удалить
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-                <div className="form-row">
-                  <select
-                    value={computerForm.club_id}
-                    onChange={(e) => {
-                      const clubId = e.target.value;
-                      setComputerForm(prev => ({
-                        ...prev,
-                        club_id: clubId,
-                        room_id: '',
-                        position_id: ''
-                      }));
-                    }}
-                    required
-                  >
-                    <option value="">Клуб</option>
+              </div>
+            </div>
+          )}
+  
+          {/* Компьютеры */}
+          {activeTab === 'computers' && (
+            <div className="tab-content">
+              <div className="filters-section">
+                <label>
+                  Клуб:
+                  <select value={clubFilter} onChange={handleClubFilterChange}>
+                    <option value="all">Все клубы</option>
                     {clubs.map(club => (
                       <option key={club.id} value={club.id}>{club.address}</option>
                     ))}
                   </select>
-                  <select
-                    value={computerForm.room_id}
-                    onChange={(e) => {
-                      const roomId = e.target.value;
-                      setComputerForm(prev => ({
-                        ...prev,
-                        room_id: roomId,
-                        position_id: ''
-                      }));
-                    }}
-                    required
-                    disabled={!computerForm.club_id}
-                  >
-                    <option value="">Комната</option>
+                </label>
+                <label>
+                  Комната:
+                  <select value={roomFilter} onChange={handleRoomFilterChange}>
+                    <option value="all">Все комнаты</option>
                     {rooms
-                      .filter(r => r.club_id == computerForm.club_id)
+                      .filter(r => clubFilter === 'all' || r.club_id == clubFilter)
                       .map(room => (
                         <option key={room.id} value={room.id}>{room.name}</option>
                       ))}
                   </select>
-                </div>
-                <div className="form-row">
-                  <select
-                    value={computerForm.position_id}
-                    onChange={(e) => setComputerForm(prev => ({ ...prev, position_id: e.target.value }))}
-                    required
-                    disabled={!computerForm.room_id}
-                  >
-                    <option value="">Позиция (место)</option>
-                    {positions
-                      .filter(p => p.room_id == computerForm.room_id)
-                      .map(pos => (
-                        <option key={pos.id} value={pos.id}>
-                          Место {pos.number}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="form-actions">
-                  <button type="submit" className="btn primary">
-                    {editingType === 'computer' ? 'Обновить' : 'Добавить'} компьютер
-                  </button>
-                  {editingType === 'computer' && (
-                    <button type="button" onClick={cancelEdit} className="btn secondary">
-                      Отмена
-                    </button>
-                  )}
-                </div>
-              </form>
-            </div>
-
-            <div className="list-section">
-              <h3>Список компьютеров ({filteredComputers.length})</h3>
-              <div className="items-grid">
-                {filteredComputers.map(computer => {
-                  const pos = positions.find(p => p.id == computer.position_id);
-                  const room = rooms.find(r => r.id == pos?.room_id);
-                  const club = clubs.find(c => c.id == pos?.club_id);
-                  return (
-                    <div key={computer.id} className="item-card">
-                      <div className="item-info">
-                        <h4>Компьютер #{computer.id}</h4>
-                        <p>Цена: {computer.price} ₽/час</p>
-                        <p>Клуб: {club?.address || '—'}</p>
-                        <p>Комната: {room?.name || '—'}</p>
-                        <p>Место: {pos?.number || '—'}</p>
-                        <p>ID характеристик: {computer.spec_id}</p>
-                      </div>
-                      <div className="item-actions">
-                        <button onClick={() => startEdit('computer', computer)} className="btn edit-btn">
-                          Редактировать
-                        </button>
-                        <button onClick={() => handleDeleteComputer(computer.id)} className="btn danger">
-                          Удалить
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
+                </label>
               </div>
-            </div>
-          </div>
-        )}
-
-        {activeTab === 'positions' && (
-          <div className="tab-content">
-            <div className="filters-section">
-              <label>
-                Клуб:
-                <select value={clubFilter} onChange={handleClubFilterChange}>
-                  <option value="all">Все клубы</option>
-                  {clubs.map(club => (
-                    <option key={club.id} value={club.id}>{club.address}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
-            <div className="form-section">
-              <h3>{getFormTitle('position')}</h3>
-              <form onSubmit={handlePositionSubmit} className="admin-form">
-                <div className="form-row">
-                  <input
-                    type="number"
-                    placeholder="Номер места"
-                    value={positionForm.number}
-                    onChange={(e) => setPositionForm(prev => ({ ...prev, number: e.target.value }))}
-                    required
-                  />
-                  <input
-                    type="number"
-                    step="0.1"
-                    min="0.1"
-                    max="5.0"
-                    placeholder="Коэффициент цены"
-                    value={positionForm.coefficient}
-                    onChange={(e) => setPositionForm(prev => ({ ...prev, coefficient: e.target.value }))}
-                    required
-                  />
-                </div>
-                <div className="form-row">
-                  <select
-                    value={positionForm.club_id}
-                    onChange={(e) => {
-                      const clubId = e.target.value;
-                      setPositionForm(prev => ({
-                        ...prev,
-                        club_id: clubId,
-                        room_id: ''
-                      }));
-                    }}
-                    required
-                  >
-                    <option value="">Выберите клуб</option>
-                    {clubs.map(club => (
-                      <option key={club.id} value={club.id}>
-                        {club.address}
-                      </option>
-                    ))}
-                  </select>
-                  <select
-                    value={positionForm.room_id}
-                    onChange={(e) => setPositionForm(prev => ({ ...prev, room_id: e.target.value }))}
-                    required
-                    disabled={!positionForm.club_id}
-                  >
-                    <option value="">Выберите комнату</option>
-                    {rooms
-                      .filter(room => room.club_id == positionForm.club_id)
-                      .map(room => (
-                        <option key={room.id} value={room.id}>
-                          {room.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="form-actions">
-                  <button type="submit" className="btn primary">
-                    {editingType === 'position' ? 'Обновить' : 'Добавить'} позицию
-                  </button>
-                  {editingType === 'position' && (
-                    <button type="button" onClick={cancelEdit} className="btn secondary">
-                      Отмена
-                    </button>
-                  )}
-                </div>
-              </form>
-            </div>
-
-            <div className="list-section">
-              <h3>Список позиций ({filteredPositions.length})</h3>
-              <div className="items-grid">
-                {filteredPositions.map(position => {
-                  const room = rooms.find(r => r.id == position.room_id);
-                  const club = clubs.find(c => c.id == position.club_id);
-                  return (
-                    <div key={position.id} className="item-card">
-                      <div className="item-info">
-                        <h4>Позиция #{position.id}</h4>
-                        <p>Комната: {room ? room.name : `ID ${position.room_id}`}</p>
-                        <p>Место: {position.number}</p>
-                        <p>Коэффициент: {position.coefficient}</p>
-                        <p>Клуб: {club ? club.address : `ID ${position.club_id}`}</p>
-                      </div>
-                      <div className="item-actions">
-                        <button onClick={() => startEdit('position', position)} className="btn edit-btn">
-                          Редактировать
-                        </button>
-                        <button onClick={() => handleDeletePosition(position.id)} className="btn danger">
-                          Удалить
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {['specs', 'rooms', 'clubs'].includes(activeTab) && (
-          <div className="tab-content">
-            {activeTab === 'specs' && (
-              <>
-                <div className="form-section">
-                  <h3>{getFormTitle('spec')}</h3>
-                  <form onSubmit={handleSpecSubmit} className="admin-form">
-                    <div className="form-row">
-                      <input
-                        type="text"
-                        placeholder="Оперативная память"
-                        value={specForm.ram}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, ram: e.target.value }))}
-                      />
-                      <input
-                        type="text"
-                        placeholder="Процессор"
-                        value={specForm.processor}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, processor: e.target.value }))}
-                      />
-                    </div>
-                    <div className="form-row">
-                      <input
-                        type="text"
-                        placeholder="Видеокарта"
-                        value={specForm.gpu}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, gpu: e.target.value }))}
-                      />
-                      <input
-                        type="text"
-                        placeholder="Монитор"
-                        value={specForm.monitor}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, monitor: e.target.value }))}
-                      />
-                    </div>
-                    <div className="form-row">
-                      <input
-                        type="text"
-                        placeholder="Наушники"
-                        value={specForm.headphones}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, headphones: e.target.value }))}
-                      />
-                      <input
-                        type="text"
-                        placeholder="Мышь"
-                        value={specForm.mouse}
-                        onChange={(e) => setSpecForm(prev => ({ ...prev, mouse: e.target.value }))}
-                      />
-                    </div>
+              <div className="form-section">
+                <h3>{getFormTitle('computer')}</h3>
+                <form onSubmit={handleComputerSubmit} className="admin-form">
+                  <div className="form-row">
                     <input
-                      type="text"
-                      placeholder="Клавиатура"
-                      value={specForm.keyboard}
-                      onChange={(e) => setSpecForm(prev => ({ ...prev, keyboard: e.target.value }))}
+                      type="number"
+                      step="0.01"
+                      placeholder="Цена за час *"
+                      value={computerForm.price}
+                      onChange={(e) => {
+                        setComputerForm(prev => ({ ...prev, price: e.target.value }));
+                        if (formErrors.computer) setFormErrors(prev => ({ ...prev, computer: null }));
+                      }}
+                      required
                     />
-                    <div className="form-actions">
-                      <button type="submit" className="btn primary">
-                        {editingType === 'spec' ? 'Обновить' : 'Добавить'} характеристики
-                      </button>
-                      {editingType === 'spec' && (
-                        <button type="button" onClick={cancelEdit} className="btn secondary">
-                          Отмена
-                        </button>
-                      )}
-                    </div>
-                  </form>
-                </div>
-
-                <div className="list-section">
-                  <h3>Список характеристик</h3>
-                  <div className="items-grid">
-                    {specs.map(spec => (
-                      <div key={spec.id} className="item-card">
-                        <div className="item-info">
-                          <h4>Характеристики #{spec.id}</h4>
-                          <p>Процессор: {spec.processor}</p>
-                          <p>Видеокарта: {spec.gpu}</p>
-                          <p>Память: {spec.ram}</p>
-                          <p>Монитор: {spec.monitor}</p>
-                          <p>Наушники: {spec.headphones}</p>
-                          <p>Мышь: {spec.mouse}</p>
-                          <p>Клавиатура: {spec.keyboard}</p>
-                        </div>
-                        <div className="item-actions">
-                          <button onClick={() => startEdit('spec', spec)} className="btn edit-btn">
-                            Редактировать
-                          </button>
-                          <button onClick={() => handleDeleteSpec(spec.id)} className="btn danger">
-                            Удалить
-                          </button>
-                        </div>
-                      </div>
-                    ))}
+                    <select
+                      value={computerForm.spec_id}
+                      onChange={(e) => setComputerForm(prev => ({ ...prev, spec_id: e.target.value }))}
+                      required
+                    >
+                      <option value="">Характеристики</option>
+                      {specs.map(spec => (
+                        <option key={spec.id} value={spec.id}>
+                          {spec.processor} + {spec.gpu}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-                </div>
-              </>
-            )}
-
-            {activeTab === 'rooms' && (
-              <>
-                <div className="form-section">
-                  <h3>{getFormTitle('room')}</h3>
-                  <form onSubmit={handleRoomSubmit} className="admin-form">
-                    <div className="form-row">
-                      <input
-                        type="text"
-                        placeholder="Название комнаты *"
-                        value={roomForm.name}
-                        onChange={(e) => setRoomForm(prev => ({ ...prev, name: e.target.value }))}
-                        required
-                      />
-                      <select
-                        value={roomForm.club_id}
-                        onChange={(e) => setRoomForm(prev => ({ ...prev, club_id: e.target.value }))}
-                        required
-                      >
-                        <option value="">Выберите клуб</option>
-                        {clubs.map(club => (
-                          <option key={club.id} value={club.id}>
-                            {club.address}
+                  <div className="form-row">
+                    <select
+                      value={computerForm.club_id}
+                      onChange={(e) => {
+                        const clubId = e.target.value;
+                        setComputerForm(prev => ({
+                          ...prev,
+                          club_id: clubId,
+                          room_id: '',
+                          position_id: ''
+                        }));
+                      }}
+                      required
+                    >
+                      <option value="">Клуб</option>
+                      {clubs.map(club => (
+                        <option key={club.id} value={club.id}>{club.address}</option>
+                      ))}
+                    </select>
+                    <select
+                      value={computerForm.room_id}
+                      onChange={(e) => {
+                        const roomId = e.target.value;
+                        setComputerForm(prev => ({
+                          ...prev,
+                          room_id: roomId,
+                          position_id: ''
+                        }));
+                      }}
+                      required
+                      disabled={!computerForm.club_id}
+                    >
+                      <option value="">Комната</option>
+                      {rooms
+                        .filter(r => r.club_id == computerForm.club_id)
+                        .map(room => (
+                          <option key={room.id} value={room.id}>{room.name}</option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="form-row">
+                    <select
+                      value={computerForm.position_id}
+                      onChange={(e) => setComputerForm(prev => ({ ...prev, position_id: e.target.value }))}
+                      required
+                      disabled={!computerForm.room_id}
+                    >
+                      <option value="">Позиция (место)</option>
+                      {positions
+                        .filter(p => p.room_id == computerForm.room_id)
+                        .map(pos => (
+                          <option key={pos.id} value={pos.id}>
+                            Место {pos.number}
                           </option>
                         ))}
-                      </select>
-                    </div>
-                    <div className="form-actions">
-                      <button type="submit" className="btn primary">
-                        {editingType === 'room' ? 'Обновить' : 'Добавить'} комнату
+                    </select>
+                  </div>
+                  <div className="form-actions">
+                    <button type="submit" className="btn primary">
+                      {editingType === 'computer' ? 'Обновить' : 'Добавить'} компьютер
+                    </button>
+                    {editingType === 'computer' && (
+                      <button type="button" onClick={cancelEdit} className="btn secondary">
+                        Отмена
                       </button>
-                      {editingType === 'room' && (
-                        <button type="button" onClick={cancelEdit} className="btn secondary">
-                          Отмена
-                        </button>
-                      )}
-                    </div>
-                  </form>
-                </div>
-
-                <div className="list-section">
-                  <h3>Список комнат</h3>
-                  <div className="items-grid">
-                    {rooms.map(room => (
-                      <div key={room.id} className="item-card">
+                    )}
+                  </div>
+                </form>
+              </div>
+  
+              <div className="list-section">
+                <h3>Список компьютеров ({filteredComputers.length})</h3>
+                <div className="items-grid">
+                  {filteredComputers.map(computer => {
+                    const pos = positions.find(p => p.id == computer.position_id);
+                    const room = rooms.find(r => r.id == pos?.room_id);
+                    const club = clubs.find(c => c.id == pos?.club_id);
+                    const spec = specs.find(s => s.id == computer.spec_id);
+                    
+                    return (
+                      <div key={computer.id} className="item-card">
                         <div className="item-info">
-                          <h4>{room.name}</h4>
-                          <p>Клуб: {clubs.find(c => c.id == room.club_id)?.address || '—'}</p>
+                          <h4>Компьютер #{computer.id}</h4>
+                          <div className="info-row">
+                            <div className="info-field">
+                              <span className="field-label">Цена за час</span>
+                              <span className="field-value">{computer.price} ₽</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Клуб</span>
+                              <span className="field-value">{club?.address || '—'}</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Комната</span>
+                              <span className="field-value">{room?.name || '—'}</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Место</span>
+                              <span className="field-value">{pos?.number || '—'}</span>
+                            </div>
+                            {spec && (
+                              <div className="info-field">
+                                <span className="field-label">Характеристики</span>
+                                <span className="field-value">{spec.processor} + {spec.gpu}</span>
+                              </div>
+                            )}
+                          </div>
                         </div>
                         <div className="item-actions">
-                          <button onClick={() => startEdit('room', room)} className="btn edit-btn">
+                          <button onClick={() => startEdit('computer', computer)} className="btn edit-btn">
                             Редактировать
                           </button>
-                          <button onClick={() => handleDeleteRoom(room.id)} className="btn danger">
+                          <button onClick={() => handleDeleteComputer(computer.id)} className="btn danger">
                             Удалить
                           </button>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
-              </>
-            )}
-
-            {activeTab === 'clubs' && (
-              <>
-                <div className="form-section">
-                  <h3>{getFormTitle('club')}</h3>
-                  {formErrors.club && <div className="form-error">{formErrors.club}</div>}
-                  <form onSubmit={handleClubSubmit} className="admin-form">
-                    <div className="form-row">
+              </div>
+            </div>
+          )}
+  
+          {activeTab === 'positions' && (
+            <div className="tab-content">
+              <div className="filters-section">
+                <label>
+                  Клуб:
+                  <select value={clubFilter} onChange={handleClubFilterChange}>
+                    <option value="all">Все клубы</option>
+                    {clubs.map(club => (
+                      <option key={club.id} value={club.id}>{club.address}</option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <div className="form-section">
+                <h3>{getFormTitle('position')}</h3>
+                <form onSubmit={handlePositionSubmit} className="admin-form">
+                  <div className="form-row">
+                    <input
+                      type="number"
+                      placeholder="Номер места"
+                      value={positionForm.number}
+                      onChange={(e) => setPositionForm(prev => ({ ...prev, number: e.target.value }))}
+                      required
+                    />
+                    <input
+                      type="number"
+                      step="0.1"
+                      min="0.1"
+                      max="5.0"
+                      placeholder="Коэффициент цены"
+                      value={positionForm.coefficient}
+                      onChange={(e) => setPositionForm(prev => ({ ...prev, coefficient: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div className="form-row">
+                    <select
+                      value={positionForm.club_id}
+                      onChange={(e) => {
+                        const clubId = e.target.value;
+                        setPositionForm(prev => ({
+                          ...prev,
+                          club_id: clubId,
+                          room_id: ''
+                        }));
+                      }}
+                      required
+                    >
+                      <option value="">Выберите клуб</option>
+                      {clubs.map(club => (
+                        <option key={club.id} value={club.id}>
+                          {club.address}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      value={positionForm.room_id}
+                      onChange={(e) => setPositionForm(prev => ({ ...prev, room_id: e.target.value }))}
+                      required
+                      disabled={!positionForm.club_id}
+                    >
+                      <option value="">Выберите комнату</option>
+                      {rooms
+                        .filter(room => room.club_id == positionForm.club_id)
+                        .map(room => (
+                          <option key={room.id} value={room.id}>
+                            {room.name}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                  <div className="form-actions">
+                    <button type="submit" className="btn primary">
+                      {editingType === 'position' ? 'Обновить' : 'Добавить'} позицию
+                    </button>
+                    {editingType === 'position' && (
+                      <button type="button" onClick={cancelEdit} className="btn secondary">
+                        Отмена
+                      </button>
+                    )}
+                  </div>
+                </form>
+              </div>
+  
+              <div className="list-section">
+                <h3>Список позиций ({filteredPositions.length})</h3>
+                <div className="items-grid">
+                  {filteredPositions.map(position => {
+                    const room = rooms.find(r => r.id == position.room_id);
+                    const club = clubs.find(c => c.id == position.club_id);
+                    return (
+                      <div key={position.id} className="item-card">
+                        <div className="item-info">
+                          <h4>Позиция #{position.id}</h4>
+                          <div className="info-row">
+                            <div className="info-field">
+                              <span className="field-label">Комната</span>
+                              <span className="field-value">{room ? room.name : `ID ${position.room_id}`}</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Место</span>
+                              <span className="field-value">{position.number}</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Коэффициент</span>
+                              <span className="field-value">{position.coefficient}</span>
+                            </div>
+                            <div className="info-field">
+                              <span className="field-label">Клуб</span>
+                              <span className="field-value">{club ? club.address : `ID ${position.club_id}`}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="item-actions">
+                          <button onClick={() => startEdit('position', position)} className="btn edit-btn">
+                            Редактировать
+                          </button>
+                          <button onClick={() => handleDeletePosition(position.id)} className="btn danger">
+                            Удалить
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+  
+          {['specs', 'rooms', 'clubs'].includes(activeTab) && (
+            <div className="tab-content">
+              {activeTab === 'specs' && (
+                <>
+                  <div className="form-section">
+                    <h3>{getFormTitle('spec')}</h3>
+                    <form onSubmit={handleSpecSubmit} className="admin-form">
+                      <div className="form-row">
+                        <input
+                          type="text"
+                          placeholder="Оперативная память"
+                          value={specForm.ram}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, ram: e.target.value }))}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Процессор"
+                          value={specForm.processor}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, processor: e.target.value }))}
+                        />
+                      </div>
+                      <div className="form-row">
+                        <input
+                          type="text"
+                          placeholder="Видеокарта"
+                          value={specForm.gpu}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, gpu: e.target.value }))}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Монитор"
+                          value={specForm.monitor}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, monitor: e.target.value }))}
+                        />
+                      </div>
+                      <div className="form-row">
+                        <input
+                          type="text"
+                          placeholder="Наушники"
+                          value={specForm.headphones}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, headphones: e.target.value }))}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Мышь"
+                          value={specForm.mouse}
+                          onChange={(e) => setSpecForm(prev => ({ ...prev, mouse: e.target.value }))}
+                        />
+                      </div>
                       <input
                         type="text"
-                        placeholder="Адрес *"
-                        value={clubForm.address}
-                        onChange={(e) => setClubForm(prev => ({ ...prev, address: e.target.value }))}
-                        required
+                        placeholder="Клавиатура"
+                        value={specForm.keyboard}
+                        onChange={(e) => setSpecForm(prev => ({ ...prev, keyboard: e.target.value }))}
                       />
-                    </div>
-                    <div className="form-row">
-                      <input
-                        type="tel"
-                        placeholder="Телефон *"
-                        value={clubForm.phone}
-                        onChange={(e) => setClubForm(prev => ({ ...prev, phone: e.target.value }))}
-                        required
-                      />
-                    </div>
-                    <div className="form-actions">
-                      <button type="submit" className="btn primary">
-                        {editingType === 'club' ? 'Обновить' : 'Добавить'} клуб
-                      </button>
-                      {editingType === 'club' && (
-                        <button type="button" onClick={cancelEdit} className="btn secondary">
-                          Отмена
+                      <div className="form-actions">
+                        <button type="submit" className="btn primary">
+                          {editingType === 'spec' ? 'Обновить' : 'Добавить'} характеристики
                         </button>
-                      )}
-                    </div>
-                  </form>
-                </div>
-
-                <div className="list-section">
-                  <h3>Список клубов</h3>
-                  <div className="items-grid">
-                    {clubs.map(club => (
-                      <div key={club.id} className="item-card">
-                        <div className="item-info">
-                          <h4>Клуб #{club.id}</h4>
-                          <p>Адрес: {club.address}</p>
-                          <p>Телефон: {club.phone}</p>
-                        </div>
-                        <div className="item-actions">
-                          <button onClick={() => startEdit('club', club)} className="btn edit-btn">
-                            Редактировать
+                        {editingType === 'spec' && (
+                          <button type="button" onClick={cancelEdit} className="btn secondary">
+                            Отмена
                           </button>
-                          <button onClick={() => handleDeleteClub(club.id)} className="btn danger">
-                            Удалить
-                          </button>
-                        </div>
+                        )}
                       </div>
-                    ))}
+                    </form>
                   </div>
-                </div>
-              </>
-            )}
-          </div>
-        )}
+  
+                  <div className="list-section">
+                    <h3>Список характеристик</h3>
+                    <div className="items-grid">
+                      {specs.map(spec => (
+                        <div key={spec.id} className="item-card">
+                          <div className="item-info">
+                            <h4>Характеристики #{spec.id}</h4>
+                            <div className="info-row">
+                              <div className="info-field">
+                                <span className="field-label">Процессор</span>
+                                <span className="field-value">{spec.processor}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Видеокарта</span>
+                                <span className="field-value">{spec.gpu}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Память</span>
+                                <span className="field-value">{spec.ram}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Монитор</span>
+                                <span className="field-value">{spec.monitor}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Наушники</span>
+                                <span className="field-value">{spec.headphones}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Мышь</span>
+                                <span className="field-value">{spec.mouse}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Клавиатура</span>
+                                <span className="field-value">{spec.keyboard}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="item-actions">
+                            <button onClick={() => startEdit('spec', spec)} className="btn edit-btn">
+                              Редактировать
+                            </button>
+                            <button onClick={() => handleDeleteSpec(spec.id)} className="btn danger">
+                              Удалить
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+  
+              {activeTab === 'rooms' && (
+                <>
+                  <div className="form-section">
+                    <h3>{getFormTitle('room')}</h3>
+                    <form onSubmit={handleRoomSubmit} className="admin-form">
+                      <div className="form-row">
+                        <input
+                          type="text"
+                          placeholder="Название комнаты *"
+                          value={roomForm.name}
+                          onChange={(e) => setRoomForm(prev => ({ ...prev, name: e.target.value }))}
+                          required
+                        />
+                        <select
+                          value={roomForm.club_id}
+                          onChange={(e) => setRoomForm(prev => ({ ...prev, club_id: e.target.value }))}
+                          required
+                        >
+                          <option value="">Выберите клуб</option>
+                          {clubs.map(club => (
+                            <option key={club.id} value={club.id}>
+                              {club.address}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      <div className="form-actions">
+                        <button type="submit" className="btn primary">
+                          {editingType === 'room' ? 'Обновить' : 'Добавить'} комнату
+                        </button>
+                        {editingType === 'room' && (
+                          <button type="button" onClick={cancelEdit} className="btn secondary">
+                            Отмена
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
+  
+                  <div className="list-section">
+                    <h3>Список комнат</h3>
+                    <div className="items-grid">
+                      {rooms.map(room => (
+                        <div key={room.id} className="item-card">
+                          <div className="item-info">
+                            <h4>{room.name}</h4>
+                            <div className="info-row">
+                              <div className="info-field">
+                                <span className="field-label">Клуб</span>
+                                <span className="field-value">{clubs.find(c => c.id == room.club_id)?.address || '—'}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="item-actions">
+                            <button onClick={() => startEdit('room', room)} className="btn edit-btn">
+                              Редактировать
+                            </button>
+                            <button onClick={() => handleDeleteRoom(room.id)} className="btn danger">
+                              Удалить
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+  
+              {activeTab === 'clubs' && (
+                <>
+                  <div className="form-section">
+                    <h3>{getFormTitle('club')}</h3>
+                    {formErrors.club && <div className="form-error">{formErrors.club}</div>}
+                    <form onSubmit={handleClubSubmit} className="admin-form">
+                      <div className="form-row">
+                        <input
+                          type="text"
+                          placeholder="Адрес *"
+                          value={clubForm.address}
+                          onChange={(e) => setClubForm(prev => ({ ...prev, address: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      <div className="form-row">
+                        <input
+                          type="tel"
+                          placeholder="Телефон *"
+                          value={clubForm.phone}
+                          onChange={(e) => setClubForm(prev => ({ ...prev, phone: e.target.value }))}
+                          required
+                        />
+                      </div>
+                      <div className="form-actions">
+                        <button type="submit" className="btn primary">
+                          {editingType === 'club' ? 'Обновить' : 'Добавить'} клуб
+                        </button>
+                        {editingType === 'club' && (
+                          <button type="button" onClick={cancelEdit} className="btn secondary">
+                            Отмена
+                          </button>
+                        )}
+                      </div>
+                    </form>
+                  </div>
+  
+                  <div className="list-section">
+                    <h3>Список клубов</h3>
+                    <div className="items-grid">
+                      {clubs.map(club => (
+                        <div key={club.id} className="item-card">
+                          <div className="item-info">
+                            <h4>Клуб #{club.id}</h4>
+                            <div className="info-row">
+                              <div className="info-field">
+                                <span className="field-label">Адрес</span>
+                                <span className="field-value">{club.address}</span>
+                              </div>
+                              <div className="info-field">
+                                <span className="field-label">Телефон</span>
+                                <span className="field-value">{club.phone}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="item-actions">
+                            <button onClick={() => startEdit('club', club)} className="btn edit-btn">
+                              Редактировать
+                            </button>
+                            <button onClick={() => handleDeleteClub(club.id)} className="btn danger">
+                              Удалить
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

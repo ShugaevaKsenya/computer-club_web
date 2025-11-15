@@ -1542,3 +1542,132 @@
     font-size: 0.7rem;
   }
 }
+/* Стили для сетки комнаты */
+.room-grid-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.room-grid {
+  display: grid;
+  grid-template-rows: repeat(6, 1fr);
+  gap: 10px;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
+.grid-cell {
+  aspect-ratio: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.grid-cell:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.empty-cell {
+  width: 100%;
+  height: 100%;
+}
+
+/* Адаптация стилей для сетки */
+.pc-setup {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.pc-setup img {
+  width: 40px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.pc-setup .layout-number {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-accent);
+  -webkit-text-stroke: 0.5px var(--color-black);
+  z-index: 2;
+}
+
+.pc-setup.selected {
+  background: rgba(32, 201, 151, 0.2);
+  border: 2px solid #20c997;
+  border-radius: 5px;
+}
+
+.pc-setup.unavailable {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.unavailable-badge {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  color: #ff4444;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.no-room-selected {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  text-align: center;
+}
+
+/* Адаптивность для сетки */
+@media (max-width: 768px) {
+  .room-grid {
+    gap: 5px;
+    padding: 10px;
+  }
+  
+  .grid-row {
+    gap: 5px;
+  }
+  
+  .pc-setup img {
+    width: 30px;
+    height: 27px;
+  }
+  
+  .pc-setup .layout-number {
+    font-size: 10px;
+  }
+}

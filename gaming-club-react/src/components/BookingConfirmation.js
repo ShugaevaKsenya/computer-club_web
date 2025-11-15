@@ -653,7 +653,7 @@ const BookingConfirmation = () => {
   
       // // 8. Перенаправление через небольшой таймаут, чтобы пользователь увидел сообщение
       // setTimeout(() => {
-      //   navigate('/');
+         navigate('/');
       // }, 3000);
   
     } catch (error) {
